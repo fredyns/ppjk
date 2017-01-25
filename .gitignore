@@ -29,3 +29,6 @@ phpunit.phar
 tests/_output/*
 tests/_support/_generated
 *.bak
+/config/confidential.php
+/config/db.php
+/config/params.php
