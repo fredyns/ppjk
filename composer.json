@@ -22,7 +22,8 @@
         "schmunk42/yii2-giiant": "@dev",
         "mdmsoft/yii2-upload-file": "^2.0",
         "yiisoft/yii2-imagine": "^2.1",
-        "kartik-v/yii2-date-range": "^1.6"
+        "kartik-v/yii2-date-range": "^1.6",
+        "2amigos/yii2-ckeditor-widget": "^2.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",

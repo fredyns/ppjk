@@ -4,9 +4,69 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "hash": "23716765e3273126a8bfd71563596bf8",
-    "content-hash": "9f973e63c27fa182a55fd2e1c92e2066",
+    "hash": "75464211d52f6100bf81922f007753c7",
+    "content-hash": "8b097895598973fca2091c990845640a",
     "packages": [
+        {
+            "name": "2amigos/yii2-ckeditor-widget",
+            "version": "2.0.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/2amigos/yii2-ckeditor-widget.git",
+                "reference": "60e4d2dbb138706c8c2195a1b29c420bda044b19"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/2amigos/yii2-ckeditor-widget/zipball/60e4d2dbb138706c8c2195a1b29c420bda044b19",
+                "reference": "60e4d2dbb138706c8c2195a1b29c420bda044b19",
+                "shasum": ""
+            },
+            "require": {
+                "ckeditor/ckeditor": "dev-full/stable",
+                "yiisoft/yii2": "^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.*"
+            },
+            "type": "yii2-extension",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0-dev"
+                },
+                "asset-installer-paths": {
+                    "bower-asset-library": "vendor/bower"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "dosamigos\\ckeditor\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "BSD-3-Clause"
+            ],
+            "authors": [
+                {
+                    "name": "2amigOS! Consulting Group",
+                    "email": "hola@2amigos.us",
+                    "homepage": "http://2amigos.us",
+                    "role": "Developer"
+                }
+            ],
+            "description": "CKEditor widget for Yii2.",
+            "homepage": "http://yiiwheels.com/extension/ckeditor-widget",
+            "keywords": [
+                "2amigos",
+                "CKEditor",
+                "extension",
+                "widget",
+                "yii",
+                "yii 2",
+                "yii2"
+            ],
+            "time": "2016-12-01 21:22:21"
+        },
         {
             "name": "almasaeed2010/adminlte",
             "version": "v2.3.11",
@@ -449,6 +509,47 @@
                 "yii"
             ],
             "time": "2013-12-10 17:49:58"
+        },
+        {
+            "name": "ckeditor/ckeditor",
+            "version": "dev-full/stable",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/ckeditor/ckeditor-releases.git",
+                "reference": "2fb9111efe70608ba74dc4892371f785661eac3f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/ckeditor/ckeditor-releases/zipball/2fb9111efe70608ba74dc4892371f785661eac3f",
+                "reference": "2fb9111efe70608ba74dc4892371f785661eac3f",
+                "shasum": ""
+            },
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2.0+",
+                "LGPL-2.1+",
+                "MPL-1.1+"
+            ],
+            "authors": [
+                {
+                    "name": "CKSource",
+                    "homepage": "http://cksource.com"
+                }
+            ],
+            "description": "JavaScript WYSIWYG web text editor.",
+            "homepage": "http://ckeditor.com",
+            "keywords": [
+                "CKEditor",
+                "editor",
+                "fckeditor",
+                "html",
+                "javascript",
+                "richtext",
+                "text",
+                "wysiwyg"
+            ],
+            "time": "2017-01-12 18:09:18"
         },
         {
             "name": "cmrcx/phptidy",
