@@ -12,7 +12,7 @@ use yii\behaviors\TimestampBehavior;
  * This is the base-model class for table "shippingInstruction".
  *
  * @property integer $id
- * @property integer $number
+ * @property string $number
  * @property integer $shipper_id
  * @property integer $shipping_id
  * @property integer $destination_id
@@ -71,8 +71,9 @@ abstract class ShippingInstruction extends \yii\db\ActiveRecord
     {
         return [
             [['number'], 'required'],
-            [['number', 'shipper_id', 'shipping_id', 'destination_id', 'deleted_at', 'deleted_by'], 'integer'],
+            [['shipper_id', 'shipping_id', 'destination_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['recordStatus'], 'string'],
+            [['number'], 'string', 'max' => 32],
             [['shipper_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['shipper_id' => 'id']],
             [['shipping_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Shipping::className(), 'targetAttribute' => ['shipping_id' => 'id']],
             [['destination_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ContainerPort::className(), 'targetAttribute' => ['destination_id' => 'id']],
