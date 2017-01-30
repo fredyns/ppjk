@@ -19,10 +19,9 @@ class CompanyProfileForm extends CompanyProfile
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -32,24 +31,33 @@ class CompanyProfileForm extends CompanyProfile
     public function rules()
     {
         return [
-          /* filter */
-          /* default value */
-          /* required */
-          /* safe */
-          /* field type */
-          /* value limitation */
-          /* value references */
-          [['address', 'recordStatus'], 'string'],
-          [['deleted_at', 'deleted_by'], 'integer'],
-          [['name', 'phone'], 'string', 'max' => 255],
-          [['email'], 'string', 'max' => 64],
-          [['npwp'], 'string', 'max' => 32],
-          ['recordStatus', 'in', 'range' => [
+            /* filter */
+            [
+                ['name', 'address', 'phone', 'npwp'],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            /* default value */
+            ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
+            /* required */
+            [['name', 'address'], 'required'],
+            /* safe */
+            /* field type */
+            [['address', 'recordStatus'], 'string'],
+            [['name', 'phone'], 'string', 'max' => 255],
+            [['email'], 'string', 'max' => 64],
+            [['npwp'], 'string', 'max' => 32],
+            /* value limitation */
+            [['email'], 'email'],
+            ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
                 ]
             ],
+            /* value references */
         ];
     }
-
 }

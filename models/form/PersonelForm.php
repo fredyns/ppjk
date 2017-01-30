@@ -19,10 +19,9 @@ class PersonelForm extends Personel
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -32,25 +31,45 @@ class PersonelForm extends Personel
     public function rules()
     {
         return [
-          /* filter */
-          /* default value */
-          /* required */
-          /* safe */
-          /* field type */
-          /* value limitation */
-          /* value references */
-          [['companyProfile_id', 'profile_id'], 'required'],
-          [['companyProfile_id', 'profile_id', 'deleted_at', 'deleted_by'], 'integer'],
-          [['recordStatus'], 'string'],
-          [['title'], 'string', 'max' => 64],
-          [['companyProfile_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['companyProfile_id' => 'id']],
-          [['profile_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Profile::className(), 'targetAttribute' => ['profile_id' => 'id']],
-          ['recordStatus', 'in', 'range' => [
+            /* filter */
+            [
+                ['title'],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            /* default value */
+            ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
+            /* required */
+            [['companyProfile_id', 'profile_id'], 'required'],
+            /* safe */
+            /* field type */
+            [['companyProfile_id', 'profile_id'], 'integer'],
+            [['recordStatus'], 'string'],
+            [['title'], 'string', 'max' => 64],
+            /* value limitation */
+            ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
                 ]
             ],
+            /* value references */
+            [
+                ['companyProfile_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => \app\models\CompanyProfile::className(),
+                'targetAttribute' => ['companyProfile_id' => 'id'],
+            ],
+            [
+                ['profile_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => \app\models\Profile::className(),
+                'targetAttribute' => ['profile_id' => 'id'],
+            ],
         ];
     }
-
 }

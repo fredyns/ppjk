@@ -19,10 +19,9 @@ class ContainerPortForm extends ContainerPort
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -32,23 +31,30 @@ class ContainerPortForm extends ContainerPort
     public function rules()
     {
         return [
-          /* filter */
-          /* default value */
-          /* required */
-          /* safe */
-          /* field type */
-          /* value limitation */
-          /* value references */
-          [['name'], 'required'],
-          [['recordStatus'], 'string'],
-          [['deleted_at', 'deleted_by'], 'integer'],
-          [['name'], 'string', 'max' => 255],
-          ['recordStatus', 'in', 'range' => [
+            /* filter */
+            [
+                ['name'],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            /* default value */
+            ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
+            /* required */
+            [['name'], 'required'],
+            /* safe */
+            /* field type */
+            [['recordStatus'], 'string'],
+            [['name'], 'string', 'max' => 255],
+            /* value limitation */
+            ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
                 ]
             ],
+            /* value references */
         ];
     }
-
 }
