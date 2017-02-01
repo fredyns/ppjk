@@ -17,28 +17,51 @@ use dmstr\bootstrap\Tabs;
 
     <?php
     $form = ActiveForm::begin([
-        'id' => 'Profile',
-        'layout' => 'horizontal',
-        'enableClientValidation' => true,
-        'errorSummaryCssClass' => 'error-summary alert alert-error'
+            'id' => 'Profile',
+            'layout' => 'horizontal',
+            'enableClientValidation' => true,
+            'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]);
-    
+
     echo Html::hiddenInput('ru', ReturnUrl::getRequestToken());
     ?>
 
     <div class="">
         <?php $this->beginBlock('main'); ?>
 
+        <!-- attribute picture -->
+
+        <?php if (!empty($model->picture_id)): ?>
+
+            <div class="col-md-4">
+                <p>
+                    <?=
+                    Html::img(
+                        ['/file', 'id' => $model->picture_id],
+                        [
+                        'class' => 'img-responsive',
+                        'alt' => 'picture',
+                        ]
+                    )
+                    ?>
+                </p>
+            </div>
+            <div class="clearfix"></div>
+
+        <?php endif; ?>
+
         <p>
 
-            <!-- attribute bio -->
+            <?= $form->field($model, 'picture')->label('Picture')->fileInput(); ?>
+
+            <!-- attribute name -->
             <?=
-            $form->field($model, 'bio')->textarea(['rows' => 6])
+            $form->field($model, 'name')->textInput(['maxlength' => true])
             ?>
 
-            <!-- attribute timezone -->
+            <!-- attribute phone -->
             <?=
-            $form->field($model, 'timezone')->textInput(['maxlength' => true])
+            $form->field($model, 'phone')->textInput(['maxlength' => true])
             ?>
 
             <!-- attribute public_email -->
@@ -46,9 +69,14 @@ use dmstr\bootstrap\Tabs;
             $form->field($model, 'public_email')->textInput(['maxlength' => true])
             ?>
 
-            <!-- attribute gravatar_email -->
+            <!-- attribute address -->
             <?=
-            $form->field($model, 'gravatar_email')->textInput(['maxlength' => true])
+            $form->field($model, 'address')->textarea(['rows' => 6])
+            ?>
+
+            <!-- attribute bio -->
+            <?=
+            $form->field($model, 'bio')->textarea(['rows' => 6])
             ?>
 
             <!-- attribute website -->
@@ -56,29 +84,29 @@ use dmstr\bootstrap\Tabs;
             $form->field($model, 'website')->textInput(['maxlength' => true])
             ?>
 
-            <!-- attribute name -->
+            <!-- attribute timezone -->
             <?=
-            $form->field($model, 'name')->textInput(['maxlength' => true])
+                $form
+                ->field($model, 'timezone')
+                ->dropDownList(
+                    \yii\helpers\ArrayHelper::map(
+                        \dektrium\user\helpers\Timezone::getAll(), 'timezone', 'name'
+                    )
+            );
             ?>
 
-            <!-- attribute location -->
-            <?=
-            $form->field($model, 'location')->textInput(['maxlength' => true])
-            ?>
-
-            <!-- attribute picture -->
         </p>
 
         <?php $this->endBlock(); ?>
-        
+
         <?=
         Tabs::widget([
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label'   => Yii::t('app', 'Profile'),
+                    'label' => Yii::t('app', 'Profile'),
                     'content' => $this->blocks['main'],
-                    'active'  => true,
+                    'active' => true,
                 ],
             ],
         ]);
@@ -90,10 +118,10 @@ use dmstr\bootstrap\Tabs;
 
         <?=
         Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
+            '<span class="glyphicon glyphicon-check"></span> '.
             ($model->isNewRecord ? 'Create' : 'Save'),
             [
-            'id' => 'save-' . $model->formName(),
+            'id' => 'save-'.$model->formName(),
             'class' => 'btn btn-success'
             ]
         );

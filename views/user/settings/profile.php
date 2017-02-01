@@ -61,16 +61,39 @@ $this->params['breadcrumbs'][] = $this->title;
 
                 <?php endif; ?>
 
-                <?= $form->field($model, 'picture')->fileInput(); ?>
+                <?= $form->field($model, 'picture')->label('Picture')->fileInput(); ?>
 
-                <?= $form->field($model, 'name') ?>
+                <!-- attribute name -->
+                <?=
+                $form->field($model, 'name')->textInput(['maxlength' => true])
+                ?>
 
-                <?= $form->field($model, 'public_email') ?>
+                <!-- attribute phone -->
+                <?=
+                $form->field($model, 'phone')->textInput(['maxlength' => true])
+                ?>
 
-                <?= $form->field($model, 'website') ?>
+                <!-- attribute public_email -->
+                <?=
+                $form->field($model, 'public_email')->textInput(['maxlength' => true])
+                ?>
 
-                <?= $form->field($model, 'location') ?>
+                <!-- attribute address -->
+                <?=
+                $form->field($model, 'address')->textarea(['rows' => 6])
+                ?>
 
+                <!-- attribute bio -->
+                <?=
+                $form->field($model, 'bio')->textarea(['rows' => 6])
+                ?>
+
+                <!-- attribute website -->
+                <?=
+                $form->field($model, 'website')->textInput(['maxlength' => true])
+                ?>
+
+                <!-- attribute timezone -->
                 <?=
                     $form
                     ->field($model, 'timezone')
@@ -80,8 +103,6 @@ $this->params['breadcrumbs'][] = $this->title;
                         )
                 );
                 ?>
-
-                <?= $form->field($model, 'bio')->textarea() ?>
 
                 <div class="form-group">
                     <div class="col-lg-offset-3 col-lg-9">

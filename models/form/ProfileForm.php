@@ -33,7 +33,7 @@ class ProfileForm extends Profile
         return [
             /* filter */
             [
-                ['bio', 'name', 'public_email', 'gravatar_email', 'location', 'website', 'timezone'],
+                ['bio', 'name', 'public_email', 'gravatar_email', 'location', 'website', 'timezone', 'phone', 'address'],
                 'filter',
                 'filter' => function($value) {
 
@@ -41,29 +41,39 @@ class ProfileForm extends Profile
                 },
             ],
             /* default value */
+            ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
+            [['name'], 'required'],
             /* safe */
             /* field type */
-            [['user_id', 'picture_id'], 'integer'],
-            [['bio'], 'string'],
+            [['user_id'], 'integer'],
+            [['bio', 'address', 'recordStatus'], 'string'],
             [['name', 'public_email', 'gravatar_email', 'location', 'website'], 'string', 'max' => 255],
+            [['gravatar_id'], 'string', 'max' => 32],
             [['timezone'], 'string', 'max' => 40],
+            [['phone'], 'string', 'max' => 64],
             /* value limitation */
             [['user_id'], 'unique'],
-            /* value references */
-            [
-                ['picture_id'],
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => \app\models\UploadedFile::className(),
-                'targetAttribute' => ['picture_id' => 'id'],
+            ['recordStatus', 'in', 'range' => [
+                    self::RECORDSTATUS_ACTIVE,
+                    self::RECORDSTATUS_DELETED,
+                ]
             ],
+            ['timezone', 'in', 'range' => \DateTimeZone::listIdentifiers()],
+            /* value references */
             [
                 ['user_id'],
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => \app\models\User::className(),
                 'targetAttribute' => ['user_id' => 'id'],
+            ],
+            /* upload */
+            [
+                'picture',
+                'file',
+                'extensions' => ['jpg', 'png'],
+                'maxSize' => 4096000,
             ],
         ];
     }

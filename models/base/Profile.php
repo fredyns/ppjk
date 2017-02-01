@@ -5,6 +5,8 @@
 namespace app\models\base;
 
 use Yii;
+use yii\behaviors\BlameableBehavior;
+use yii\behaviors\TimestampBehavior;
 
 /**
  * This is the base-model class for table "profile".
@@ -20,6 +22,15 @@ use Yii;
  * @property string $bio
  * @property string $timezone
  * @property string $picture_id
+ * @property string $phone
+ * @property string $address
+ * @property string $recordStatus
+ * @property integer $deleted_at
+ * @property integer $deleted_by
+ * @property integer $created_at
+ * @property integer $created_by
+ * @property integer $updated_at
+ * @property integer $updated_by
  *
  * @property \app\models\JobContainer[] $jobContainers
  * @property \app\models\Personel[] $personels
@@ -29,6 +40,14 @@ use Yii;
  */
 abstract class Profile extends \yii\db\ActiveRecord
 {
+    
+    /**
+     * ENUM field values
+     */
+    const RECORDSTATUS_ACTIVE = 'active';
+    const RECORDSTATUS_DELETED = 'deleted';
+
+    var $enum_labels = false;
     
     /**
      * @inheritdoc
@@ -41,17 +60,38 @@ abstract class Profile extends \yii\db\ActiveRecord
     /**
      * @inheritdoc
      */
+    public function behaviors()
+    {
+        return [
+            'blameable' => [
+                'class' => BlameableBehavior::className(),
+            ],
+            'timestamp' => [
+                'class' => TimestampBehavior::className(),
+            ],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
     public function rules()
     {
         return [
-            [['user_id', 'picture_id'], 'integer'],
-            [['bio'], 'string'],
+            [['user_id', 'picture_id', 'deleted_at', 'deleted_by'], 'integer'],
+            [['bio', 'address', 'recordStatus'], 'string'],
             [['name', 'public_email', 'gravatar_email', 'location', 'website'], 'string', 'max' => 255],
             [['gravatar_id'], 'string', 'max' => 32],
             [['timezone'], 'string', 'max' => 40],
+            [['phone'], 'string', 'max' => 64],
             [['user_id'], 'unique'],
             [['picture_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\UploadedFile::className(), 'targetAttribute' => ['picture_id' => 'id']],
-            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\User::className(), 'targetAttribute' => ['user_id' => 'id']]
+            [['user_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\User::className(), 'targetAttribute' => ['user_id' => 'id']],
+            ['recordStatus', 'in', 'range' => [
+                    self::RECORDSTATUS_ACTIVE,
+                    self::RECORDSTATUS_DELETED,
+                ]
+            ]
         ];
     }
 
@@ -72,6 +112,15 @@ abstract class Profile extends \yii\db\ActiveRecord
             'bio' => 'Bio',
             'timezone' => 'Timezone',
             'picture_id' => 'Picture',
+            'phone' => 'Phone',
+            'address' => 'Address',
+            'recordStatus' => 'Record Status',
+            'created_at' => 'Created At',
+            'created_by' => 'Created By',
+            'updated_at' => 'Updated At',
+            'updated_by' => 'Updated By',
+            'deleted_at' => 'Deleted At',
+            'deleted_by' => 'Deleted By',
         ];
     }
         
@@ -107,4 +156,32 @@ abstract class Profile extends \yii\db\ActiveRecord
         return $this->hasOne(\app\models\User::className(), ['id' => 'user_id']);
     }
                 
+    /**
+     * get column recordStatus enum value label
+     * @param string $value
+     * @return string
+     */
+    public static function getRecordStatusValueLabel($value)
+    {
+        $labels = self::optsRecordStatus();
+
+        if(isset($labels[$value])) {
+            return $labels[$value];
+        }
+
+        return $value;
+    }
+
+    /**
+     * column recordStatus ENUM value labels
+     * @return array
+     */
+    public static function optsRecordStatus()
+    {
+        return [
+            self::RECORDSTATUS_ACTIVE => self::RECORDSTATUS_ACTIVE,
+            self::RECORDSTATUS_DELETED => self::RECORDSTATUS_DELETED,
+        ];
+    }
+    
 }
