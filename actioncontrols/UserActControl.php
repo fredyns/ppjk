@@ -32,9 +32,9 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
     public function breadcrumbLabels()
     {
         return ArrayHelper::merge(
-            parent::breadcrumbLabels(), [
+                parent::breadcrumbLabels(), [
                 'index' => 'User',
-            ]
+                ]
         );
     }
 
@@ -69,7 +69,7 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionPersistentModel(), [
-                    #  additional action name
+                #  additional action name
                 ]
         );
     }
@@ -81,7 +81,7 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionUnspecifiedModel(), [
-                    # additional action name
+                # additional action name
                 ]
         );
     }
@@ -95,7 +95,7 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
                 parent::actions(),
                 [
                 /* / action sample / */
-                
+
                 # 'action_name' => [
                 #     'label'         => 'Action_Label',
                 #     'url'           => $this->urlAction,
@@ -113,8 +113,17 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
         );
     }
 
-
-    ################################ sample : additional action ################################ 
+    /**
+     * check permission to get model list in json
+     *
+     * @param array $params
+     * @return boolean
+     */
+    public function getAllowList($params = [])
+    {
+        return true;
+    }
+    ################################ sample : additional action ################################
 
     /**
      * get URL param to do action
@@ -123,10 +132,9 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function getUrlAction()
     {
-        if ($this->model instanceof ActiveRecord)
-        {
-            $param       = $this->modelParam();
-            $param[0]    = $this->actionRoute('action_slug');
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('action_slug');
             $param['ru'] = ReturnUrl::getToken();
 
             return $param;
@@ -144,5 +152,4 @@ class UserActControl extends \fredyns\suite\libraries\ActionControl
     {
         return true;
     }
-
 }
