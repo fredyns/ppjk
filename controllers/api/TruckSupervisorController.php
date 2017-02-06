@@ -50,7 +50,7 @@ class TruckSupervisorController extends \yii\rest\ActiveController
 
             $query
                 ->select('id, name AS text')
-                ->from('shippingInstruction')
+                ->from('truckSupervisor')
                 ->where(['like', 'name', $q])
                 ->limit(20);
 
