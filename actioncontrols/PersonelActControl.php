@@ -14,9 +14,11 @@ use app\models\Personel;
  * @author Fredy Nurman Saleh <email@fredyns.net>
  *
  * @property Personel $model data model
+ * @property boolean $allowDriverList is allowing get driver list in json
  */
 class PersonelActControl extends \fredyns\suite\libraries\ActionControl
 {
+    const ACTION_DRIVERLIST = 'driver-list';
 
     /**
      * @inheritdoc
@@ -32,9 +34,9 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
     public function breadcrumbLabels()
     {
         return ArrayHelper::merge(
-            parent::breadcrumbLabels(), [
+                parent::breadcrumbLabels(), [
                 'index' => 'Personel',
-            ]
+                ]
         );
     }
 
@@ -69,7 +71,7 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionPersistentModel(), [
-                    #  additional action name
+                #  additional action name
                 ]
         );
     }
@@ -81,7 +83,7 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionUnspecifiedModel(), [
-                    # additional action name
+                # additional action name
                 ]
         );
     }
@@ -95,7 +97,7 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
                 parent::actions(),
                 [
                 /* / action sample / */
-                
+
                 # 'action_name' => [
                 #     'label'         => 'Action_Label',
                 #     'url'           => $this->urlAction,
@@ -123,7 +125,17 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
         return true;
     }
 
-    ################################ sample : additional action ################################ 
+    /**
+     * check permission to get driver list in json
+     *
+     * @param array $params
+     * @return boolean
+     */
+    public function getAllowDriverList($params = [])
+    {
+        return true;
+    }
+    ################################ sample : additional action ################################
 
     /**
      * get URL param to do action
@@ -132,10 +144,9 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function getUrlAction()
     {
-        if ($this->model instanceof ActiveRecord)
-        {
-            $param       = $this->modelParam();
-            $param[0]    = $this->actionRoute('action_slug');
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('action_slug');
             $param['ru'] = ReturnUrl::getToken();
 
             return $param;
@@ -153,5 +164,4 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
     {
         return true;
     }
-
 }

@@ -15,8 +15,10 @@ use app\models\base\CompanyProfile as BaseCompanyProfile;
 class CompanyProfile extends BaseCompanyProfile
 {
 
-    use ModelTool, ModelBlame, ModelSoftDelete;
-    
+    use ModelTool,
+        ModelBlame,
+        ModelSoftDelete;
+    const SELFCOMPANY = 1;
 
     /**
      * @inheritdoc
@@ -24,10 +26,9 @@ class CompanyProfile extends BaseCompanyProfile
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -37,10 +38,9 @@ class CompanyProfile extends BaseCompanyProfile
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
     }
 }
