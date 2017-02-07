@@ -214,7 +214,7 @@ class CompanyProfileController extends Controller
      * Finds the CompanyProfile form model for modification.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return CompanyProfile the loaded model
+     * @return CompanyProfileForm the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findForm($id)

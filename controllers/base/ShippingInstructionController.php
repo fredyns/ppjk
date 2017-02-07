@@ -214,7 +214,7 @@ class ShippingInstructionController extends Controller
      * Finds the ShippingInstruction form model for modification.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ShippingInstruction the loaded model
+     * @return ShippingInstructionForm the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findForm($id)

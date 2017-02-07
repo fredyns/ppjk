@@ -214,7 +214,7 @@ class ContainerPortController extends Controller
      * Finds the ContainerPort form model for modification.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return ContainerPort the loaded model
+     * @return ContainerPortForm the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findForm($id)

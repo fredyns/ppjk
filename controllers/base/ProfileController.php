@@ -168,7 +168,7 @@ class ProfileController extends Controller
      * Finds the Profile form model for modification.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return Profile the loaded model
+     * @return ProfileForm the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findForm($id)

@@ -214,7 +214,7 @@ class StuffingLocationController extends Controller
      * Finds the StuffingLocation form model for modification.
      * If the model is not found, a 404 HTTP exception will be thrown.
      * @param integer $id
-     * @return StuffingLocation the loaded model
+     * @return StuffingLocationForm the loaded model
      * @throws HttpException if the model cannot be found
      */
     protected function findForm($id)
