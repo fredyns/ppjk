@@ -5,6 +5,7 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use fredyns\suite\helpers\StringHelper;
 use app\models\JobContainer;
 
 /**
@@ -12,14 +13,34 @@ use app\models\JobContainer;
  */
 class JobContainerSearch extends JobContainer
 {
+    public $shippingInstructionNumber;
+    public $shipperName;
+    public $shippingName;
+    public $destinationName;
+    public $stuffingLocationName;
+    public $driverName;
+    public $supervisorName;
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'shippingInstruction_id', 'stuffingLocation_id', 'driver_id', 'supervisor_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
-            [['containerNumber', 'sealNumber', 'stuffingDate', 'recordStatus'], 'safe'],
+            [['id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
+            [
+                [
+                    'shippingInstructionNumber', 'containerNumber', 'sealNumber',
+                    'stuffingLocationName', 'driverName', 'supervisorName',
+                    'recordStatus',
+                ],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
         ];
     }
 
@@ -48,7 +69,6 @@ class JobContainerSearch extends JobContainer
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +85,6 @@ class JobContainerSearch extends JobContainer
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -75,7 +94,13 @@ class JobContainerSearch extends JobContainer
      */
     public function search()
     {
-        $query = JobContainer::find();
+        $query = JobContainer::find()
+            ->with('shippingInstruction')
+            ->with('shippingInstruction.shipper')
+            ->with('shippingInstruction.shipping')
+            ->with('shippingInstruction.destination')
+            ->with('stuffingLocation')
+            ->with('supervisor');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -92,24 +117,57 @@ class JobContainerSearch extends JobContainer
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'shippingInstruction_id' => $this->shippingInstruction_id,
-            'stuffingDate' => $this->stuffingDate,
-            'stuffingLocation_id' => $this->stuffingLocation_id,
-            'driver_id' => $this->driver_id,
-            'supervisor_id' => $this->supervisor_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                static::tableName().'.id' => $this->id,
+                static::tableName().'.stuffingDate' => $this->stuffingDate,
+                static::tableName().'.supervisor_id' => $this->supervisor_id,
+                static::tableName().'.recordStatus' => $this->recordStatus,
+                static::tableName().'.created_by' => $this->created_by,
+                static::tableName().'.updated_by' => $this->updated_by,
+                static::tableName().'.deleted_by' => $this->deleted_by,
         ]);
 
         $query
-            ->andFilterWhere(['like', 'containerNumber', $this->containerNumber])
-            ->andFilterWhere(['like', 'sealNumber', $this->sealNumber])
-            ->andFilterWhere(['like', 'recordStatus', $this->recordStatus]);
+            ->andFilterWhere(['like', static::tableName().'.containerNumber', $this->containerNumber])
+            ->andFilterWhere(['like', static::tableName().'.sealNumber', $this->sealNumber])
+            ->andFilterWhere([
+                'like',
+                \app\models\ShippingInstruction::tableName().'.number',
+                $this->shippingInstructionNumber,
+            ])
+            ->andFilterWhere([
+                'like',
+                \app\models\ShippingInstruction::ALIAS_SHIPPER.'.name',
+                $this->shipperName,
+            ])
+            ->andFilterWhere([
+                'like',
+                \app\models\Shipping::tableName().'.name',
+                $this->shippingName,
+            ])
+            ->andFilterWhere([
+                'like',
+                \app\models\ShippingInstruction::ALIAS_DESTINATION.'.name',
+                $this->destinationName,
+            ])
+            ->andFilterWhere([
+                'like',
+                \app\models\StuffingLocation::tableName().'.name',
+                $this->stuffingLocationName,
+            ])
+            ->andFilterWhere([
+                'like',
+                static::ALIAS_DRIVER.'.name',
+                $this->driverName,
+            ])
+            ->andFilterWhere([
+                'like',
+                static::ALIAS_SUPERVISOR.'.name',
+                $this->supervisorName,
+        ]);
+
+        $query->orderBy([
+            static::tableName().'.id' => SORT_DESC,
+        ]);
 
         return $dataProvider;
     }
