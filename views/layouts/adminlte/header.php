@@ -8,9 +8,19 @@ use yii\helpers\Html;
 
 <header class="main-header">
 
-    <?=
-    Html::a('<span class="logo-mini">'.Yii::$app->params['initials'].'</span><span class="logo-lg">'.Yii::$app->name.'</span>',
-        Yii::$app->homeUrl, ['class' => 'logo'])
+    <?php
+    $logoMini = '<span class="logo-mini">'.Yii::$app->params['initials'].'</span>';
+    $logoLg = '<span class="logo-lg">'
+        .Html::img(
+            '@web/jasco/logo.png',
+            [
+            'alt' => Yii::$app->name,
+            'style' => 'length: 70%; width: 70%;',
+            ]
+        )
+        .'</span>';
+
+    echo Html::a($logoMini.$logoLg, Yii::$app->homeUrl, ['class' => 'logo'])
     ?>
 
     <nav class="navbar navbar-static-top" role="navigation">
@@ -76,22 +86,19 @@ use yii\helpers\Html;
                             <?php
                             $profile = Yii::$app->user->identity->profile;
 
-                            if (!empty($profile->picture_id))
-                            {
+                            if (!empty($profile->picture_id)) {
                                 echo Html::img(
                                     ['/file', 'id' => $profile->picture_id],
                                     [
-                                    'alt'   => $profile->user->username,
+                                    'alt' => $profile->user->username,
                                     'style' => 'max-length: 25px; max-width: 25px;',
                                     ]
                                 );
-                            }
-                            else
-                            {
+                            } else {
                                 echo Html::img(
                                     '@web/image/user-160.png',
                                     [
-                                    'alt'   => "User Image",
+                                    'alt' => "User Image",
                                     'style' => 'max-length: 25px; max-width: 25px;',
                                     ]
                                 );
@@ -109,23 +116,20 @@ use yii\helpers\Html;
                                 <?php
                                 $profile = Yii::$app->user->identity->profile;
 
-                                if (!empty($profile->picture_id))
-                                {
+                                if (!empty($profile->picture_id)) {
 
                                     echo Html::img(
                                         ['/file', 'id' => $profile->picture_id],
                                         [
                                         'style' => 'max-length: 90px; max-width: 90px;',
-                                        'alt'   => $profile->user->username,
+                                        'alt' => $profile->user->username,
                                         ]
                                     );
-                                }
-                                else
-                                {
+                                } else {
                                     echo Html::img(
                                         '@web/image/user-160.png',
                                         [
-                                        'alt'   => "User Image",
+                                        'alt' => "User Image",
                                         'style' => 'max-length: 90px; max-width: 90px;',
                                         ]
                                     );

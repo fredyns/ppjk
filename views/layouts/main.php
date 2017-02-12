@@ -27,8 +27,17 @@ AppAsset::register($this);
         <div class="wrap">
             <?php
             NavBar::begin([
-                'brandLabel' => Yii::$app->name,
+                'brandLabel' => Html::img(
+                    '@web/jasco/logo.png',
+                    [
+                    'alt' => Yii::$app->name,
+                    'style' => 'length: 70%; width: 70%;',
+                    ]
+                ),
                 'brandUrl' => Yii::$app->homeUrl,
+                'brandOptions' => [
+                    'style' => 'margin: 0; padding: 0;',
+                ],
                 'options' => [
                     'class' => 'navbar-inverse navbar-fixed-top',
                 ],
@@ -36,14 +45,14 @@ AppAsset::register($this);
             echo Nav::widget([
                 'options' => ['class' => 'navbar-nav navbar-right'],
                 'items' => [
-                        ['label' => 'Home', 'url' => ['/site/index']],
-                        ['label' => 'About', 'url' => ['/site/about']],
-                        [
+                    ['label' => 'Home', 'url' => ['/site/index']],
+                    ['label' => 'About', 'url' => ['/site/about']],
+                    [
                         'label' => 'Login',
                         'url' => ['/user/security/login'],
                         'visible' => Yii::$app->user->isGuest,
                     ],
-                        [
+                    [
                         'label' => 'Logout',
                         'url' => ['/user/security/logout'],
                         'visible' => !Yii::$app->user->isGuest,
