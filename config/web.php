@@ -69,12 +69,14 @@ $config = [
     'modules' => [
         'user' => [
             'class' => 'dektrium\user\Module',
-            'enableUnconfirmedLogin' => false,
+            'enableRegistration' => true,
+            'enableUnconfirmedLogin' => true,
             'admins' => $confidential['admins'],
             'modelMap' => [
                 'User' => 'app\models\User',
                 'Profile' => 'app\models\Profile',
             ],
+            'controllerMap' => require(__DIR__.'/module/user-controllerMap.php'),
         ],
         'gridview' => [
             'class' => '\kartik\grid\Module'
