@@ -9,7 +9,7 @@ SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
 SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
 SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='TRADITIONAL,ALLOW_INVALID_DATES';
 
-ALTER TABLE `ppjk`.`shippingInstruction` 
+ALTER TABLE `shippingInstruction`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `destination_id`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -18,7 +18,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`shipping` 
+ALTER TABLE `shipping`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `name`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -27,7 +27,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`containerPort` 
+ALTER TABLE `containerPort`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `name`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -36,7 +36,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`companyProfile` 
+ALTER TABLE `companyProfile`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `npwp`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -45,7 +45,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`personel` 
+ALTER TABLE `personel`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `title`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -54,7 +54,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`jobContainer` 
+ALTER TABLE `jobContainer`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `supervisor_id`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -63,7 +63,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`stuffingLocation` 
+ALTER TABLE `stuffingLocation`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `name`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
@@ -72,7 +72,7 @@ ADD COLUMN `updated_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_at`,
 ADD COLUMN `deleted_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `updated_by`,
 ADD COLUMN `deleted_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `deleted_at`;
 
-ALTER TABLE `ppjk`.`truckSupervisor` 
+ALTER TABLE `truckSupervisor`
 ADD COLUMN `recordStatus` ENUM('active', 'deleted') NULL DEFAULT 'active' AFTER `name`,
 ADD COLUMN `created_at` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `recordStatus`,
 ADD COLUMN `created_by` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `created_at`,
