@@ -2,6 +2,7 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use fredyns\suite\helpers\ActiveUser;
 ?>
 <aside class="main-sidebar">
 
@@ -14,19 +15,16 @@ use yii\helpers\Url;
                 <?php
                 $profile = Yii::$app->user->identity->profile;
 
-                if (!empty($profile->picture_id))
-                {
+                if (!empty($profile->picture_id)) {
                     echo Html::img(
                         ['/file', 'id' => $profile->picture_id],
                         [
                         'class' => '',
-                        'alt'   => $profile->user->username,
+                        'alt' => $profile->user->username,
                         'style' => 'max-length: 45px; max-width: 45px;',
                         ]
                     );
-                }
-                else
-                {
+                } else {
                     echo Html::img('@web/image/user-160.png', ['class' => "img-circle", 'alt' => "User Image"]);
                 }
                 ?>
@@ -34,7 +32,7 @@ use yii\helpers\Url;
             <div class="pull-left info">
                 <p>
                     <?php
-                    $name  = Yii::$app->user->identity->profile->name;
+                    $name = Yii::$app->user->identity->profile->name;
                     $label = empty($name) ? Yii::$app->user->identity->username : $name;
 
                     echo Html::a($label, ['/user/settings/profile']);
@@ -61,51 +59,89 @@ use yii\helpers\Url;
         dmstr\widgets\Menu::widget(
             [
                 'options' => ['class' => 'sidebar-menu'],
-                'items'   => [
-                        [
-                        'label'   => 'Menu Header',
+                'items' => [
+                    [
+                        'label' => 'Main Menu',
                         'options' => ['class' => 'header'],
                     ],
-                        [
-                        'label' => 'Menu A',
-                        'icon'  => 'fa fa-gears',
-                        'url'   => '#',
+                    [
+                        'label' => 'Job Container',
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-cubes',
+                        'url' => ['/job-container'],
+                    ],
+                    [
+                        'label' => 'Shipping Instruction',
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-newspaper-o',
+                        'url' => ['/shipping-instruction'],
+                    ],
+                    [
+                        'label' => 'Master',
+                        'options' => ['class' => 'header'],
+                    ],
+                    [
+                        'label' => 'Company Profile',
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-industry',
+                        'url' => ['/company-profile'],
+                    ],
+                    [
+                        'label' => 'Shipping',
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-ship',
+                        'url' => ['/shipping'],
+                    ],
+                    [
+                        'label' => 'Container Port',
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-map-marker',
+                        'url' => ['/container-port'],
+                    ],
+                    [
+                        'label' => 'Other',
+                        'icon' => 'fa fa-table',
+                        'url' => '#',
                         'items' => [
-                                [
-                                'label'  => 'Sub menu A.1',
+                            [
+                                'label' => 'Stuffing Location',
                                 'encode' => FALSE,
-                                'icon'   => 'fa fa-file-text',
-                                'url'    => '#',
-                                'items'  => [
-                                        [
-                                        'label'  => 'Sub menu A.1.a',
-                                        'encode' => FALSE,
-                                        'icon'   => 'fa fa-file-text',
-                                        'url'    => ['/_____'],
-                                    ],
-                                ],
+                                'icon' => 'glyphicon glyphicon-log-in',
+                                'url' => ['/stuffing-location'],
                             ],
-                                [
-                                'label'  => 'Sub menu A.2',
+                            [
+                                'label' => 'Truck Supervisor',
                                 'encode' => FALSE,
-                                'icon'   => 'fa fa-file-text',
-                                'url'    => ['/_____'],
+                                'icon' => 'fa fa-truck',
+                                'url' => ['/truck-supervisor'],
                             ],
                         ],
                     ],
-                        [
-                        'label'   => 'Development',
+                    [
+                        'label' => 'Administrator',
+                        'visible' => ActiveUser::isAdmin(),
+                        'options' => ['class' => 'header'],
+                    ],
+                    [
+                        'label' => 'User Management',
+                        'visible' => ActiveUser::isAdmin(),
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-user',
+                        'url' => ['/user/admin'],
+                    ],
+                    [
+                        'label' => 'Development',
                         'options' => ['class' => 'header'],
                         'visible' => YII_DEBUG,
                     ],
-                        [
-                        'label'   => 'Yii2',
+                    [
+                        'label' => 'Yii2',
                         'visible' => YII_DEBUG,
-                        'icon'    => 'fa fa-gears',
-                        'url'     => '#',
-                        'items'   => [
-                                ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
-                                ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
+                        'icon' => 'fa fa-gears',
+                        'url' => '#',
+                        'items' => [
+                            ['label' => 'Gii', 'icon' => 'fa fa-file-code-o', 'url' => ['/gii']],
+                            ['label' => 'Debug', 'icon' => 'fa fa-dashboard', 'url' => ['/debug']],
                         ],
                     ],
                 ],
