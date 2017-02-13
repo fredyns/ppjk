@@ -6,7 +6,6 @@ use Yii;
 use yii\helpers\Url;
 use yii\filters\VerbFilter;
 use cornernote\returnurl\ReturnUrl;
-use fredyns\suite\filters\AdminLTELayout;
 use app\models\form\JobContainerForm;
 use app\actioncontrols\JobContainerActControl;
 
@@ -22,9 +21,6 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
     public function behaviors()
     {
         return [
-            'layout' => [
-                'class' => AdminLTELayout::className(),
-            ],
             'verbs' => [
                 'class' => VerbFilter::className(),
                 'actions' => [
