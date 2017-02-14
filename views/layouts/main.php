@@ -71,8 +71,8 @@ if (Yii::$app->controller->action->id === 'login') {
                                     'options' => ['class' => 'navbar-nav'],
                                     'items' => [
                                         ['label' => 'Home', 'url' => ['/site/index']],
-                                        ['label' => 'Services', 'url' => ['/site/about']],
-                                        ['label' => 'About', 'url' => ['/site/about']],
+                                        ['label' => 'Services', 'url' => ['/site/page?slug=services']],
+                                        ['label' => 'Contact', 'url' => ['/site/contact']],
                                     ],
                                 ]);
                                 ?>
