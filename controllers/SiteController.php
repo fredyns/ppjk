@@ -5,8 +5,10 @@ namespace app\controllers;
 use Yii;
 use yii\filters\AccessControl;
 use yii\web\Controller;
+use yii\web\HttpException;
 use yii\filters\VerbFilter;
 use fredyns\suite\filters\AdminLTELayout;
+use fredyns\suite\helpers\ViewHelper;
 use app\models\LoginForm;
 use app\models\ContactForm;
 
@@ -114,5 +116,21 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    /**
+     * Displays page.
+     *
+     * @return string
+     */
+    public function actionPage($slug = 'services')
+    {
+        $view = 'page/'.$slug;
+
+        if (empty($slug) OR is_string($slug) == FALSE OR ViewHelper::exist($view, $this) == FALSE) {
+            throw new HttpException(404, 'The requested page does not exist.');
+        }
+
+        return $this->render($view);
     }
 }
