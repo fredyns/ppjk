@@ -2,7 +2,7 @@
 
 use yii\helpers\Html;
 ?>
-<p class="itemFullText">
+<p class="itemFullText" style="text-align: center;">
     <?= Html::img('@web/jasco/services/shipping-services.png'); ?><br/>
     <?= Html::img('@web/jasco/services/airfreight.png'); ?><br/>
     <?= Html::img('@web/jasco/services/custom-clearance.png'); ?><br/>
