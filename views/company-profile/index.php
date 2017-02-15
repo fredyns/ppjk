@@ -10,7 +10,6 @@ use cornernote\returnurl\ReturnUrl;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var app\models\search\CompanyProfileSearch $searchModel
  */
-
 $this->title = Yii::t('app', 'Company Profiles');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </small>
     </h1>
 
-    <?php //echo $this->render('_search', ['model' =>$searchModel]);?>
+    <?php //echo $this->render('_search', ['model' =>$searchModel]); ?>
 
     <?php
     \yii\widgets\Pjax::begin([
@@ -55,9 +54,8 @@ $this->params['breadcrumbs'][] = $this->title;
                     'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                     'attribute' => 'name',
                 ],
-                'address:ntext',
                 'phone',
-                'email:email',
+                'email',
                 'npwp',
                 [
                     'class' => 'fredyns\suite\grid\KartikActionColumn',

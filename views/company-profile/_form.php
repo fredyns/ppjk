@@ -17,12 +17,12 @@ use dmstr\bootstrap\Tabs;
 
     <?php
     $form = ActiveForm::begin([
-        'id' => 'CompanyProfile',
-        'layout' => 'horizontal',
-        'enableClientValidation' => true,
-        'errorSummaryCssClass' => 'error-summary alert alert-error'
+            'id' => 'CompanyProfile',
+            'layout' => 'horizontal',
+            'enableClientValidation' => true,
+            'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]);
-    
+
     echo Html::hiddenInput('ru', ReturnUrl::getRequestToken());
     ?>
 
@@ -31,14 +31,14 @@ use dmstr\bootstrap\Tabs;
 
         <p>
 
-            <!-- attribute address -->
-            <?=
-            $form->field($model, 'address')->textarea(['rows' => 6])
-            ?>
-
             <!-- attribute name -->
             <?=
             $form->field($model, 'name')->textInput(['maxlength' => true])
+            ?>
+
+            <!-- attribute address -->
+            <?=
+            $form->field($model, 'address')->textarea(['rows' => 6])
             ?>
 
             <!-- attribute phone -->
@@ -55,18 +55,19 @@ use dmstr\bootstrap\Tabs;
             <?=
             $form->field($model, 'npwp')->textInput(['maxlength' => true])
             ?>
+
         </p>
 
         <?php $this->endBlock(); ?>
-        
+
         <?=
         Tabs::widget([
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label'   => Yii::t('app', 'CompanyProfile'),
+                    'label' => Yii::t('app', 'CompanyProfile'),
                     'content' => $this->blocks['main'],
-                    'active'  => true,
+                    'active' => true,
                 ],
             ],
         ]);
@@ -78,10 +79,10 @@ use dmstr\bootstrap\Tabs;
 
         <?=
         Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
+            '<span class="glyphicon glyphicon-check"></span> '.
             ($model->isNewRecord ? 'Create' : 'Save'),
             [
-            'id' => 'save-' . $model->formName(),
+            'id' => 'save-'.$model->formName(),
             'class' => 'btn btn-success'
             ]
         );
