@@ -6,6 +6,7 @@ use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use cornernote\returnurl\ReturnUrl;
 use kartik\icons\Icon;
+use app\models\CompanyProfile;
 use app\models\Personel;
 
 /**
@@ -113,6 +114,22 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
                 # ],
                 ]
         );
+    }
+
+    /**
+     * get URL param for create action
+     *
+     * @return array
+     */
+    public function getUrlCreate()
+    {
+        return [
+            $this->actionRoute(static::ACTION_CREATE),
+            'ru' => ReturnUrl::getToken(),
+            'PersonelForm' => [
+                'companyProfile_id' => CompanyProfile::SELFCOMPANY,
+            ]
+        ];
     }
 
     /**
