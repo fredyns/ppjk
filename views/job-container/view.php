@@ -134,7 +134,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
 
     <?=
     Tabs::widget([
-        'id' => 'relation-tabs',
+        'id' => 'relation-tabs-si',
         'encodeLabels' => false,
         'items' => [
             [
@@ -148,7 +148,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
 
     <?=
     Tabs::widget([
-        'id' => 'relation-tabs',
+        'id' => 'relation-tabs-cont',
         'encodeLabels' => false,
         'items' => [
             [
