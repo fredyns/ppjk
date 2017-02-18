@@ -130,6 +130,15 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => ['/user/admin'],
                     ],
                     [
+                        'label' => 'Pages',
+                        'options' => ['class' => 'header'],
+                    ],
+                    [
+                        'label' => 'Branches',
+                        'icon' => 'fa fa-page',
+                        'url' => ['/site/page', 'slug' => 'branches'],
+                    ],
+                    [
                         'label' => 'Development',
                         'options' => ['class' => 'header'],
                         'visible' => YII_DEBUG,
