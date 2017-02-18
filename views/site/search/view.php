@@ -1,13 +1,7 @@
 <?php
 
-use yii\helpers\Html;
-use yii\widgets\Pjax;
-use yii\helpers\Url;
-use cornernote\returnurl\ReturnUrl;
 use dmstr\bootstrap\Tabs;
-use fredyns\suite\helpers\ActiveUser;
 use fredyns\suite\widgets\DetailView;
-use kartik\grid\GridView;
 
 /**
  * @var yii\web\View $this
