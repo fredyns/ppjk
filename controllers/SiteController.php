@@ -9,8 +9,8 @@ use yii\web\HttpException;
 use yii\filters\VerbFilter;
 use fredyns\suite\filters\AdminLTELayout;
 use fredyns\suite\helpers\ViewHelper;
-use app\models\LoginForm;
 use app\models\ContactForm;
+use app\models\JobContainer;
 
 class SiteController extends Controller
 {
@@ -132,5 +132,34 @@ class SiteController extends Controller
         }
 
         return $this->render($view);
+    }
+
+    /**
+     * search container number
+     *
+     * @return mixed
+     */
+    public function actionSearch()
+    {
+        $id = Yii::$app->request->get('id');
+        $number = Yii::$app->request->get('number');
+        $containerList = strtoupper($number);
+        $containerList = str_replace(', ', ',', $containerList);
+        $containerList = str_replace(' ', ',', $containerList);
+        $containerList = str_replace(chr(13), ',', $containerList);
+        $containerNumbers = explode(',', $containerList);
+        $containerNumbers = array_filter($containerNumbers);
+        $searchTerm = implode(', ', $containerNumbers);
+        $criteria = ['containerNumber' => $containerNumbers];
+
+        if ($id > 0) {
+            $criteria['id'] = $id;
+        }
+
+        return $this->render('search',
+                [
+                'searchTerm' => $searchTerm,
+                'containers' => JobContainer::findAll($criteria),
+        ]);
     }
 }
