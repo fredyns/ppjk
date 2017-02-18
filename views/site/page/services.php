@@ -2,7 +2,8 @@
 
 use yii\helpers\Html;
 
-$this->params['breadcrumbs'][] = 'Services';
+$this->title = 'Services';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <p class="itemFullText" style="text-align: center;">
     <?= Html::img('@web/jasco/services/shipping-services.png'); ?><br/>

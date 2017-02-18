@@ -1,5 +1,6 @@
 <?php
-$this->params['breadcrumbs'][] = 'Office Branches';
+$this->title = 'Office Branches';
+$this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="row">
 
