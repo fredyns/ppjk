@@ -48,6 +48,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'class' => 'fredyns\suite\grid\KartikViewColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',
                     'attribute' => 'containerNumber',
+                    'visible' => (!Yii::$app->user->isGuest),
+                ],
+                [
+                    'attribute' => 'containerNumber',
+                    'visible' => (Yii::$app->user->isGuest),
                     'format' => 'html',
                     'value' => function (JobContainer $model, $key, $index, $widget) {
                         return Html::a(
