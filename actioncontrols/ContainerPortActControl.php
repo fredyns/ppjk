@@ -2,9 +2,11 @@
 
 namespace app\actioncontrols;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use cornernote\returnurl\ReturnUrl;
+use fredyns\suite\helpers\ActiveUser;
 use kartik\icons\Icon;
 use app\models\ContainerPort;
 
@@ -59,6 +61,8 @@ class ContainerPortActControl extends \fredyns\suite\libraries\ActionControl
             'model-deleted' => "Data already (soft) deleted.",
             'model-active' => "Data is not deleted.",
             'softdelete-unsupported' => "Data doesn't support soft-delete.",
+            // additions
+            'hassi' => "This place had shipping instruction history.",
         ];
     }
 
@@ -114,24 +118,152 @@ class ContainerPortActControl extends \fredyns\suite\libraries\ActionControl
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllowIndex($params = array())
+    {
+        $action = static::ACTION_INDEX;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
      * check permission to access Deleted page
      *
      * @return boolean
      */
     public function getAllowDeleted($params = [])
     {
-        return true;
+        $action = static::ACTION_DELETED;
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
     }
 
     /**
-     * check permission to get model list in json
+     * check permission to get company profile list in json
      *
      * @param array $params
      * @return boolean
      */
     public function getAllowList($params = [])
     {
-        return true;
+        $action = 'list';
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowCreate($params = array())
+    {
+        $action = static::ACTION_CREATE;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowView($params = array())
+    {
+        $action = static::ACTION_VIEW;
+
+        // prerequisites
+        parent::getAllowView($params);
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowUpdate($params = array())
+    {
+        $action = static::ACTION_UPDATE;
+
+        // prerequisites
+        parent::getAllowUpdate($params);
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowDelete($params = array())
+    {
+        $action = static::ACTION_DELETE;
+
+        // prerequisites
+        parent::getAllowDelete($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        if ($this->model->getShippingInstructions()->count() > 0) {
+            $this->addErrorMsg($action, 'hassi');
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowRestore($params = array())
+    {
+        $action = static::ACTION_RESTORE;
+
+        // prerequisites
+        parent::getAllowRestore($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
     }
     ################################ sample : additional action ################################
 

@@ -2,9 +2,11 @@
 
 namespace app\actioncontrols;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use cornernote\returnurl\ReturnUrl;
+use fredyns\suite\helpers\ActiveUser;
 use kartik\icons\Icon;
 use app\models\CompanyProfile;
 use app\models\Personel;
@@ -133,13 +135,37 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllowIndex($params = array())
+    {
+        $action = static::ACTION_INDEX;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
      * check permission to access Deleted page
      *
      * @return boolean
      */
     public function getAllowDeleted($params = [])
     {
-        return true;
+        $action = static::ACTION_DELETED;
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
     }
 
     /**
@@ -150,7 +176,107 @@ class PersonelActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function getAllowDriverList($params = [])
     {
-        return true;
+        $action = 'driver-list';
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowCreate($params = array())
+    {
+        $action = static::ACTION_CREATE;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowView($params = array())
+    {
+        $action = static::ACTION_VIEW;
+
+        // prerequisites
+        parent::getAllowView($params);
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowUpdate($params = array())
+    {
+        $action = static::ACTION_UPDATE;
+
+        // prerequisites
+        parent::getAllowUpdate($params);
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowDelete($params = array())
+    {
+        $action = static::ACTION_DELETE;
+
+        // prerequisites
+        parent::getAllowDelete($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowRestore($params = array())
+    {
+        $action = static::ACTION_RESTORE;
+
+        // prerequisites
+        parent::getAllowRestore($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
     }
     ################################ sample : additional action ################################
 

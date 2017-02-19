@@ -256,6 +256,25 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
         // conclusion
         return ($this->isError($action) == FALSE);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowRestore($params = array())
+    {
+        $action = static::ACTION_RESTORE;
+
+        // prerequisites
+        parent::getAllowRestore($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
     ################################ sample : additional action ################################
 
     /**

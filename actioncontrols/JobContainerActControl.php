@@ -2,9 +2,11 @@
 
 namespace app\actioncontrols;
 
+use Yii;
 use yii\db\ActiveRecord;
 use yii\helpers\ArrayHelper;
 use cornernote\returnurl\ReturnUrl;
+use fredyns\suite\helpers\ActiveUser;
 use kartik\icons\Icon;
 use app\models\JobContainer;
 
@@ -32,9 +34,9 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
     public function breadcrumbLabels()
     {
         return ArrayHelper::merge(
-            parent::breadcrumbLabels(), [
+                parent::breadcrumbLabels(), [
                 'index' => 'JobContainer',
-            ]
+                ]
         );
     }
 
@@ -69,7 +71,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionPersistentModel(), [
-                    #  additional action name
+                #  additional action name
                 ]
         );
     }
@@ -81,7 +83,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionUnspecifiedModel(), [
-                    # additional action name
+                # additional action name
                 ]
         );
     }
@@ -95,7 +97,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
                 parent::actions(),
                 [
                 /* / action sample / */
-                
+
                 # 'action_name' => [
                 #     'label'         => 'Action_Label',
                 #     'url'           => $this->urlAction,
@@ -114,16 +116,112 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getAllowIndex($params = array())
+    {
+        $action = static::ACTION_INDEX;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
      * check permission to access Deleted page
      *
      * @return boolean
      */
     public function getAllowDeleted($params = [])
     {
-        return true;
+        $action = static::ACTION_DELETED;
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
     }
 
-    ################################ sample : additional action ################################ 
+    /**
+     * @inheritdoc
+     */
+    public function getAllowCreate($params = array())
+    {
+        $action = static::ACTION_CREATE;
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowUpdate($params = array())
+    {
+        $action = static::ACTION_UPDATE;
+
+        // prerequisites
+        parent::getAllowUpdate($params);
+
+        // blacklist
+        if (Yii::$app->user->isGuest) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowDelete($params = array())
+    {
+        $action = static::ACTION_DELETE;
+
+        // prerequisites
+        parent::getAllowDelete($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getAllowRestore($params = array())
+    {
+        $action = static::ACTION_RESTORE;
+
+        // prerequisites
+        parent::getAllowRestore($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+    ################################ sample : additional action ################################
 
     /**
      * get URL param to do action
@@ -132,10 +230,9 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function getUrlAction()
     {
-        if ($this->model instanceof ActiveRecord)
-        {
-            $param       = $this->modelParam();
-            $param[0]    = $this->actionRoute('action_slug');
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('action_slug');
             $param['ru'] = ReturnUrl::getToken();
 
             return $param;
@@ -153,5 +250,4 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
     {
         return true;
     }
-
 }
