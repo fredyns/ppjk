@@ -13,6 +13,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $distance
  * @property string $recordStatus
  * @property integer $deleted_at
  * @property integer $deleted_by
@@ -65,8 +66,8 @@ abstract class StuffingLocation extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
+            [['distance', 'deleted_at', 'deleted_by'], 'integer'],
             [['recordStatus'], 'string'],
-            [['deleted_at', 'deleted_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
@@ -84,6 +85,7 @@ abstract class StuffingLocation extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'distance' => 'Distance',
             'recordStatus' => 'Record Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',

@@ -17,12 +17,12 @@ use dmstr\bootstrap\Tabs;
 
     <?php
     $form = ActiveForm::begin([
-        'id' => 'StuffingLocation',
-        'layout' => 'horizontal',
-        'enableClientValidation' => true,
-        'errorSummaryCssClass' => 'error-summary alert alert-error'
+            'id' => 'StuffingLocation',
+            'layout' => 'horizontal',
+            'enableClientValidation' => true,
+            'errorSummaryCssClass' => 'error-summary alert alert-error'
     ]);
-    
+
     echo Html::hiddenInput('ru', ReturnUrl::getRequestToken());
     ?>
 
@@ -35,18 +35,24 @@ use dmstr\bootstrap\Tabs;
             <?=
             $form->field($model, 'name')->textInput(['maxlength' => true])
             ?>
+
+            <!-- attribute distance -->
+            <?=
+            $form->field($model, 'distance')->textInput(['maxlength' => true])
+            ?>
+
         </p>
 
         <?php $this->endBlock(); ?>
-        
+
         <?=
         Tabs::widget([
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label'   => Yii::t('app', 'StuffingLocation'),
+                    'label' => Yii::t('app', 'StuffingLocation'),
                     'content' => $this->blocks['main'],
-                    'active'  => true,
+                    'active' => true,
                 ],
             ],
         ]);
@@ -58,10 +64,10 @@ use dmstr\bootstrap\Tabs;
 
         <?=
         Html::submitButton(
-            '<span class="glyphicon glyphicon-check"></span> ' .
+            '<span class="glyphicon glyphicon-check"></span> '.
             ($model->isNewRecord ? 'Create' : 'Save'),
             [
-            'id' => 'save-' . $model->formName(),
+            'id' => 'save-'.$model->formName(),
             'class' => 'btn btn-success'
             ]
         );
