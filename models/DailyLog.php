@@ -2,6 +2,7 @@
 
 namespace app\models;
 
+use DateTime;
 use Yii;
 use yii\helpers\ArrayHelper;
 use fredyns\suite\traits\ModelTool;
@@ -15,7 +16,8 @@ use app\models\base\DailyLog as BaseDailyLog;
 class DailyLog extends BaseDailyLog
 {
 
-    use ModelTool, ModelBlame;
+    use ModelTool,
+        ModelBlame;
 
     /**
      * @inheritdoc
@@ -23,10 +25,9 @@ class DailyLog extends BaseDailyLog
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -36,10 +37,58 @@ class DailyLog extends BaseDailyLog
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
+    }
+
+    /**
+     * get container quantity series log in a week
+     *
+     * @param integer $week
+     * @return array
+     */
+    public static function aWeekContainerQty($week = 0)
+    {
+        $end = "sunday this week";
+
+        if (is_integer($week)) {
+            if ($week == 1) {
+                $end = "sunday +1 week";
+            } elseif ($week == -1) {
+                $end = "sunday -1 week";
+            } elseif ($week > 1) {
+                $end = "sunday +{$week} weeks";
+            } elseif ($week < -1) {
+                $end = "sunday {$week} weeks";
+            }
+        }
+
+        $endDate = new DateTime($end);
+        $startDate = new DateTime($end);
+
+        $startDate->modify("last monday");
+
+        $startDay = $startDate->format('Y-m-d');
+        $endDay = $endDate->format('Y-m-d');
+        $logs = static::find()
+            ->where([
+                'and',
+                ['>=', 'date', $startDay],
+                ['<=', 'date', $endDay],
+            ])
+            ->all();
+        $series = ArrayHelper::map($logs, 'date', 'containerQty');
+        $data = [ArrayHelper::getValue($series, $startDay)];
+
+        $currentDate = clone $startDate;
+        while ($currentDate->getTimestamp() <= $endDate->getTimestamp()) {
+            $currentDate->modify("+1 day");
+            $currentDay = $currentDate->format('Y-m-d');
+            $data[] = ArrayHelper::getValue($series, $currentDay);
+        }
+
+        return $data;
     }
 }
