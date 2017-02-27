@@ -82,7 +82,7 @@ class ProfileController extends Controller
 
         try {
             if ($model->load($_POST) && $model->save()) {
-                Yii::$app->getSession()->addFlash('success', "Data successfully saved!");
+                Yii::$app->getSession()->addFlash('success', "Data berhasil disimpan!");
 
                 return $this->redirect(ReturnUrl::getUrl(Url::previous()));
             } elseif (!Yii::$app->request->isPost) {
@@ -111,7 +111,7 @@ class ProfileController extends Controller
         $actionControl = ProfileActControl::checkAccess('update', $model);
 
         if ($model->load($_POST) && $model->save()) {
-            Yii::$app->getSession()->addFlash('success', "Data successfully updated!");
+            Yii::$app->getSession()->addFlash('success', "Data berhasil diperbarui!");
 
             return $this->redirect(ReturnUrl::getUrl(Url::previous()));
         }
@@ -137,7 +137,7 @@ class ProfileController extends Controller
             ProfileActControl::checkAccess('delete', $model);
 
             if ($model->delete() !== false) {
-                Yii::$app->getSession()->addFlash('info', "Data successfully deleted!");
+                Yii::$app->getSession()->addFlash('info', "Data berhasil dihapus!");
             }
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
@@ -160,7 +160,7 @@ class ProfileController extends Controller
         if (($model = Profile::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new HttpException(404, 'The requested page does not exist.');
+            throw new HttpException(404, 'Halaman yang dicari tidak ditemukan.');
         }
     }
 
@@ -176,7 +176,7 @@ class ProfileController extends Controller
         if (($model = ProfileForm::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new HttpException(404, 'The requested page does not exist.');
+            throw new HttpException(404, 'Halaman yang dicari tidak ditemukan.');
         }
     }
 }
