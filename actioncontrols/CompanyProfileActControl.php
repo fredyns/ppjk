@@ -54,17 +54,17 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
     public function messages()
     {
         return [
-            'forbidden' => "%s is not allowed.",
-            'notconfigured' => "%s is not configured properly.",
-            'model-unknown' => "Unknown Data.",
-            'model-unsaved' => "Can't %s unsaved data.",
-            'model-deleted' => "Data already (soft) deleted.",
-            'model-active' => "Data is not deleted.",
-            'softdelete-unsupported' => "Data doesn't support soft-delete.",
+            'forbidden' => "%s tidak diperbolehkan.",
+            'notconfigured' => "%s belum dikonfigurasi dengan benar.",
+            'model-unknown' => "Data tidak diketahui.",
+            'model-unsaved' => "Tak dapat melakukan %s data yang belum tersimpan.",
+            'model-deleted' => "Data sudah terhapus (soft-delete).",
+            'model-active' => "Data belum terhapus.",
+            'softdelete-unsupported' => "Data tidak mendukung soft-delete.",
             // additions
-            'deleteself' => "Can't delete current company.",
-            'haspersonel' => "This company has registered personel.",
-            'hassi' => "This company had shipping instruction history.",
+            'deleteself' => "Tak dapat menghapus perusahaan sendiri.",
+            'haspersonel' => "Perusahaan ini memiliki daftar personil.",
+            'hassi' => "Perusahaan ini memiliki riwayat SI.",
         ];
     }
 
