@@ -145,7 +145,7 @@ $formname = $model->formName();
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => Yii::t('app', 'ShippingInstruction'),
+                    'label' => Yii::t('app', 'Shipping Instruction'),
                     'content' => $this->blocks['main'],
                     'active' => true,
                 ],

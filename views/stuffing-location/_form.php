@@ -50,7 +50,7 @@ use dmstr\bootstrap\Tabs;
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => Yii::t('app', 'StuffingLocation'),
+                    'label' => Yii::t('app', 'Stuffing Location'),
                     'content' => $this->blocks['main'],
                     'active' => true,
                 ],

@@ -65,7 +65,7 @@ use dmstr\bootstrap\Tabs;
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => Yii::t('app', 'CompanyProfile'),
+                    'label' => Yii::t('app', 'Company Profile'),
                     'content' => $this->blocks['main'],
                     'active' => true,
                 ],

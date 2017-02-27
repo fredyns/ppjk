@@ -388,7 +388,7 @@ use app\models\TruckSupervisor;
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => Yii::t('app', 'JobContainer'),
+                    'label' => Yii::t('app', 'Job Container'),
                     'content' => $this->blocks['main'],
                     'active' => true,
                 ],
