@@ -65,13 +65,13 @@ use fredyns\suite\helpers\ActiveUser;
                         'options' => ['class' => 'header'],
                     ],
                     [
-                        'label' => 'Job Container',
+                        'label' => Yii::t('app', 'Job Container'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-cubes',
                         'url' => ['/job-container'],
                     ],
                     [
-                        'label' => 'Shipping Instruction',
+                        'label' => Yii::t('app', 'Shipping Instruction'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-newspaper-o',
                         'url' => ['/shipping-instruction'],
@@ -81,19 +81,19 @@ use fredyns\suite\helpers\ActiveUser;
                         'options' => ['class' => 'header'],
                     ],
                     [
-                        'label' => 'Company Profile',
+                        'label' => Yii::t('app', 'Company Profile'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-industry',
                         'url' => ['/company-profile'],
                     ],
                     [
-                        'label' => 'Shipping',
+                        'label' => Yii::t('app', 'Shipping'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-ship',
                         'url' => ['/shipping'],
                     ],
                     [
-                        'label' => 'Container Port',
+                        'label' => Yii::t('app', 'Container Port'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-map-marker',
                         'url' => ['/container-port'],
@@ -104,13 +104,13 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => '#',
                         'items' => [
                             [
-                                'label' => 'Stuffing Location',
+                                'label' => Yii::t('app', 'Stuffing Location'),
                                 'encode' => FALSE,
                                 'icon' => 'glyphicon glyphicon-log-in',
                                 'url' => ['/stuffing-location'],
                             ],
                             [
-                                'label' => 'Truck Supervisor',
+                                'label' => Yii::t('app', 'Truck Supervisor'),
                                 'encode' => FALSE,
                                 'icon' => 'fa fa-truck',
                                 'url' => ['/truck-supervisor'],
@@ -134,7 +134,7 @@ use fredyns\suite\helpers\ActiveUser;
                         'options' => ['class' => 'header'],
                     ],
                     [
-                        'label' => 'Branches',
+                        'label' => Yii::t('app', 'Branches'),
                         'icon' => 'fa fa-page',
                         'url' => ['/site/page', 'slug' => 'branches'],
                     ],

@@ -31,7 +31,7 @@ return [
     'Search Result' => 'Hasil Pencarian',
     'Search' => 'Pencarian',
     'Search Containers' => 'Pencarian Container',
-    '____' => '____',
+    'Branches' => 'Kantor Cabang',
     '____' => '____',
     '____' => '____',
 ];
