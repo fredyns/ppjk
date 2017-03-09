@@ -64,6 +64,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ->field($model, 'sendCopy')
                     ->label("send copy to your self")
                     ->checkbox([
+                        'value' => 'yes',
                         'template' => "<div class=\"row\"><div class=\"col-lg-offset-1 col-lg-11\">{input} {label}</div>\n<div class=\"col-lg-12\">{error}</div></div>",
                     ])
                 ?>
