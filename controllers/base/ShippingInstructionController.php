@@ -103,7 +103,7 @@ class ShippingInstructionController extends Controller
 
         try {
             if ($model->load($_POST) && $model->save()) {
-                Yii::$app->getSession()->addFlash('success', "Data berhasil disimpan!");
+                Yii::$app->getSession()->addFlash('success', "Data successfully saved!");
 
                 return $this->redirect(ReturnUrl::getUrl(Url::previous()));
             } elseif (!Yii::$app->request->isPost) {
@@ -132,7 +132,7 @@ class ShippingInstructionController extends Controller
         $actionControl = ShippingInstructionActControl::checkAccess('update', $model);
 
         if ($model->load($_POST) && $model->save()) {
-            Yii::$app->getSession()->addFlash('success', "Data berhasil diperbarui!");
+            Yii::$app->getSession()->addFlash('success', "Data successfully updated!");
 
             return $this->redirect(ReturnUrl::getUrl(Url::previous()));
         }
@@ -158,7 +158,7 @@ class ShippingInstructionController extends Controller
             ShippingInstructionActControl::checkAccess('delete', $model);
 
             if ($model->delete() !== false) {
-                Yii::$app->getSession()->addFlash('info', "Data berhasil dihapus!");
+                Yii::$app->getSession()->addFlash('info', "Data successfully deleted!");
             }
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
@@ -183,7 +183,7 @@ class ShippingInstructionController extends Controller
             ShippingInstructionActControl::checkAccess('restore', $model);
 
             if ($model->restore() !== false) {
-                Yii::$app->getSession()->addFlash('success', "Data berhasil dikembalikan!");
+                Yii::$app->getSession()->addFlash('success', "Data successfully restored!");
             }
         } catch (\Exception $e) {
             $msg = (isset($e->errorInfo[2]))?$e->errorInfo[2]:$e->getMessage();
@@ -206,7 +206,7 @@ class ShippingInstructionController extends Controller
         if (($model = ShippingInstruction::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new HttpException(404, 'Halaman yang dicari tidak ditemukan.');
+            throw new HttpException(404, 'The requested page does not exist.');
         }
     }
 
@@ -222,7 +222,7 @@ class ShippingInstructionController extends Controller
         if (($model = ShippingInstructionForm::findOne($id)) !== null) {
             return $model;
         } else {
-            throw new HttpException(404, 'Halaman yang dicari tidak ditemukan.');
+            throw new HttpException(404, 'The requested page does not exist.');
         }
     }
 }

@@ -5,7 +5,6 @@ $confidential = require(__DIR__.'/confidential.php');
 $config = [
     'id' => $params['app']['id'],
     'name' => $params['app']['name'],
-    'language' => 'id-ID',
     'timeZone' => 'Asia/Jakarta',
     'basePath' => dirname(__DIR__),
     'bootstrap' => ['log'],

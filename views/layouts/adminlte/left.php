@@ -134,7 +134,7 @@ use fredyns\suite\helpers\ActiveUser;
                         'options' => ['class' => 'header'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Branches'),
+                        'label' => Yii::t('app', 'Office Branches'),
                         'icon' => 'fa fa-page',
                         'url' => ['/site/page', 'slug' => 'branches'],
                     ],

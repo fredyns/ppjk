@@ -53,19 +53,14 @@ class ProfileActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function messages()
     {
-        return [
-            'forbidden' => "%s tidak diperbolehkan.",
-            'notconfigured' => "%s belum dikonfigurasi dengan benar.",
-            'model-unknown' => "Data tidak diketahui.",
-            'model-unsaved' => "Tak dapat melakukan %s data yang belum tersimpan.",
-            'model-deleted' => "Data sudah terhapus (soft-delete).",
-            'model-active' => "Data belum terhapus.",
-            'softdelete-unsupported' => "Data tidak mendukung soft-delete.",
-            // additions
-            'otheruser' => "Profil ini terkait dengan user account orang lain.",
-            'hadtransport' => "Profil ini pernah mengirimkan container.",
-            'ispersonel' => "Profil ini terdaftar sebagai personil suatu perusahaan.",
-        ];
+        return ArrayHelper::merge(
+                parent::messages(),
+                [
+                'otheruser' => "This Profile  connected to User Account.",
+                'hadtransport' => "This Profile ever had tranport containers.",
+                'ispersonel' => "This Profile registered as personel in Shipper.",
+                ]
+        );
     }
 
     /**

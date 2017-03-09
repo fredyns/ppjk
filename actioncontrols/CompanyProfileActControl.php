@@ -53,19 +53,14 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function messages()
     {
-        return [
-            'forbidden' => "%s tidak diperbolehkan.",
-            'notconfigured' => "%s belum dikonfigurasi dengan benar.",
-            'model-unknown' => "Data tidak diketahui.",
-            'model-unsaved' => "Tak dapat melakukan %s data yang belum tersimpan.",
-            'model-deleted' => "Data sudah terhapus (soft-delete).",
-            'model-active' => "Data belum terhapus.",
-            'softdelete-unsupported' => "Data tidak mendukung soft-delete.",
-            // additions
-            'deleteself' => "Tak dapat menghapus perusahaan sendiri.",
-            'haspersonel' => "Perusahaan ini memiliki daftar personil.",
-            'hassi' => "Perusahaan ini memiliki riwayat SI.",
-        ];
+        return ArrayHelper::merge(
+                parent::messages(),
+                [
+                'deleteself' => "Can't delete main Company Profile.",
+                'haspersonel' => "This Shipper has personel list.",
+                'hassi' => "This Company had SI history.",
+                ]
+        );
     }
 
     /**

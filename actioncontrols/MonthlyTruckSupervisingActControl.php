@@ -49,22 +49,6 @@ class MonthlyTruckSupervisingActControl extends \fredyns\suite\libraries\ActionC
     /**
      * @inheritdoc
      */
-    public function messages()
-    {
-        return [
-            'forbidden' => "%s tidak diperbolehkan.",
-            'notconfigured' => "%s belum dikonfigurasi dengan benar.",
-            'model-unknown' => "Data tidak diketahui.",
-            'model-unsaved' => "Tak dapat melakukan %s data yang belum tersimpan.",
-            'model-deleted' => "Data sudah terhapus (soft-delete).",
-            'model-active' => "Data belum terhapus.",
-            'softdelete-unsupported' => "Data tidak mendukung soft-delete.",
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
     public function actionPersistentModel()
     {
         return ArrayHelper::merge(
