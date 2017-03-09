@@ -282,12 +282,15 @@ JS;
 
                 <footer class="footer">
                     <div class="container">
-                        <p class="pull-left">&copy; <?= Yii::$app->name.' '.date('Y') ?></p>
-
+                        <p class="pull-left">
+                            Copyright &copy; <?= date('Y') ?> Jasco Logistics.
+                            All Rights Reserved
+                        </p>
+                        <!--
                         <p class="pull-right">
                             Deveveloped by <a href="http://fredyns.net">fredyns.net</a>
                         </p>
-
+                        -->
                     </div>
                 </footer>
 
