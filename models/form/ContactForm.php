@@ -1,6 +1,6 @@
 <?php
 
-namespace app\models;
+namespace app\models\form;
 
 use Yii;
 use yii\base\Model;
@@ -15,6 +15,7 @@ class ContactForm extends Model
     public $subject;
     public $body;
     public $verifyCode;
+    public $sendCopy;
 
     /**
      * @return array the validation rules.
@@ -28,6 +29,7 @@ class ContactForm extends Model
             ['email', 'email'],
             // verifyCode needs to be entered correctly
             ['verifyCode', 'captcha'],
+            ['sendCopy', 'safe'],
         ];
     }
 
@@ -61,13 +63,18 @@ Seseorang telah berusaha menghubungi Jasco melalui kontak website.<br/>
 {$body}
 BODY;
         if ($this->validate()) {
-            Yii::$app->mailer->compose()
+            $mail = Yii::$app->mailer->compose()
                 ->setTo($email)
                 ->setFrom([$this->email => $this->name])
                 ->setReplyTo([$this->email => $this->name])
                 ->setSubject($this->subject)
-                ->setHtmlBody($mailBody)
-                ->send();
+                ->setHtmlBody($mailBody);
+
+            if ($this->sendCopy == 'yes') {
+                $mail->setCc([$this->email => $this->name]);
+            }
+
+            $mail->send();
 
             return true;
         }

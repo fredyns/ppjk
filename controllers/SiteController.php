@@ -9,7 +9,7 @@ use yii\web\HttpException;
 use yii\filters\VerbFilter;
 use fredyns\suite\filters\AdminLTELayout;
 use fredyns\suite\helpers\ViewHelper;
-use app\models\ContactForm;
+use app\models\form\ContactForm;
 use app\models\JobContainer;
 
 class SiteController extends Controller
