@@ -16,7 +16,6 @@ $this->title = Yii::$app->name;
         </h1>
 
         <div style="text-align: justify; font-size: 14px;">
-            <strong>JASCO LOGISTICS</strong>
             has been offering first-class transport and logistics solutions for more than 10 years.
             We building a strong global network and ensuring close customer relationships and market focus.
             <br/>
