@@ -181,13 +181,13 @@ JS;
                         ?>
                         <div class="row">
 
-                            <div class="col-md-9">
+                            <div class="col-md-8">
 
                                 <?= $content ?>
 
                             </div>
 
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="box box-primary box-solid">
                                     <div class="box-header with-border">
                                         <h3 class="box-title">
