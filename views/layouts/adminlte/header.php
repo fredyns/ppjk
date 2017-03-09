@@ -41,7 +41,7 @@ $containerAct = new JobContainerActControl;
                     <li class="">
                         <?=
                         Html::a(
-                            Icon::show('plus').' New Container'
+                            Icon::show('plus').' '.Yii::t('app', 'New Container')
                             , $containerAct->urlCreate
                         );
                         ?>

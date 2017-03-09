@@ -46,7 +46,7 @@ use fredyns\suite\helpers\ActiveUser;
         <!-- search form -->
         <form action="<?= Url::to(['/site/search']) ?>" method="get" class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="number" class="form-control" placeholder="Search..."/>
+                <input type="text" name="number" class="form-control" placeholder="<?= Yii::t('app', 'Search Container') ?>..."/>
                 <span class="input-group-btn">
                     <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
@@ -61,7 +61,7 @@ use fredyns\suite\helpers\ActiveUser;
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     [
-                        'label' => 'Main Menu',
+                        'label' => Yii::t('app', 'Main Menu'),
                         'options' => ['class' => 'header'],
                     ],
                     [
@@ -99,7 +99,7 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => ['/container-port'],
                     ],
                     [
-                        'label' => 'Other',
+                        'label' => Yii::t('app', 'Other'),
                         'icon' => 'fa fa-table',
                         'url' => '#',
                         'items' => [
@@ -130,7 +130,7 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => ['/user/admin'],
                     ],
                     [
-                        'label' => 'Pages',
+                        'label' => Yii::t('app', 'Pages'),
                         'options' => ['class' => 'header'],
                     ],
                     [

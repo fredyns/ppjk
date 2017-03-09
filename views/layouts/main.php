@@ -82,7 +82,13 @@ if (Yii::$app->controller->action->id === 'login') {
                                 &nbsp;
                                 <form action="<?= Url::to(['/site/search']); ?>" method="get" class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
-                                        <input type="text" name="number" class="form-control" id="navbar-search-input" placeholder="Search container">
+                                        <input
+                                            type="text"
+                                            name="number"
+                                            class="form-control"
+                                            id="navbar-search-input"
+                                            placeholder="<?= Yii::t('app', 'Search Container') ?>..."
+                                            />
                                     </div>
                                 </form>
                             </div>
