@@ -30,6 +30,12 @@ if (Yii::$app->controller->action->id === 'login') {
     app\assets\SliderAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
+    $js = <<< 'SCRIPT'
+        $(function () {
+            $("#navbar-search-input").tooltip();
+        });
+SCRIPT;
+    $this->registerJs($js, \yii\web\View::POS_READY);
     ?>
     <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -82,12 +88,24 @@ if (Yii::$app->controller->action->id === 'login') {
                                 &nbsp;
                                 <form action="<?= Url::to(['/site/search']); ?>" method="get" class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
+                                        <style>
+                                            #navbar-search-input + .tooltip > .tooltip-inner {
+                                                background-color: #73AD21;
+                                                color: #FFFFFF;
+                                                border: 1px solid green;
+                                                padding: 8px;
+                                                font-size: 16px;
+                                            }
+                                        </style>
                                         <input
                                             type="text"
                                             name="number"
                                             class="form-control"
                                             id="navbar-search-input"
                                             placeholder="<?= Yii::t('app', 'Search Container') ?>..."
+                                            title="Type the 11-digit number of container, with no spaces"
+                                            data-toggle='tooltip'
+                                            data-placement="bottom"
                                             />
                                     </div>
                                 </form>
