@@ -61,13 +61,13 @@ use fredyns\suite\helpers\ActiveUser;
                 'options' => ['class' => 'sidebar-menu'],
                 'items' => [
                     [
-                        'label' => Yii::t('app', 'Main Menu'),
+                        'label' => Yii::t('app', 'Booking Request'),
                         'options' => ['class' => 'header'],
                     ],
                     [
                         'label' => Yii::t('app', 'Job Container'),
                         'encode' => FALSE,
-                        'icon' => 'fa fa-cubes',
+                        'icon' => 'fa fa-cube',
                         'url' => ['/job-container'],
                     ],
                     [
@@ -81,10 +81,24 @@ use fredyns\suite\helpers\ActiveUser;
                         'options' => ['class' => 'header'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Company Profile'),
+                        'label' => Yii::t('app', 'Shipper'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-industry',
-                        'url' => ['/company-profile'],
+                        'url' => '#',
+                        'items' => [
+                            [
+                                'label' => Yii::t('app', 'Company Profile'),
+                                'encode' => FALSE,
+                                'icon' => 'fa fa-industry',
+                                'url' => ['/company-profile/shipper'],
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Stuffing Location'),
+                                'encode' => FALSE,
+                                'icon' => 'glyphicon glyphicon-log-in',
+                                'url' => ['/stuffing-location'],
+                            ],
+                        ],
                     ],
                     [
                         'label' => Yii::t('app', 'Shipping'),
@@ -99,21 +113,33 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => ['/container-port'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Other'),
-                        'icon' => 'fa fa-table',
+                        'label' => Yii::t('app', 'Container Depo'),
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-cubes',
+                        'url' => ['/container-depo'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Trucking'),
+                        'icon' => 'fa fa-truck',
                         'url' => '#',
                         'items' => [
                             [
-                                'label' => Yii::t('app', 'Stuffing Location'),
+                                'label' => Yii::t('app', 'Vendor'),
                                 'encode' => FALSE,
-                                'icon' => 'glyphicon glyphicon-log-in',
-                                'url' => ['/stuffing-location'],
+                                'icon' => 'fa fa-industry',
+                                'url' => ['/company-profile/trucking-vendor'],
                             ],
                             [
-                                'label' => Yii::t('app', 'Truck Supervisor'),
+                                'label' => Yii::t('app', 'Driver'),
+                                'encode' => FALSE,
+                                'icon' => 'fa fa-user-circle-o',
+                                'url' => ['/personel/driver'],
+                            ],
+                            [
+                                'label' => Yii::t('app', 'Truck'),
                                 'encode' => FALSE,
                                 'icon' => 'fa fa-truck',
-                                'url' => ['/truck-supervisor'],
+                                'url' => ['/truck'],
                             ],
                         ],
                     ],
