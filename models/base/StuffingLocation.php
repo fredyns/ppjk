@@ -13,7 +13,6 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
- * @property integer $distance
  * @property string $recordStatus
  * @property integer $deleted_at
  * @property integer $deleted_by
@@ -22,7 +21,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $updated_by
  *
+ * @property \app\models\DailyStuffingLocation[] $dailyStuffingLocations
  * @property \app\models\JobContainer[] $jobContainers
+ * @property \app\models\MonthlyStuffingLocation[] $monthlyStuffingLocations
  * @property string $aliasModel
  */
 abstract class StuffingLocation extends \yii\db\ActiveRecord
@@ -66,8 +67,8 @@ abstract class StuffingLocation extends \yii\db\ActiveRecord
     {
         return [
             [['name'], 'required'],
-            [['distance', 'deleted_at', 'deleted_by'], 'integer'],
             [['recordStatus'], 'string'],
+            [['deleted_at', 'deleted_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
@@ -85,7 +86,6 @@ abstract class StuffingLocation extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
-            'distance' => 'Distance',
             'recordStatus' => 'Record Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -99,9 +99,25 @@ abstract class StuffingLocation extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getDailyStuffingLocations()
+    {
+        return $this->hasMany(\app\models\DailyStuffingLocation::className(), ['stuffingLocation_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getJobContainers()
     {
         return $this->hasMany(\app\models\JobContainer::className(), ['stuffingLocation_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMonthlyStuffingLocations()
+    {
+        return $this->hasMany(\app\models\MonthlyStuffingLocation::className(), ['stuffingLocation_id' => 'id']);
     }
                 
     /**

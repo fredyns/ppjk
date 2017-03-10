@@ -12,13 +12,14 @@ use app\models\StuffingLocation;
  */
 class StuffingLocationSearch extends StuffingLocation
 {
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
+            [['id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
             [['name', 'recordStatus'], 'safe'],
         ];
     }
@@ -48,7 +49,6 @@ class StuffingLocationSearch extends StuffingLocation
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +65,6 @@ class StuffingLocationSearch extends StuffingLocation
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -92,13 +91,11 @@ class StuffingLocationSearch extends StuffingLocation
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                'id' => $this->id,
+                'recordStatus' => $this->recordStatus,
+                'created_by' => $this->created_by,
+                'updated_by' => $this->updated_by,
+                'deleted_by' => $this->deleted_by,
         ]);
 
         $query

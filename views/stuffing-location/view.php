@@ -54,7 +54,6 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
         'model' => $model,
         'attributes' => [
             'name',
-            'distance',
         ],
     ]);
     ?>

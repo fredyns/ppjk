@@ -36,11 +36,6 @@ use dmstr\bootstrap\Tabs;
             $form->field($model, 'name')->textInput(['maxlength' => true])
             ?>
 
-            <!-- attribute distance -->
-            <?=
-            $form->field($model, 'distance')->textInput(['maxlength' => true])
-            ?>
-
         </p>
 
         <?php $this->endBlock(); ?>
