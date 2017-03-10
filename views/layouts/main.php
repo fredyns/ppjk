@@ -106,6 +106,7 @@ SCRIPT;
                                             title="Type the 11-digit number of container, with no spaces"
                                             data-toggle='tooltip'
                                             data-placement="bottom"
+                                            maxlength="11"
                                             />
                                     </div>
                                 </form>
