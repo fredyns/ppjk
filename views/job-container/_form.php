@@ -108,6 +108,7 @@ use app\models\TruckSupervisor;
 
                     echo $form
                         ->field($model, 'shipperId')
+                        ->label('Shipper Name')
                         ->widget(Select2::classname(),
                             [
                             'initValueText' => $shipperLabel,
@@ -169,6 +170,7 @@ use app\models\TruckSupervisor;
 
                 echo $form
                     ->field($model, 'shippingId')
+                    ->label('Shipping Name')
                     ->widget(Select2::classname(),
                         [
                         'initValueText' => $shippingLabel,
@@ -204,6 +206,7 @@ use app\models\TruckSupervisor;
 
                 echo $form
                     ->field($model, 'destinationId')
+                    ->label('Destination Name')
                     ->widget(Select2::classname(),
                         [
                         'initValueText' => $destinationLabel,
