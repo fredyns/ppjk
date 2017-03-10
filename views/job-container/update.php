@@ -8,7 +8,6 @@ use cornernote\returnurl\ReturnUrl;
  * @var yii\web\View $this
  * @var app\models\JobContainer $model
  */
-    
 $this->title = $actionControl->breadcrumbLabel('index')." "
     .$actionControl->breadcrumbLabel('view').', '
     .$actionControl->breadcrumbLabel('update');
@@ -20,14 +19,17 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('update');
 <div class="giiant-crud job-container-update">
 
     <h1>
-        <?= Yii::t('app', 'Job Container') ?>
+        <?= Yii::t('app', 'Summary Cargo') ?>
         <small>
             <?= $model->id ?>
         </small>
     </h1>
 
     <div class="crud-navigation">
-        <?= Html::a('<span class="glyphicon glyphicon-remove"></span> ' . 'Cancel', ReturnUrl::getUrl(Url::previous()), ['class' => 'btn btn-default']) ?>
+        <?=
+        Html::a('<span class="glyphicon glyphicon-remove"></span> '.'Cancel', ReturnUrl::getUrl(Url::previous()),
+            ['class' => 'btn btn-default'])
+        ?>
         <?= $actionControl->button('view'); ?>
     </div>
 

@@ -8,7 +8,6 @@ use cornernote\returnurl\ReturnUrl;
  * @var yii\web\View $this
  * @var app\models\JobContainer $model
  */
-
 $this->title = $actionControl->breadcrumbLabel('create');
 $this->params['breadcrumbs'][] = $actionControl->breadcrumbItem('index');
 $this->params['breadcrumbs'][] = $this->title;
@@ -16,7 +15,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud job-container-create">
 
     <h1>
-        <?= Yii::t('app', 'Job Container') ?>
+        <?= Yii::t('app', 'Summary Cargo') ?>
         <small>
             new
         </small>
