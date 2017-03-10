@@ -47,7 +47,7 @@ SCRIPT;
             <title><?= Html::encode($this->title) ?></title>
             <?php $this->head() ?>
         </head>
-        <body class="hold-transition skin-blue layout-top-nav">
+        <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> layout-top-nav">
             <?php $this->beginBody() ?>
             <div class="wrapper">
                 <header class="main-header">

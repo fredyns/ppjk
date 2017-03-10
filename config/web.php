@@ -64,6 +64,13 @@ $config = [
                 ],
             ],
         ],
+        'assetManager' => [
+            'bundles' => [
+                'dmstr\web\AdminLteAsset' => [
+                    'skin' => 'skin-blue-light',
+                ],
+            ],
+        ],
     ],
     'modules' => [
         'user' => [
