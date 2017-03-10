@@ -99,8 +99,7 @@ class StuffingLocationSearch extends StuffingLocation
         ]);
 
         $query
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'recordStatus', $this->recordStatus]);
+            ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }
