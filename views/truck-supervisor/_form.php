@@ -35,6 +35,12 @@ use dmstr\bootstrap\Tabs;
             <?=
             $form->field($model, 'name')->textInput(['maxlength' => true])
             ?>
+
+            <!-- attribute phone -->
+            <?=
+            $form->field($model, 'phone')->textInput(['maxlength' => true])
+            ?>
+
         </p>
 
         <?php $this->endBlock(); ?>

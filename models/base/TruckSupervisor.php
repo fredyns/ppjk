@@ -13,6 +13,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property string $phone
  * @property string $recordStatus
  * @property integer $deleted_at
  * @property integer $deleted_by
@@ -21,7 +22,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $updated_by
  *
+ * @property \app\models\DailyTruckSupervising[] $dailyTruckSupervisings
  * @property \app\models\JobContainer[] $jobContainers
+ * @property \app\models\MonthlyTruckSupervising[] $monthlyTruckSupervisings
  * @property string $aliasModel
  */
 abstract class TruckSupervisor extends \yii\db\ActiveRecord
@@ -68,6 +71,7 @@ abstract class TruckSupervisor extends \yii\db\ActiveRecord
             [['recordStatus'], 'string'],
             [['deleted_at', 'deleted_by'], 'integer'],
             [['name'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 64],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -84,6 +88,7 @@ abstract class TruckSupervisor extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'phone' => 'Phone',
             'recordStatus' => 'Record Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -97,9 +102,25 @@ abstract class TruckSupervisor extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
+    public function getDailyTruckSupervisings()
+    {
+        return $this->hasMany(\app\models\DailyTruckSupervising::className(), ['supervisor_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
     public function getJobContainers()
     {
         return $this->hasMany(\app\models\JobContainer::className(), ['supervisor_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMonthlyTruckSupervisings()
+    {
+        return $this->hasMany(\app\models\MonthlyTruckSupervising::className(), ['supervisor_id' => 'id']);
     }
                 
     /**

@@ -48,6 +48,7 @@ class TruckSupervisorForm extends TruckSupervisor
             /* field type */
             [['recordStatus'], 'string'],
             [['name'], 'string', 'max' => 255],
+            [['phone'], 'string', 'max' => 64],
             /* value limitation */
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,

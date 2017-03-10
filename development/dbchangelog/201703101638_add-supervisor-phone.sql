@@ -1,0 +1,3 @@
+
+ALTER TABLE `truckSupervisor`
+ADD COLUMN `phone` VARCHAR(64) NULL DEFAULT NULL AFTER `name`;
