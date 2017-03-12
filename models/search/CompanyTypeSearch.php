@@ -12,14 +12,28 @@ use app\models\CompanyType;
  */
 class CompanyTypeSearch extends CompanyType
 {
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
-            [['name', 'recordStatus'], 'safe'],
+            [
+                ['name'],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            [['id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
+            [['recordStatus'], 'string'],
+            ['recordStatus', 'in', 'range' => [
+                    self::RECORDSTATUS_ACTIVE,
+                    self::RECORDSTATUS_DELETED,
+                ]
+            ],
         ];
     }
 
@@ -48,7 +62,6 @@ class CompanyTypeSearch extends CompanyType
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +78,6 @@ class CompanyTypeSearch extends CompanyType
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -92,18 +104,15 @@ class CompanyTypeSearch extends CompanyType
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                'id' => $this->id,
+                'recordStatus' => $this->recordStatus,
+                'created_by' => $this->created_by,
+                'updated_by' => $this->updated_by,
+                'deleted_by' => $this->deleted_by,
         ]);
 
         $query
-            ->andFilterWhere(['like', 'name', $this->name])
-            ->andFilterWhere(['like', 'recordStatus', $this->recordStatus]);
+            ->andFilterWhere(['like', 'name', $this->name]);
 
         return $dataProvider;
     }
