@@ -32,9 +32,9 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
     public function breadcrumbLabels()
     {
         return ArrayHelper::merge(
-            parent::breadcrumbLabels(), [
+                parent::breadcrumbLabels(), [
                 'index' => 'CompanyType',
-            ]
+                ]
         );
     }
 
@@ -59,6 +59,8 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
             'model-deleted' => "Data already (soft) deleted.",
             'model-active' => "Data is not deleted.",
             'softdelete-unsupported' => "Data doesn't support soft-delete.",
+            // add
+            'used-by-system' => "This model used by system as '%s'.",
         ];
     }
 
@@ -69,7 +71,7 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionPersistentModel(), [
-                    #  additional action name
+                #  additional action name
                 ]
         );
     }
@@ -81,7 +83,7 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::actionUnspecifiedModel(), [
-                    # additional action name
+                # additional action name
                 ]
         );
     }
@@ -95,7 +97,7 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
                 parent::actions(),
                 [
                 /* / action sample / */
-                
+
                 # 'action_name' => [
                 #     'label'         => 'Action_Label',
                 #     'url'           => $this->urlAction,
@@ -123,7 +125,31 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
         return true;
     }
 
-    ################################ sample : additional action ################################ 
+    /**
+     * @inheritdoc
+     */
+    public function getAllowDelete($params = array())
+    {
+        $action = static::ACTION_DELETE;
+
+        // prerequisites
+        parent::getAllowDelete($params);
+
+        // blacklist
+        if (ActiveUser::isAdmin()) {
+            $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        $usedAs = ArrayHelper::getValue(CompanyType::$usedBySystem, $this->model->id);
+
+        if ($usedAs) {
+            $this->addErrorMsg($action, 'used-by-system', [$usedAs]);
+        }
+
+        // conclusion
+        return ($this->isError($action) == FALSE);
+    }
+    ################################ sample : additional action ################################
 
     /**
      * get URL param to do action
@@ -132,10 +158,9 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function getUrlAction()
     {
-        if ($this->model instanceof ActiveRecord)
-        {
-            $param       = $this->modelParam();
-            $param[0]    = $this->actionRoute('action_slug');
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('action_slug');
             $param['ru'] = ReturnUrl::getToken();
 
             return $param;
@@ -153,5 +178,4 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
     {
         return true;
     }
-
 }
