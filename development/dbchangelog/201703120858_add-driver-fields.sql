@@ -1,0 +1,7 @@
+
+ALTER TABLE `jobContainer`
+CHANGE COLUMN `worknote` `notes` TEXT NULL DEFAULT NULL ,
+ADD COLUMN `truckVendor_id` INT(10) UNSIGNED NULL DEFAULT NULL AFTER `supervisor_id`,
+ADD COLUMN `driverName` VARCHAR(255) NULL DEFAULT NULL AFTER `truckVendor_id`,
+ADD COLUMN `cellphone` VARCHAR(32) NULL DEFAULT NULL AFTER `driverName`,
+ADD COLUMN `policenumber` VARCHAR(8) NULL DEFAULT NULL AFTER `cellphone`;
