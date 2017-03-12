@@ -13,6 +13,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property string $name
+ * @property integer $companyType_id
  * @property string $address
  * @property string $phone
  * @property string $email
@@ -25,6 +26,12 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $updated_by
  *
+ * @property \app\models\CompanyType $companyType
+ * @property \app\models\DailyDriving[] $dailyDrivings
+ * @property \app\models\DailyShipper[] $dailyShippers
+ * @property \app\models\JobContainer[] $jobContainers
+ * @property \app\models\MonthlyDriving[] $monthlyDrivings
+ * @property \app\models\MonthlyShipper[] $monthlyShippers
  * @property \app\models\Personel[] $personels
  * @property \app\models\ShippingInstruction[] $shippingInstructions
  * @property string $aliasModel
@@ -69,11 +76,12 @@ abstract class CompanyProfile extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
+            [['companyType_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['address', 'recordStatus'], 'string'],
-            [['deleted_at', 'deleted_by'], 'integer'],
             [['name', 'phone'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 64],
             [['npwp'], 'string', 'max' => 32],
+            [['companyType_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyType::className(), 'targetAttribute' => ['companyType_id' => 'id']],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -90,6 +98,7 @@ abstract class CompanyProfile extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'name' => 'Name',
+            'companyType_id' => 'Company Type',
             'address' => 'Address',
             'phone' => 'Phone',
             'email' => 'Email',
@@ -104,6 +113,54 @@ abstract class CompanyProfile extends \yii\db\ActiveRecord
         ];
     }
         
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getCompanyType()
+    {
+        return $this->hasOne(\app\models\CompanyType::className(), ['id' => 'companyType_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDailyDrivings()
+    {
+        return $this->hasMany(\app\models\DailyDriving::className(), ['driver_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDailyShippers()
+    {
+        return $this->hasMany(\app\models\DailyShipper::className(), ['shipper_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getJobContainers()
+    {
+        return $this->hasMany(\app\models\JobContainer::className(), ['truckVendor_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMonthlyDrivings()
+    {
+        return $this->hasMany(\app\models\MonthlyDriving::className(), ['driver_id' => 'id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getMonthlyShippers()
+    {
+        return $this->hasMany(\app\models\MonthlyShipper::className(), ['shipper_id' => 'id']);
+    }
+    
     /**
      * @return \yii\db\ActiveQuery
      */
