@@ -5,4 +5,5 @@ INSERT INTO
 VALUES
     (1, 'Shipper'),
     (2, 'Shipping'),
-    (3, 'Truck Vendor');
+    (3, 'Truck Vendor'),
+    (4, 'Container Depo');

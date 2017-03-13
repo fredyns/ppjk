@@ -15,8 +15,15 @@ use app\models\base\CompanyType as BaseCompanyType;
 class CompanyType extends BaseCompanyType
 {
 
-    use ModelTool, ModelBlame, ModelSoftDelete;
-    
+    use ModelTool,
+        ModelBlame,
+        ModelSoftDelete;
+    public static $usedBySystem = [
+        1 => 'Shipper Clasification',
+        2 => 'Shipping Clasification',
+        3 => 'Truck Vendor Clasification',
+        4 => 'Container Depo Clasification',
+    ];
 
     /**
      * @inheritdoc
@@ -24,10 +31,9 @@ class CompanyType extends BaseCompanyType
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -37,10 +43,9 @@ class CompanyType extends BaseCompanyType
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
     }
 }
