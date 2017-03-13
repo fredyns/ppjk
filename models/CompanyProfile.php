@@ -19,6 +19,10 @@ class CompanyProfile extends BaseCompanyProfile
         ModelBlame,
         ModelSoftDelete;
     const SELFCOMPANY = 1;
+    const TYPE_SHIPPER = 1;
+    const TYPE_SHIPPING = 2;
+    const TYPE_TRUCKVENDOR = 3;
+    const TYPE_DEPO = 4;
 
     /**
      * @inheritdoc
