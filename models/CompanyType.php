@@ -48,4 +48,14 @@ class CompanyType extends BaseCompanyType
                 ]
         );
     }
+
+    /**
+     * provide data options from model
+     *
+     * @return array
+     */
+    public static function options()
+    {
+        return ArrayHelper::map(static::findAll(['recordStatus' => 'active']), 'id', 'name');
+    }
 }
