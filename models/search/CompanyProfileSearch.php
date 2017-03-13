@@ -12,13 +12,14 @@ use app\models\CompanyProfile;
  */
 class CompanyProfileSearch extends CompanyProfile
 {
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
+            [['id', 'companyType_id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
             [['name', 'address', 'phone', 'email', 'npwp', 'recordStatus'], 'safe'],
         ];
     }
@@ -48,7 +49,6 @@ class CompanyProfileSearch extends CompanyProfile
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +65,6 @@ class CompanyProfileSearch extends CompanyProfile
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -92,13 +91,12 @@ class CompanyProfileSearch extends CompanyProfile
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                'id' => $this->id,
+                'companyType_id' => $this->companyType_id,
+                'recordStatus' => $this->recordStatus,
+                'created_by' => $this->created_by,
+                'updated_by' => $this->updated_by,
+                'deleted_by' => $this->deleted_by,
         ]);
 
         $query
@@ -106,8 +104,7 @@ class CompanyProfileSearch extends CompanyProfile
             ->andFilterWhere(['like', 'address', $this->address])
             ->andFilterWhere(['like', 'phone', $this->phone])
             ->andFilterWhere(['like', 'email', $this->email])
-            ->andFilterWhere(['like', 'npwp', $this->npwp])
-            ->andFilterWhere(['like', 'recordStatus', $this->recordStatus]);
+            ->andFilterWhere(['like', 'npwp', $this->npwp]);
 
         return $dataProvider;
     }

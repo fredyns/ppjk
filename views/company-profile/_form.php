@@ -5,6 +5,7 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use cornernote\returnurl\ReturnUrl;
 use dmstr\bootstrap\Tabs;
+use app\models\CompanyType;
 
 /**
  * @var yii\web\View $this
@@ -34,6 +35,11 @@ use dmstr\bootstrap\Tabs;
             <!-- attribute name -->
             <?=
             $form->field($model, 'name')->textInput(['maxlength' => true])
+            ?>
+
+            <!-- attribute companyType_id -->
+            <?=
+            $form->field($model, 'companyType_id')->dropDownList(CompanyType::options())
             ?>
 
             <!-- attribute address -->

@@ -54,6 +54,10 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
         'model' => $model,
         'attributes' => [
             'name',
+            [
+                'value' => 'companyType.name',
+                'label' => 'Type',
+            ],
             'address:ntext',
             'phone',
             'email',

@@ -1,9 +1,11 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use kartik\grid\GridView;
 use cornernote\returnurl\ReturnUrl;
+use app\models\CompanyType;
 
 /**
  * @var yii\web\View $this
@@ -54,9 +56,16 @@ $this->params['breadcrumbs'][] = $this->title;
                     'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                     'attribute' => 'name',
                 ],
+                [
+                    'attribute' => 'companyType_id',
+                    'label' => 'Type',
+                    'filter' => CompanyType::options(),
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'companyType.name', '-');
+                    },
+                ],
                 'phone',
                 'email',
-                'npwp',
                 [
                     'class' => 'fredyns\suite\grid\KartikActionColumn',
                     'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
