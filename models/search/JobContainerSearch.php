@@ -8,10 +8,8 @@ use yii\data\ActiveDataProvider;
 use fredyns\suite\helpers\StringHelper;
 use app\models\JobContainer;
 use app\models\ShippingInstruction;
-use app\models\Shipping;
 use app\models\StuffingLocation;
 use app\models\TruckSupervisor;
-use app\models\CompanyProfile;
 
 /**
  * JobContainerSearch represents the model behind the search form about `app\models\JobContainer`.
