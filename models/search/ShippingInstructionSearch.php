@@ -5,6 +5,7 @@ namespace app\models\search;
 use Yii;
 use yii\base\Model;
 use yii\data\ActiveDataProvider;
+use fredyns\suite\helpers\StringHelper;
 use app\models\ShippingInstruction;
 
 /**
@@ -12,13 +13,23 @@ use app\models\ShippingInstruction;
  */
 class ShippingInstructionSearch extends ShippingInstruction
 {
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'number', 'shipper_id', 'shipping_id', 'destination_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
+            /* filter */
+            [
+                ['shipper_id', 'shipping_id', 'destination_id'],
+                'filter',
+                'filter' => function($value) {
+
+                    return StringHelper::plaintextFilter($value);
+                },
+            ],
+            [['id', 'number', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
             [['recordStatus'], 'safe'],
         ];
     }
@@ -48,7 +59,6 @@ class ShippingInstructionSearch extends ShippingInstruction
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +75,6 @@ class ShippingInstructionSearch extends ShippingInstruction
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -75,7 +84,10 @@ class ShippingInstructionSearch extends ShippingInstruction
      */
     public function search()
     {
-        $query = ShippingInstruction::find();
+        $query = ShippingInstruction::find()
+            ->with('shipper')
+            ->with('shipping')
+            ->with('destination');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -90,23 +102,38 @@ class ShippingInstructionSearch extends ShippingInstruction
             return $dataProvider;
         }
 
-        $query
-            ->andFilterWhere([
-            'id' => $this->id,
-            'number' => $this->number,
-            'shipper_id' => $this->shipper_id,
-            'shipping_id' => $this->shipping_id,
-            'destination_id' => $this->destination_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+        $query->andFilterWhere([
+            static::tableName().'.id' => $this->id,
+            static::tableName().'.number' => $this->number,
+            static::tableName().'.recordStatus' => $this->recordStatus,
+            static::tableName().'.created_by' => $this->created_by,
+            static::tableName().'.updated_by' => $this->updated_by,
+            static::tableName().'.deleted_by' => $this->deleted_by,
         ]);
 
-        $query
-            ->andFilterWhere(['like', 'recordStatus', $this->recordStatus]);
+        if ($this->shipper_id > 0) {
+            $query->andFilterWhere([
+                static::tableName().'.shipper_id' => $this->shipper_id,
+            ]);
+        } elseif ($this->shipper_id) {
+            $query->andFilterWhere(['like', static::ALIAS_SHIPPER.'.name', $this->shipper_id]);
+        }
+
+        if ($this->shipping_id > 0) {
+            $query->andFilterWhere([
+                static::tableName().'.shipping_id' => $this->shipping_id,
+            ]);
+        } elseif ($this->shipping_id) {
+            $query->andFilterWhere(['like', static::ALIAS_SHIPPING.'.name', $this->shipping_id]);
+        }
+
+        if ($this->destination_id > 0) {
+            $query->andFilterWhere([
+                static::tableName().'.destination_id' => $this->destination_id,
+            ]);
+        } elseif ($this->destination_id) {
+            $query->andFilterWhere(['like', static::ALIAS_DESTINATION.'.name', $this->destination_id]);
+        }
 
         return $dataProvider;
     }

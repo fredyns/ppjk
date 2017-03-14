@@ -25,9 +25,9 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_by
  *
  * @property \app\models\JobContainer[] $jobContainers
- * @property \app\models\CompanyProfile $shipper
- * @property \app\models\Shipping $shipping
  * @property \app\models\ContainerPort $destination
+ * @property \app\models\CompanyProfile $shipping
+ * @property \app\models\CompanyProfile $shipper
  * @property string $aliasModel
  */
 abstract class ShippingInstruction extends \yii\db\ActiveRecord
@@ -74,9 +74,9 @@ abstract class ShippingInstruction extends \yii\db\ActiveRecord
             [['shipper_id', 'shipping_id', 'destination_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['recordStatus'], 'string'],
             [['number'], 'string', 'max' => 32],
-            [['shipper_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['shipper_id' => 'id']],
-            [['shipping_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Shipping::className(), 'targetAttribute' => ['shipping_id' => 'id']],
             [['destination_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ContainerPort::className(), 'targetAttribute' => ['destination_id' => 'id']],
+            [['shipping_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['shipping_id' => 'id']],
+            [['shipper_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['shipper_id' => 'id']],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -117,9 +117,9 @@ abstract class ShippingInstruction extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getShipper()
+    public function getDestination()
     {
-        return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'shipper_id']);
+        return $this->hasOne(\app\models\ContainerPort::className(), ['id' => 'destination_id']);
     }
     
     /**
@@ -127,15 +127,15 @@ abstract class ShippingInstruction extends \yii\db\ActiveRecord
      */
     public function getShipping()
     {
-        return $this->hasOne(\app\models\Shipping::className(), ['id' => 'shipping_id']);
+        return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'shipping_id']);
     }
     
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDestination()
+    public function getShipper()
     {
-        return $this->hasOne(\app\models\ContainerPort::className(), ['id' => 'destination_id']);
+        return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'shipper_id']);
     }
                 
     /**

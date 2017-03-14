@@ -15,9 +15,11 @@ use app\models\base\ShippingInstruction as BaseShippingInstruction;
 class ShippingInstruction extends BaseShippingInstruction
 {
 
-    use ModelTool, ModelBlame, ModelSoftDelete;
-    
+    use ModelTool,
+        ModelBlame,
+        ModelSoftDelete;
     const ALIAS_SHIPPER = 'shipper';
+    const ALIAS_SHIPPING = 'shipping';
     const ALIAS_DESTINATION = 'destination';
 
     /**
@@ -26,10 +28,9 @@ class ShippingInstruction extends BaseShippingInstruction
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -39,10 +40,9 @@ class ShippingInstruction extends BaseShippingInstruction
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
     }
 
@@ -52,6 +52,14 @@ class ShippingInstruction extends BaseShippingInstruction
     public function getShipper()
     {
         return parent::getShipper()->alias(static::ALIAS_SHIPPER);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShipping()
+    {
+        return parent::getShipping()->alias(static::ALIAS_SHIPPING);
     }
 
     /**

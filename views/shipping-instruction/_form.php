@@ -43,12 +43,20 @@ $formname = $model->formName();
             ?>
 
             <!-- attribute shipper_id -->
-            <?=
-                $form
+            <?php
+            $shipperLabel = $model->shipper_id;
+
+            if ($model->shipper_id > 0) {
+                if (($shipper = CompanyProfile::findOne($model->shipper_id)) !== null) {
+                    $shipperLabel = $shipper->name;
+                }
+            }
+
+            echo $form
                 ->field($model, 'shipper_id')
                 ->widget(Select2::classname(),
                     [
-                    'initValueText' => ArrayHelper::getValue($model, 'shipper.name', '-'),
+                    'initValueText' => $shipperLabel,
                     'options' => ['placeholder' => 'mencari perusahaan ...'],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -83,12 +91,20 @@ $formname = $model->formName();
             <?= $form->field($model, 'shipperEmail')->textInput(['maxlength' => true]) ?>
 
             <!-- attribute shipping_id -->
-            <?=
-                $form
+            <?php
+            $shippingLabel = $model->shipping_id;
+
+            if ($model->shipping_id > 0) {
+                if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
+                    $shippingLabel = $shipping->name;
+                }
+            }
+
+            echo $form
                 ->field($model, 'shipping_id')
                 ->widget(Select2::classname(),
                     [
-                    'initValueText' => ArrayHelper::getValue($model, 'shipping.name', '-'),
+                    'initValueText' => $shippingLabel,
                     'options' => ['placeholder' => 'mencari pelayaran ...'],
                     'pluginOptions' => [
                         'allowClear' => true,
@@ -98,7 +114,7 @@ $formname = $model->formName();
                             'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                         ],
                         'ajax' => [
-                            'url' => Url::to(['/api/shipping/list']),
+                            'url' => Url::to(['/api/company-profile/list']),
                             'dataType' => 'json',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
                         ],
@@ -110,12 +126,20 @@ $formname = $model->formName();
             ?>
 
             <!-- attribute destination_id -->
-            <?=
-                $form
+            <?php
+            $destinationLabel = $model->destination_id;
+
+            if ($model->destination_id > 0) {
+                if (($destination = TruckSupervisor::findOne($model->destination_id)) !== null) {
+                    $destinationLabel = $destination->name;
+                }
+            }
+
+            echo $form
                 ->field($model, 'destination_id')
                 ->widget(Select2::classname(),
                     [
-                    'initValueText' => ArrayHelper::getValue($model, 'destination.name', '-'),
+                    'initValueText' => $destinationLabel,
                     'options' => ['placeholder' => 'mencari pelabuhan ...'],
                     'pluginOptions' => [
                         'allowClear' => true,

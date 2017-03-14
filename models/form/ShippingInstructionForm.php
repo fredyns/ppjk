@@ -9,7 +9,6 @@ use fredyns\suite\helpers\StringHelper;
 use app\models\ShippingInstruction;
 use app\models\ContainerPort;
 use app\models\CompanyProfile;
-use app\models\Shipping;
 
 /**
  * This is the form model class for table "shippingInstruction".
@@ -32,10 +31,13 @@ class ShippingInstructionForm extends ShippingInstruction
                 # custom behaviors
                 [
                     'class' => BelongingModelBehavior::className(),
-                    'modelClass' => CompanyProfile::className(),
                     'relatedAttribute' => 'shipper_id',
                     'valueAttribute' => 'name',
-                    'otherAttributes' => [
+                    'modelClass' => CompanyProfile::className(),
+                    'modelAttributes' => [
+                        'companyType_id' => CompanyProfile::TYPE_SHIPPER,
+                    ],
+                    'copyAttributes' => [
                         'address' => 'shipperAddress',
                         'phone' => 'shipperPhone',
                         'email' => 'shipperEmail',
@@ -44,9 +46,12 @@ class ShippingInstructionForm extends ShippingInstruction
                 ],
                 [
                     'class' => BelongingModelBehavior::className(),
-                    'modelClass' => Shipping::className(),
                     'relatedAttribute' => 'shipping_id',
                     'valueAttribute' => 'name',
+                    'modelClass' => CompanyProfile::className(),
+                    'modelAttributes' => [
+                        'companyType_id' => CompanyProfile::TYPE_SHIPPING,
+                    ],
                 ],
                 [
                     'class' => BelongingModelBehavior::className(),
@@ -126,7 +131,7 @@ class ShippingInstructionForm extends ShippingInstruction
                 ['shipper_id'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => \app\models\CompanyProfile::className(),
+                'targetClass' => CompanyProfile::className(),
                 'targetAttribute' => ['shipper_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
@@ -136,7 +141,7 @@ class ShippingInstructionForm extends ShippingInstruction
                 ['shipping_id'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => \app\models\Shipping::className(),
+                'targetClass' => CompanyProfile::className(),
                 'targetAttribute' => ['shipping_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
@@ -146,7 +151,7 @@ class ShippingInstructionForm extends ShippingInstruction
                 ['destination_id'],
                 'exist',
                 'skipOnError' => true,
-                'targetClass' => \app\models\ContainerPort::className(),
+                'targetClass' => ContainerPort::className(),
                 'targetAttribute' => ['destination_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));

@@ -10,7 +10,6 @@ use cornernote\returnurl\ReturnUrl;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var app\models\search\ShippingInstructionSearch $searchModel
  */
-
 $this->title = Yii::t('app', 'Shipping Instructions');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
@@ -23,7 +22,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </small>
     </h1>
 
-    <?php //echo $this->render('_search', ['model' =>$searchModel]);?>
+    <?php //echo $this->render('_search', ['model' =>$searchModel]); ?>
 
     <?php
     \yii\widgets\Pjax::begin([
@@ -62,9 +61,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => function ($model) {
                         return \fredyns\suite\widgets\LinkedDetail::widget([
-                            'model' => $model,
-                            'attribute' => 'shipper',
-                            'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
+                                'model' => $model,
+                                'attribute' => 'shipper',
+                                'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                         ]);
                     },
                 ],
@@ -75,9 +74,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => function ($model) {
                         return \fredyns\suite\widgets\LinkedDetail::widget([
-                            'model' => $model,
-                            'attribute' => 'shipping',
-                            'actionControl' => 'app\actioncontrols\ShippingActControl',
+                                'model' => $model,
+                                'attribute' => 'shipping',
+                                'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                         ]);
                     },
                 ],
@@ -88,9 +87,9 @@ $this->params['breadcrumbs'][] = $this->title;
                     'format' => 'raw',
                     'value' => function ($model) {
                         return \fredyns\suite\widgets\LinkedDetail::widget([
-                            'model' => $model,
-                            'attribute' => 'destination',
-                            'actionControl' => 'app\actioncontrols\ContainerPortActControl',
+                                'model' => $model,
+                                'attribute' => 'destination',
+                                'actionControl' => 'app\actioncontrols\ContainerPortActControl',
                         ]);
                     },
                 ],
