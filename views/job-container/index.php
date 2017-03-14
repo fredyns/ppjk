@@ -6,6 +6,7 @@ use yii\helpers\Url;
 use kartik\grid\GridView;
 use cornernote\returnurl\ReturnUrl;
 use app\models\JobContainer;
+use app\models\ContainerType;
 
 /**
  * @var yii\web\View $this
@@ -44,6 +45,12 @@ $this->params['breadcrumbs'][] = $this->title;
     ]);
     ?>
 
+    <div class="row">
+        <div class="col-md-12">
+            <?= Html::errorSummary($searchModel); ?>
+        </div>
+    </div>
+
     <div class="table-responsive">
         <?=
         GridView::widget([
@@ -59,7 +66,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
-                    'label' => 'Shipping Instruction',
+                    'label' => 'Shipping Inst.',
                     'attribute' => 'shippingInstructionNumber',
                     'format' => 'html',
                     'value' => function (JobContainer $model, $key, $index, $widget) {
@@ -77,11 +84,37 @@ $this->params['breadcrumbs'][] = $this->title;
                     'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
                 ],
                 [
+                    'label' => 'Date',
+                    'attribute' => 'stuffingDate',
+                    'value' => function ($model) {
+                        $date = new \Datetime($model->stuffingDate);
+
+                        return ($date) ? $date->format('d M') : '-';
+                    },
+                ],
+                [
                     'class' => 'fredyns\suite\grid\KartikViewColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',
                     'attribute' => 'containerNumber',
                 ],
-                'stuffingDate',
+                [
+                    'attribute' => 'size',
+                    'filter' => JobContainer::optsSize(),
+                ],
+                [
+                    'attribute' => 'type_id',
+                    'filter' => ContainerType::options(),
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'type.name', '-');
+                    },
+                ],
+                [
+                    'label' => 'Depo',
+                    'attribute' => 'containerDepoName',
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'containerDepo.name', '-');
+                    },
+                ],
                 [
                     'label' => 'Location',
                     'attribute' => 'stuffingLocationName',
@@ -89,20 +122,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return ArrayHelper::getValue($model, 'stuffingLocation.name', '-');
                     },
                 ],
-                [
-                    'label' => 'Driver',
-                    'attribute' => 'driverName',
-                    'value' => function ($model) {
-                        return ArrayHelper::getValue($model, 'driver.name', '-');
-                    },
-                ],
-                [
-                    'label' => 'Supervisor',
-                    'attribute' => 'supervisorName',
-                    'value' => function ($model) {
-                        return ArrayHelper::getValue($model, 'supervisor.name', '-');
-                    },
-                ],
+                'notes',
                 [
                     'class' => 'fredyns\suite\grid\KartikActionColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',

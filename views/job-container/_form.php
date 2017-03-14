@@ -11,17 +11,16 @@ use dmstr\bootstrap\Tabs;
 use kartik\widgets\Select2;
 use app\models\form\JobContainerForm;
 use app\models\CompanyProfile;
+use app\models\ContainerType;
 use app\models\Shipping;
 use app\models\ContainerPort;
 use app\models\StuffingLocation;
 use app\models\Profile;
 use app\models\TruckSupervisor;
 
-/**
- * @var yii\web\View $this
- * @var app\models\JobContainer $model
- * @var yii\widgets\ActiveForm $form
- */
+/* @var $this \yii\web\View $this */
+/* @var $model \app\models\JobContainer  */
+/* @var $form \yii\widgets\ActiveForm  */
 ?>
 
 <style>
@@ -243,6 +242,16 @@ use app\models\TruckSupervisor;
         $form->field($model, 'containerNumber')->textInput(['maxlength' => true])
         ?>
 
+        <!-- attribute size -->
+        <?=
+        $form->field($model, 'size')->dropDownList(JobContainerForm::optsSize())
+        ?>
+
+        <!-- attribute type_id -->
+        <?=
+        $form->field($model, 'type_id')->dropDownList(ContainerType::options())
+        ?>
+
         <!-- attribute sealNumber -->
         <?=
         $form->field($model, 'sealNumber')->textInput(['maxlength' => true])
@@ -254,6 +263,41 @@ use app\models\TruckSupervisor;
             ->field($model, 'stuffingDate')
             ->widget(\yii\jui\DatePicker::classname(), [
                 'dateFormat' => 'yyyy-MM-dd',
+        ]);
+        ?>
+
+        <!-- attribute containerDepoId -->
+        <?php
+        $containerDepoLabel = $model->containerDepo_id;
+
+        if ($model->containerDepo_id > 0) {
+            if (($containerDepo = CompanyProfile::findOne($model->containerDepo_id)) !== null) {
+                $containerDepoLabel = $containerDepo->name;
+            }
+        }
+
+        echo $form
+            ->field($model, 'containerDepo_id')
+            ->widget(Select2::classname(),
+                [
+                'initValueText' => $containerDepoLabel,
+                'options' => ['placeholder' => 'mencari perusahaan ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'tags' => true,
+                    'minimumInputLength' => 3,
+                    'language' => [
+                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                    ],
+                    'ajax' => [
+                        'url' => Url::to(['/api/company-profile/list']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                ],
         ]);
         ?>
 
@@ -292,50 +336,6 @@ use app\models\TruckSupervisor;
         ]);
         ?>
 
-        <!-- attribute driver_id -->
-        <?php
-        $driverLabel = $model->driver_id;
-
-        if ($model->driver_id > 0) {
-            if (($driver = Profile::findOne($model->driver_id)) !== null) {
-                $driverLabel = $driver->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'driver_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $driverLabel,
-                'options' => ['placeholder' => 'mencari sopir ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 3,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/personel/driver-list']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <div id="input-driverdetail">
-
-            <!-- attribute driverPhone -->
-            <?=
-            $form->field($model, 'driverPhone')->textInput(['maxlength' => true])
-            ?>
-
-        </div>
-
         <!-- attribute supervisor_id -->
         <?php
         $supervisorLabel = $model->supervisor_id;
@@ -369,6 +369,61 @@ use app\models\TruckSupervisor;
                     'templateSelection' => new JsExpression('function (item) { return item.text; }'),
                 ],
         ]);
+        ?>
+
+        <!-- attribute truckVendor_id -->
+        <?php
+        $truckVendorLabel = $model->truckVendor_id;
+
+        if ($model->truckVendor_id > 0) {
+            if (($truckVendor = CompanyProfile::findOne($model->truckVendor_id)) !== null) {
+                $truckVendorLabel = $truckVendor->name;
+            }
+        }
+
+        echo $form
+            ->field($model, 'truckVendor_id')
+            ->widget(Select2::classname(),
+                [
+                'initValueText' => $truckVendorLabel,
+                'options' => ['placeholder' => 'mencari perusahaan ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'tags' => true,
+                    'minimumInputLength' => 3,
+                    'language' => [
+                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                    ],
+                    'ajax' => [
+                        'url' => Url::to(['/api/company-profile/list']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                ],
+        ]);
+        ?>
+
+        <!-- attribute driverName -->
+        <?=
+        $form->field($model, 'driverName')->textInput(['maxlength' => true])
+        ?>
+
+        <!-- attribute cellphone -->
+        <?=
+        $form->field($model, 'cellphone')->textInput(['maxlength' => true])
+        ?>
+
+        <!-- attribute policenumber -->
+        <?=
+        $form->field($model, 'policenumber')->textInput(['maxlength' => true])
+        ?>
+
+        <!-- attribute notes -->
+        <?=
+        $form->field($model, 'notes')->textarea(['rows' => 6])
         ?>
 
         <?php $this->endBlock(); ?>

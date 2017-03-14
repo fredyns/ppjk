@@ -9,10 +9,9 @@ use fredyns\suite\helpers\ActiveUser;
 use fredyns\suite\widgets\DetailView;
 use kartik\grid\GridView;
 
-/**
- * @var yii\web\View $this
- * @var app\models\JobContainer $model
- */
+/* @var $this \yii\web\View  */
+/* @var $model \app\models\JobContainer */
+
 $copyParams = $model->attributes;
 
 $this->title = $actionControl->breadcrumbLabel('index')." "
@@ -81,20 +80,37 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
         'model' => $model,
         'attributes' => [
             'containerNumber',
+            [
+                'label' => 'Type',
+                'value' => $model->sizeLabel.' '.$model->typeName,
+            ],
             'sealNumber',
-            'stuffingDate',
+            'stuffingDate:date',
+            [
+                'label' => 'Container Depo',
+                'attribute' => 'containerDepo.name',
+            ],
             [
                 'label' => 'Stuffing Location',
                 'attribute' => 'stuffingLocation.name',
             ],
             [
+                'label' => 'Mandor Name',
+                'attribute' => 'supervisor.name',
+                'visible' => (!Yii::$app->user->isGuest),
+            ],
+            [
+                'label' => 'Truck Vendor',
+                'attribute' => 'truckVendor.name',
+                'visible' => (!Yii::$app->user->isGuest),
+            ],
+            [
                 'label' => 'Driver Name',
                 'attribute' => 'driver.name',
             ],
-            [
-                'label' => 'Supervisor Name',
-                'attribute' => 'supervisor.name',
-            ],
+            'cellphone',
+            'policenumber',
+            'notes',
         ],
     ]);
     ?>

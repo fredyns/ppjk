@@ -14,12 +14,18 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $id
  * @property integer $shippingInstruction_id
  * @property string $containerNumber
+ * @property string $size
+ * @property integer $type_id
  * @property string $sealNumber
  * @property string $stuffingDate
+ * @property integer $containerDepo_id
  * @property integer $stuffingLocation_id
- * @property integer $driver_id
  * @property integer $supervisor_id
- * @property string $worknote
+ * @property integer $truckVendor_id
+ * @property string $driverName
+ * @property string $cellphone
+ * @property string $policenumber
+ * @property string $notes
  * @property string $recordStatus
  * @property integer $deleted_at
  * @property integer $deleted_by
@@ -28,10 +34,12 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $updated_at
  * @property integer $updated_by
  *
- * @property \app\models\ShippingInstruction $shippingInstruction
+ * @property \app\models\CompanyProfile $containerDepo
  * @property \app\models\StuffingLocation $stuffingLocation
- * @property \app\models\Profile $driver
+ * @property \app\models\ShippingInstruction $shippingInstruction
  * @property \app\models\TruckSupervisor $supervisor
+ * @property \app\models\ContainerType $type
+ * @property \app\models\CompanyProfile $truckVendor
  * @property string $aliasModel
  */
 abstract class JobContainer extends \yii\db\ActiveRecord
@@ -74,15 +82,20 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shippingInstruction_id', 'stuffingLocation_id', 'driver_id', 'supervisor_id', 'deleted_at', 'deleted_by'], 'integer'],
+            [['shippingInstruction_id', 'type_id', 'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['stuffingDate'], 'safe'],
-            [['worknote', 'recordStatus'], 'string'],
-            [['containerNumber'], 'string', 'max' => 32],
+            [['notes', 'recordStatus'], 'string'],
+            [['containerNumber', 'cellphone'], 'string', 'max' => 32],
+            [['size'], 'string', 'max' => 8],
             [['sealNumber'], 'string', 'max' => 64],
-            [['shippingInstruction_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ShippingInstruction::className(), 'targetAttribute' => ['shippingInstruction_id' => 'id']],
+            [['driverName'], 'string', 'max' => 255],
+            [['policenumber'], 'string', 'max' => 16],
+            [['containerDepo_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['containerDepo_id' => 'id']],
             [['stuffingLocation_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\StuffingLocation::className(), 'targetAttribute' => ['stuffingLocation_id' => 'id']],
-            [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\Profile::className(), 'targetAttribute' => ['driver_id' => 'id']],
+            [['shippingInstruction_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ShippingInstruction::className(), 'targetAttribute' => ['shippingInstruction_id' => 'id']],
             [['supervisor_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TruckSupervisor::className(), 'targetAttribute' => ['supervisor_id' => 'id']],
+            [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ContainerType::className(), 'targetAttribute' => ['type_id' => 'id']],
+            [['truckVendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['truckVendor_id' => 'id']],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -100,12 +113,18 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             'id' => 'ID',
             'shippingInstruction_id' => 'Shipping Instruction',
             'containerNumber' => 'Container Number',
+            'size' => 'Size',
+            'type_id' => 'Type',
             'sealNumber' => 'Seal Number',
             'stuffingDate' => 'Stuffing Date',
+            'containerDepo_id' => 'Container Depo',
             'stuffingLocation_id' => 'Stuffing Location',
-            'driver_id' => 'Driver',
             'supervisor_id' => 'Supervisor',
-            'worknote' => 'Worknote',
+            'truckVendor_id' => 'Truck Vendor',
+            'driverName' => 'Driver Name',
+            'cellphone' => 'Cellphone',
+            'policenumber' => 'Policenumber',
+            'notes' => 'Notes',
             'recordStatus' => 'Record Status',
             'created_at' => 'Created At',
             'created_by' => 'Created By',
@@ -119,9 +138,9 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getShippingInstruction()
+    public function getContainerDepo()
     {
-        return $this->hasOne(\app\models\ShippingInstruction::className(), ['id' => 'shippingInstruction_id']);
+        return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'containerDepo_id']);
     }
     
     /**
@@ -135,9 +154,9 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getDriver()
+    public function getShippingInstruction()
     {
-        return $this->hasOne(\app\models\Profile::className(), ['id' => 'driver_id']);
+        return $this->hasOne(\app\models\ShippingInstruction::className(), ['id' => 'shippingInstruction_id']);
     }
     
     /**
@@ -146,6 +165,22 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     public function getSupervisor()
     {
         return $this->hasOne(\app\models\TruckSupervisor::className(), ['id' => 'supervisor_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getType()
+    {
+        return $this->hasOne(\app\models\ContainerType::className(), ['id' => 'type_id']);
+    }
+    
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTruckVendor()
+    {
+        return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'truckVendor_id']);
     }
                 
     /**
