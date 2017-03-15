@@ -49,6 +49,6 @@ class ContainerType extends BaseContainerType
      */
     public static function options()
     {
-        return ArrayHelper::map(static::findAll(), 'id', 'name');
+        return ArrayHelper::map(static::find()->all(), 'id', 'name');
     }
 }
