@@ -167,6 +167,26 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
         return ($this->isError($action) == FALSE);
     }
 
+    public function getAllowListShipper($params = [])
+    {
+        return $this->getAllowList($params);
+    }
+
+    public function getAllowListShipping($params = [])
+    {
+        return $this->getAllowList($params);
+    }
+
+    public function getAllowListDepo($params = [])
+    {
+        return $this->getAllowList($params);
+    }
+
+    public function getAllowListTruckVendor($params = [])
+    {
+        return $this->getAllowList($params);
+    }
+
     /**
      * @inheritdoc
      */

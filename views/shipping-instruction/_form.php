@@ -66,7 +66,7 @@ $formname = $model->formName();
                             'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                         ],
                         'ajax' => [
-                            'url' => Url::to(['/api/company-profile/list']),
+                            'url' => Url::to(['/api/company-profile/list-shipper']),
                             'dataType' => 'json',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
                         ],
@@ -114,7 +114,7 @@ $formname = $model->formName();
                             'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                         ],
                         'ajax' => [
-                            'url' => Url::to(['/api/company-profile/list']),
+                            'url' => Url::to(['/api/company-profile/list-shipping']),
                             'dataType' => 'json',
                             'data' => new JsExpression('function(params) { return {q:params.term}; }')
                         ],

@@ -120,7 +120,7 @@ use app\models\TruckSupervisor;
                                     'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                                 ],
                                 'ajax' => [
-                                    'url' => Url::to(['/api/company-profile/list']),
+                                    'url' => Url::to(['/api/company-profile/list-shipper']),
                                     'dataType' => 'json',
                                     'data' => new JsExpression('function(params) { return {q:params.term}; }')
                                 ],
@@ -182,7 +182,7 @@ use app\models\TruckSupervisor;
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
                             'ajax' => [
-                                'url' => Url::to(['/api/shipping/list']),
+                                'url' => Url::to(['/api/shipping/list-shipping']),
                                 'dataType' => 'json',
                                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
                             ],
@@ -290,7 +290,7 @@ use app\models\TruckSupervisor;
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
                     'ajax' => [
-                        'url' => Url::to(['/api/company-profile/list']),
+                        'url' => Url::to(['/api/company-profile/list-depo']),
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {q:params.term}; }')
                     ],
@@ -395,7 +395,7 @@ use app\models\TruckSupervisor;
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
                     'ajax' => [
-                        'url' => Url::to(['/api/company-profile/list']),
+                        'url' => Url::to(['/api/company-profile/list-truck-vendor']),
                         'dataType' => 'json',
                         'data' => new JsExpression('function(params) { return {q:params.term}; }')
                     ],
