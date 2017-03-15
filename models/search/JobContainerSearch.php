@@ -75,7 +75,7 @@ class JobContainerSearch extends JobContainer
                 },
             ],
             [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
-            [['stuffingDateRange'], 'save'],
+            [['stuffingDateRange'], 'safe'],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -135,13 +135,13 @@ class JobContainerSearch extends JobContainer
     public function search()
     {
         $query = JobContainer::find()
-            ->with('shippingInstruction')
-            ->with('shippingInstruction.shipper')
-            ->with('shippingInstruction.shipping')
-            ->with('shippingInstruction.destination')
-            ->with('stuffingLocation')
-            ->with('truckVendor')
-            ->with('supervisor');
+            ->joinWith('shippingInstruction')
+            ->joinWith('stuffingLocation')
+            ->joinWith('truckVendor')
+            ->joinWith('supervisor')
+            ->joinWith('shippingInstruction.shipper')
+            ->joinWith('shippingInstruction.shipping')
+            ->joinWith('shippingInstruction.destination');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -244,9 +244,11 @@ class JobContainerSearch extends JobContainer
             ->andFilterWhere(['like', static::tableName().'.notes', $this->notes]);
 
         // stuffing date range
-        if (!empty($this->stuffingDateRange) && strpos($this->stuffingDateRange, '-') !== false) {
+        if (!empty($this->stuffingDateRange) && (strpos($this->stuffingDateRange, '-') !== false)) {
             list($start_date, $end_date) = explode(' - ', $this->stuffingDateRange);
 
+            $start_date = trim($start_date);
+            $end_date = trim($end_date);
             $start = date_create_from_format('m/d/Y', $start_date);
             $end = date_create_from_format('m/d/Y', $end_date);
 
