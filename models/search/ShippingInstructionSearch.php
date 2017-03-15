@@ -85,9 +85,9 @@ class ShippingInstructionSearch extends ShippingInstruction
     public function search()
     {
         $query = ShippingInstruction::find()
-            ->with('shipper')
-            ->with('shipping')
-            ->with('destination');
+            ->joinWith('shipper')
+            ->joinWith('shipping')
+            ->joinWith('destination');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
