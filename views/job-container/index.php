@@ -2,11 +2,11 @@
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
-use yii\helpers\Url;
 use kartik\grid\GridView;
-use cornernote\returnurl\ReturnUrl;
+use jino5577\daterangepicker\DateRangePicker;
 use app\models\JobContainer;
 use app\models\ContainerType;
+use app\actioncontrols\ShippingInstructionActControl;
 
 /**
  * @var yii\web\View $this
@@ -32,7 +32,7 @@ $this->params['breadcrumbs'][] = $this->title;
         </small>
     </h1>
 
-    <?php //echo $this->render('_search', ['model' =>$searchModel]);?>
+    <?php //echo $this->render('_search', ['model' =>$searchModel]); ?>
 
     <?php
     \yii\widgets\Pjax::begin([
@@ -70,7 +70,11 @@ $this->params['breadcrumbs'][] = $this->title;
                     'attribute' => 'shippingInstructionNumber',
                     'format' => 'html',
                     'value' => function (JobContainer $model, $key, $index, $widget) {
-                        return 'SI <b>#'.$model->shippingInstruction->number.'</b>'
+                        $siActControl = new ShippingInstructionActControl([
+                            'model' => $model->shippingInstruction,
+                        ]);
+
+                        return 'SI <b>#'.$siActControl->linkTo.'</b>'
                             .' &nbsp;<i class="inline-label">from</i> '
                             .$model->shippingInstruction->shipper->name
                             .' &nbsp;<i class="inline-label">to</i> '
@@ -86,6 +90,17 @@ $this->params['breadcrumbs'][] = $this->title;
                 [
                     'label' => 'Date',
                     'attribute' => 'stuffingDate',
+                    'options' => [
+                        'width' => '60px',
+                    ],
+                    'filter' => DateRangePicker::widget([
+                        'model' => $searchModel,
+                        'attribute' => 'stuffingDateRange',
+                        'pluginOptions' => [
+                            'format' => 'm/d/Y',
+                            'autoUpdateInput' => false,
+                        ],
+                    ]),
                     'value' => function ($model) {
                         $date = new \Datetime($model->stuffingDate);
 
@@ -93,13 +108,20 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
+                    'label' => 'Cont. Number',
                     'class' => 'fredyns\suite\grid\KartikViewColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',
                     'attribute' => 'containerNumber',
+                    'options' => [
+                        'width' => '120px',
+                    ],
                 ],
                 [
                     'attribute' => 'size',
                     'filter' => JobContainer::optsSize(),
+                    'value' => function ($model) {
+                        return $model->size ? $model->sizeLabel : '-';
+                    },
                 ],
                 [
                     'attribute' => 'type_id',
