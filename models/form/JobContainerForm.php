@@ -12,6 +12,7 @@ use app\models\ShippingInstruction;
 use app\models\StuffingLocation;
 use app\models\TruckSupervisor;
 use app\models\ContainerType;
+use app\models\ContainerPort;
 
 /**
  * This is the form model class for table "jobContainer".
