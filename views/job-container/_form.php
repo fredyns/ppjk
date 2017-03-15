@@ -52,7 +52,10 @@ use app\models\TruckSupervisor;
 
             <!-- attribute newSi -->
             <?=
-            $form->field($model, 'newSi')->radioList(JobContainerForm::optsNewSi());
+                $form
+                ->field($model, 'newSi')
+                ->label('New SI')
+                ->radioList(JobContainerForm::optsNewSi());
             ?>
 
             <div id="input-picksi">
@@ -90,7 +93,9 @@ use app\models\TruckSupervisor;
 
                 <!-- attribute shippingInstructionNumber -->
                 <?=
-                $form->field($model, 'shippingInstructionNumber')->textInput(['maxlength' => true])
+                    $form
+                    ->field($model, 'shippingInstructionNumber')
+                    ->textInput(['maxlength' => true]);
                 ?>
 
                 <div id="input-shipper">
@@ -543,6 +548,14 @@ $js = <<<JS
             } else {
                 $('#input-driverdetail').hide('blind');
             }
+        });
+
+        $('#jobcontainerform-shippinginstructionnumber')
+        .popover({
+            title: "<strong>Petunjuk</strong>",
+            content: "<p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p><p>Contoh : 0001 EE SRG</p><p><b>EE</b> : Emkl Ekspor<br/><b>EI</b> : Emkl Impor<br/><b>JPR</b> : Jepara<br/><b>SLO</b> : Solo<br/><b>SRG</b> : Semarang<br/><b>YGY</b> : Yogyakarta<br/></p>",
+            html: true,
+            placement: "bottom"
         });
 
 	});
