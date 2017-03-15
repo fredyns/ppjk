@@ -84,27 +84,19 @@ use fredyns\suite\helpers\ActiveUser;
                         'label' => Yii::t('app', 'Shipper'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-industry',
-                        'url' => '#',
-                        'items' => [
-                            [
-                                'label' => Yii::t('app', 'Company Profile'),
-                                'encode' => FALSE,
-                                'icon' => 'fa fa-industry',
-                                'url' => ['/company-profile/shipper'],
-                            ],
-                            [
-                                'label' => Yii::t('app', 'Stuffing Location'),
-                                'encode' => FALSE,
-                                'icon' => 'glyphicon glyphicon-log-in',
-                                'url' => ['/stuffing-location'],
-                            ],
-                        ],
+                        'url' => ['/company-profile/shipper'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Stuffing Location'),
+                        'encode' => FALSE,
+                        'icon' => 'glyphicon glyphicon-log-in',
+                        'url' => ['/stuffing-location'],
                     ],
                     [
                         'label' => Yii::t('app', 'Shipping'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-ship',
-                        'url' => ['/shipping'],
+                        'url' => ['/company-profile/shipping'],
                     ],
                     [
                         'label' => Yii::t('app', 'Container Port'),
@@ -116,32 +108,13 @@ use fredyns\suite\helpers\ActiveUser;
                         'label' => Yii::t('app', 'Container Depo'),
                         'encode' => FALSE,
                         'icon' => 'fa fa-cubes',
-                        'url' => ['/container-depo'],
+                        'url' => ['/company-profile/depo'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Trucking'),
+                        'label' => Yii::t('app', 'Truck Vendor'),
+                        'encode' => FALSE,
                         'icon' => 'fa fa-truck',
-                        'url' => '#',
-                        'items' => [
-                            [
-                                'label' => Yii::t('app', 'Vendor'),
-                                'encode' => FALSE,
-                                'icon' => 'fa fa-industry',
-                                'url' => ['/company-profile/trucking-vendor'],
-                            ],
-                            [
-                                'label' => Yii::t('app', 'Driver'),
-                                'encode' => FALSE,
-                                'icon' => 'fa fa-user-circle-o',
-                                'url' => ['/personel/driver'],
-                            ],
-                            [
-                                'label' => Yii::t('app', 'Truck'),
-                                'encode' => FALSE,
-                                'icon' => 'fa fa-truck',
-                                'url' => ['/truck'],
-                            ],
-                        ],
+                        'url' => ['/company-profile/truck-vendor'],
                     ],
                     [
                         'label' => 'Administrator',

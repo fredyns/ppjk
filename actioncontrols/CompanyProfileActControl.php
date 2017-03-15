@@ -16,6 +16,15 @@ use app\models\CompanyProfile;
  * @author Fredy Nurman Saleh <email@fredyns.net>
  *
  * @property CompanyProfile $model data model
+ *
+ * @property array $urlShipper url config for view Shipper list
+ * @property string $allowShipper is allowing accessing view Shipper list
+ * @property array $urlShipping url config for view Shipping list
+ * @property string $allowShipping is allowing accessing view Shipping list
+ * @property array $urlDepo url config for view Depo list
+ * @property string $allowDepo is allowing accessing view Depo list
+ * @property array $urlTruckVendor url config for view TruckVendor list
+ * @property string $allowTruckVendor is allowing accessing view TruckVendor list
  */
 class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
 {
@@ -95,6 +104,58 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
         return ArrayHelper::merge(
                 parent::actions(),
                 [
+                'shipper' => [
+                    'label' => 'Shipper',
+                    'url' => $this->urlShipper,
+                    'icon' => Icon::show('industry'),
+                    'linkOptions' => [
+                        'title' => 'click to view shipper list',
+                        'aria-label' => 'Shipper',
+                        'data-pjax' => '0',
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-default',
+                    ],
+                ],
+                'shipping' => [
+                    'label' => 'Shipping',
+                    'url' => $this->urlShipping,
+                    'icon' => Icon::show('ship'),
+                    'linkOptions' => [
+                        'title' => 'click to view shipping list',
+                        'aria-label' => 'Shipping',
+                        'data-pjax' => '0',
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-default',
+                    ],
+                ],
+                'depo' => [
+                    'label' => 'Depo',
+                    'url' => $this->urlDepo,
+                    'icon' => Icon::show('cubes'),
+                    'linkOptions' => [
+                        'title' => 'click to view depo list',
+                        'aria-label' => 'Depo',
+                        'data-pjax' => '0',
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-default',
+                    ],
+                ],
+                'truck-vendor' => [
+                    'label' => 'Truck Vendor',
+                    'url' => $this->urlTruckVendor,
+                    'icon' => Icon::show('truck'),
+                    'linkOptions' => [
+                        'title' => 'click to view truck vendor list',
+                        'aria-label' => 'Truck Vendor',
+                        'data-pjax' => '0',
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-default',
+                    ],
+                ],
                 /* / action sample / */
 
                 # 'action_name' => [
@@ -115,6 +176,78 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
     }
 
     /**
+     * get URL param to view shipper
+     *
+     * @return array
+     */
+    public function getUrlShipper()
+    {
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('shipper');
+            $param['ru'] = ReturnUrl::getToken();
+
+            return $param;
+        }
+
+        return [];
+    }
+
+    /**
+     * get URL param to view shipping
+     *
+     * @return array
+     */
+    public function getUrlShipping()
+    {
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('action_slug');
+            $param['ru'] = ReturnUrl::getToken();
+
+            return $param;
+        }
+
+        return [];
+    }
+
+    /**
+     * get URL param to do action
+     *
+     * @return array
+     */
+    public function getUrlDepo()
+    {
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('depo');
+            $param['ru'] = ReturnUrl::getToken();
+
+            return $param;
+        }
+
+        return [];
+    }
+
+    /**
+     * get URL param to do action
+     *
+     * @return array
+     */
+    public function getUrlTruckVendor()
+    {
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('truck-vendor');
+            $param['ru'] = ReturnUrl::getToken();
+
+            return $param;
+        }
+
+        return [];
+    }
+
+    /**
      * @inheritdoc
      */
     public function getAllowIndex($params = array())
@@ -128,6 +261,26 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
 
         // conclusion
         return ($this->isError($action) == FALSE);
+    }
+
+    public function getAllowShipper($params = array())
+    {
+        return $this->getAllowIndex($params);
+    }
+
+    public function getAllowShipping($params = array())
+    {
+        return $this->getAllowIndex($params);
+    }
+
+    public function getAllowDepo($params = array())
+    {
+        return $this->getAllowIndex($params);
+    }
+
+    public function getAllowTruckVendor($params = array())
+    {
+        return $this->getAllowIndex($params);
     }
 
     /**

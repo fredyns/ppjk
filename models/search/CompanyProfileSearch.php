@@ -66,6 +66,74 @@ class CompanyProfileSearch extends CompanyProfile
     }
 
     /**
+     * search shipper
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchShipper($params)
+    {
+        $this->load($params);
+
+        $this->recordStatus = static::RECORDSTATUS_ACTIVE;
+        $this->companyType_id = static::TYPE_SHIPPER;
+
+        return $this->search();
+    }
+
+    /**
+     * search shipping
+     *
+     * @param array   $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchShipping($params)
+    {
+        $this->load($params);
+
+        $this->recordStatus = static::RECORDSTATUS_ACTIVE;
+        $this->companyType_id = static::TYPE_SHIPPING;
+
+        return $this->search();
+    }
+
+    /**
+     * search container depo
+     *
+     * @param array $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchDepo($params)
+    {
+        $this->load($params);
+
+        $this->recordStatus = static::RECORDSTATUS_ACTIVE;
+        $this->companyType_id = static::TYPE_DEPO;
+
+        return $this->search();
+    }
+
+    /**
+     * search truck vendor
+     *
+     * @param array   $params
+     *
+     * @return ActiveDataProvider
+     */
+    public function searchTruckVendor($params)
+    {
+        $this->load($params);
+
+        $this->recordStatus = static::RECORDSTATUS_ACTIVE;
+        $this->companyType_id = static::TYPE_TRUCKVENDOR;
+
+        return $this->search();
+    }
+
+    /**
      * Creates data provider instance with search query applied
      *
      * @param array $params
