@@ -54,7 +54,7 @@ class StuffingLocationActControl extends \fredyns\suite\libraries\ActionControl
     public function messages()
     {
         return ArrayHelper::merge(
-                parent::breadcrumbLabels(),
+                parent::messages(),
                 [
                 'hascontainer' => "This Location had stuffing history.",
                 ]
