@@ -26,7 +26,8 @@
         "2amigos/yii2-ckeditor-widget": "^2.0",
         "2amigos/yii2-gallery-widget": "~1.0",
         "2amigos/yii2-chartjs-widget": "~2.0",
-        "kartik-v/yii2-builder": "@dev"
+        "kartik-v/yii2-builder": "@dev",
+        "jino5577/yii2-date-range-picker": "^1.0"
     },
     "require-dev": {
         "yiisoft/yii2-debug": "~2.0.0",
