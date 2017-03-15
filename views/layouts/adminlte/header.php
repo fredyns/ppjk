@@ -13,7 +13,9 @@ $containerAct = new JobContainerActControl;
 <header class="main-header">
 
     <?php
-    $logoMini = '<span class="logo-mini">'.Yii::$app->params['initials'].'</span>';
+    $logoMini = '<span class="logo-mini">'
+        .Html::img('@web/jasco/logo-icon-mini.jpg', ['alt' => Yii::$app->name])
+        .'</span>';
     $logoLg = '<span class="logo-lg">'
         .Html::img(
             '@web/jasco/logo.png',
