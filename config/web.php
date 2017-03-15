@@ -52,7 +52,7 @@ $config = [
                 ],
             ],
         ],
-        'db' => require(__DIR__.'/db.php'),
+        'db' => $confidential['db'][DB_CONNECTION],
         'urlManager' => [
             'enablePrettyUrl' => true,
             'showScriptName' => false,
