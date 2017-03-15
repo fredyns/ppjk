@@ -15,14 +15,8 @@ if (Yii::$app->controller->action->id === 'login') {
         'adminlte/login', ['content' => $content]
     );
 } else {
-
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
-    } else {
-        app\assets\AppAsset::register($this);
-    }
-
-    dmstr\web\AdminLteAsset::register($this);
+    \app\assets\AppAsset::register($this);
+    \dmstr\web\AdminLteAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
     ?>
@@ -32,19 +26,30 @@ if (Yii::$app->controller->action->id === 'login') {
         <head>
             <meta charset="<?= Yii::$app->charset ?>"/>
             <meta name="viewport" content="width=device-width, initial-scale=1">
-    <?= Html::csrfMetaTags() ?>
+            <?= Html::csrfMetaTags() ?>
             <title><?= Html::encode($this->title) ?></title>
-    <?php $this->head() ?>
+            <?php $this->head() ?>
         </head>
+
+        <style>
+            .mytooltip + .tooltip > .tooltip-inner {
+                background-color: #73AD21;
+                color: #FFFFFF;
+                border: 1px solid green;
+                padding: 8px;
+                font-size: 16px;
+            }
+        </style>
+
         <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> sidebar-mini">
             <?php $this->beginBody() ?>
             <div class="wrapper">
 
-            <?=
-            $this->render(
-                'adminlte/header.php', ['directoryAsset' => $directoryAsset]
-            )
-            ?>
+                <?=
+                $this->render(
+                    'adminlte/header.php', ['directoryAsset' => $directoryAsset]
+                )
+                ?>
 
                 <?= $this->render('adminlte/left.php', ['directoryAsset' => $directoryAsset]) ?>
 
@@ -56,7 +61,7 @@ if (Yii::$app->controller->action->id === 'login') {
 
             </div>
 
-                <?php $this->endBody() ?>
+            <?php $this->endBody() ?>
         </body>
     </html>
     <?php $this->endPage() ?>

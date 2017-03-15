@@ -19,23 +19,11 @@ if (Yii::$app->controller->action->id === 'login') {
         'adminlte/login', ['content' => $content]
     );
 } else {
-
-    if (class_exists('backend\assets\AppAsset')) {
-        backend\assets\AppAsset::register($this);
-    } else {
-        app\assets\AppAsset::register($this);
-    }
-
-    dmstr\web\AdminLteAsset::register($this);
-    app\assets\SliderAsset::register($this);
+    \app\assets\AppAsset::register($this);
+    \dmstr\web\AdminLteAsset::register($this);
+    \app\assets\SliderAsset::register($this);
 
     $directoryAsset = Yii::$app->assetManager->getPublishedUrl('@vendor/almasaeed2010/adminlte/dist');
-    $js = <<< 'SCRIPT'
-        $(function () {
-            $("#navbar-search-input").tooltip();
-        });
-SCRIPT;
-    $this->registerJs($js, \yii\web\View::POS_READY);
     ?>
     <?php $this->beginPage() ?>
     <!DOCTYPE html>
@@ -47,6 +35,17 @@ SCRIPT;
             <title><?= Html::encode($this->title) ?></title>
             <?php $this->head() ?>
         </head>
+
+        <style>
+            .mytooltip + .tooltip > .tooltip-inner {
+                background-color: #73AD21;
+                color: #FFFFFF;
+                border: 1px solid green;
+                padding: 8px;
+                font-size: 16px;
+            }
+        </style>
+
         <body class="hold-transition <?= \dmstr\helpers\AdminLteHelper::skinClass() ?> layout-top-nav">
             <?php $this->beginBody() ?>
             <div class="wrapper">
@@ -88,23 +87,14 @@ SCRIPT;
                                 &nbsp;
                                 <form action="<?= Url::to(['/site/search']); ?>" method="get" class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
-                                        <style>
-                                            #navbar-search-input + .tooltip > .tooltip-inner {
-                                                background-color: #73AD21;
-                                                color: #FFFFFF;
-                                                border: 1px solid green;
-                                                padding: 8px;
-                                                font-size: 16px;
-                                            }
-                                        </style>
                                         <input
                                             type="text"
                                             name="number"
-                                            class="form-control"
+                                            class="form-control mytooltip"
                                             id="navbar-search-input"
                                             placeholder="<?= Yii::t('app', 'Search Container') ?>..."
                                             title="Type the 11-digit number of container, with no spaces"
-                                            data-toggle='tooltip'
+                                            data-toggle="tooltip"
                                             data-placement="bottom"
                                             maxlength="11"
                                             />

@@ -46,7 +46,17 @@ use fredyns\suite\helpers\ActiveUser;
         <!-- search form -->
         <form action="<?= Url::to(['/site/search']) ?>" method="get" class="sidebar-form">
             <div class="input-group">
-                <input type="text" name="number" class="form-control" placeholder="<?= Yii::t('app', 'Search Container') ?>..."/>
+                <input
+                    type="text"
+                    name="number"
+                    class="form-control mytooltip"
+                    placeholder="<?= Yii::t('app', 'Search Container') ?>..."
+                    id="navbar-search-input"
+                    title="Type the 11-digit number of container, with no spaces"
+                    data-toggle="tooltip"
+                    data-placement="bottom"
+                    maxlength="11"
+                    />
                 <span class="input-group-btn">
                     <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
