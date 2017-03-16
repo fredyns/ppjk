@@ -39,7 +39,9 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
      */
     public function actionCreate()
     {
-        $model = new JobContainerForm;
+        $model = new JobContainerForm([
+            'newSi' => JobContainerForm::NEWSI_YES,
+        ]);
         $actionControl = JobContainerActControl::checkAccess('create', $model);
 
         try {
@@ -50,7 +52,18 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
                     return $this->redirect([
                             'create',
                             'JobContainerForm' => [
+                                'newSi' => JobContainerForm::NEWSI_NO,
                                 'shippingInstruction_id' => $model->shippingInstruction_id,
+                                'shipperId' => $model->shipperId,
+                                'shippingId' => $model->shippingId,
+                                'destinationId' => $model->destinationId,
+                                'size' => $model->size,
+                                'type_id' => $model->type_id,
+                                'stuffingDate' => $model->stuffingDate,
+                                'containerDepo_id' => $model->containerDepo_id,
+                                'stuffingLocation_id' => $model->stuffingLocation_id,
+                                'supervisor_id' => $model->supervisor_id,
+                                'truckVendor_id' => $model->truckVendor_id,
                             ],
                     ]);
                 } else {
