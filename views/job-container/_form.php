@@ -187,7 +187,7 @@ use app\models\TruckSupervisor;
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
                             'ajax' => [
-                                'url' => Url::to(['/api/shipping/list-shipping']),
+                                'url' => Url::to(['/api/company-profile/list-shipping']),
                                 'dataType' => 'json',
                                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
                             ],
