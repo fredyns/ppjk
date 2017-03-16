@@ -24,7 +24,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
 <div class="giiant-crud truck-supervisor-view">
 
     <h1>
-        <?= Yii::t('app', 'Truck Supervisor') ?>
+        <?= Yii::t('app', 'Mandor') ?>
         <small>
             <?= $model->name ?>
             <?php if ($model->recordStatus == 'deleted'): ?>

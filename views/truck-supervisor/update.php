@@ -20,7 +20,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('update');
 <div class="giiant-crud truck-supervisor-update">
 
     <h1>
-        <?= Yii::t('app', 'Truck Supervisor') ?>
+        <?= Yii::t('app', 'Mandor') ?>
         <small>
             <?= $model->name ?>
         </small>

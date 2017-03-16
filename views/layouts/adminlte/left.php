@@ -127,6 +127,12 @@ use fredyns\suite\helpers\ActiveUser;
                         'url' => ['/company-profile/truck-vendor'],
                     ],
                     [
+                        'label' => Yii::t('app', 'Mandor'),
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-user-circle-o',
+                        'url' => ['/truck-supervisor'],
+                    ],
+                    [
                         'label' => 'Administrator',
                         'visible' => ActiveUser::isAdmin(),
                         'options' => ['class' => 'header'],

@@ -10,13 +10,13 @@ use cornernote\returnurl\ReturnUrl;
  * @var yii\data\ActiveDataProvider $dataProvider
  * @var app\models\search\TruckSupervisorSearch $searchModel
  */
-$this->title = Yii::t('app', 'Truck Supervisors');
+$this->title = Yii::t('app', 'Mandor');
 $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="giiant-crud truck-supervisor-deleted">
 
     <h1>
-        <?= Yii::t('app', 'Truck Supervisors') ?>
+        <?= Yii::t('app', 'Mandor') ?>
         <small class="badge">
             Deleted
         </small>
@@ -85,11 +85,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'exportConfig' => [
                 GridView::EXCEL => [
                     'label' => 'Save as EXCEL',
-                    'filename' => 'Truck Supervisors',
+                    'filename' => 'Mandor',
                 ],
                 GridView::PDF => [
                     'label' => 'Save as PDF',
-                    'filename' => 'Truck Supervisors',
+                    'filename' => 'Mandor',
                 ],
             ],
             'panel' => [
