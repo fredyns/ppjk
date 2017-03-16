@@ -104,10 +104,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
                 'attribute' => 'truckVendor.name',
                 'visible' => (!Yii::$app->user->isGuest),
             ],
-            [
-                'label' => 'Driver Name',
-                'attribute' => 'driver.name',
-            ],
+            'driverName',
             'cellphone',
             'policenumber',
             'notes',
