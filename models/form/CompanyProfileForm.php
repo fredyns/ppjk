@@ -46,6 +46,7 @@ class CompanyProfileForm extends CompanyProfile
             [['name', 'address'], 'required'],
             /* safe */
             /* field type */
+            [['companyType_id'], 'integer'],
             [['address', 'recordStatus'], 'string'],
             [['name', 'phone'], 'string', 'max' => 255],
             [['email'], 'string', 'max' => 64],
@@ -58,6 +59,13 @@ class CompanyProfileForm extends CompanyProfile
                 ]
             ],
             /* value references */
+            [
+                ['companyType_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => \app\models\CompanyType::className(),
+                'targetAttribute' => ['companyType_id' => 'id'],
+            ],
         ];
     }
 }
