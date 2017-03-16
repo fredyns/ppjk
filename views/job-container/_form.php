@@ -503,12 +503,6 @@ use app\models\TruckSupervisor;
 $js = <<<JS
 
 	$(function () {
-        $('#input-driverdetail').hide();
-        $('#input-shipperdetail').hide();
-        $('#input-shipper').hide();
-        $('#input-newsi').hide();
-        $('#input-picksi').show();
-
         $('input[name="JobContainerForm[newSi]"]').click(function(){
             newSi = $(this).val();
 
@@ -520,13 +514,13 @@ $js = <<<JS
                 $('#input-shipper').hide('blind');
                 $('#input-newsi').hide('blind');
                 $('#input-picksi').show('blind');
-            } else {
-                alert("New SI: " + newSi);
             }
 
             $( "#jobcontainerform-shipperid" ).trigger("select2:select");
 
         });
+
+        $('input[name="JobContainerForm[newSi]"]').click();
 
         $('#jobcontainerform-shipperid').on('select2:select', function (evt) {
             shipper = $(this).val();
