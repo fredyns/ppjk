@@ -1,5 +1,6 @@
 <?php
 
+use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\widgets\Pjax;
 use yii\helpers\Url;
@@ -124,11 +125,9 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
             ],
             [
                 'attribute' => 'size',
-                'filter' => JobContainer::optsSize(),
             ],
             [
                 'attribute' => 'type_id',
-                'filter' => ContainerType::options(),
                 'value' => function ($model) {
                     return ArrayHelper::getValue($model, 'type.name', '-');
                 },
