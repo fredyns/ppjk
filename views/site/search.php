@@ -46,6 +46,8 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
 
     </div>
 
+    <hr/>
+
     <div class="clearfix"></div>
 
     <?php if (count($containers) > 1): ?>
@@ -67,9 +69,5 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
     <?php else: ?>
         ...
     <?php endif; ?>
-
-    <pre>
-        <?= count($containers); ?>
-    </pre>
 
 </div>

@@ -3,12 +3,19 @@
 use dmstr\bootstrap\Tabs;
 use fredyns\suite\widgets\DetailView;
 
-/**
- * @var yii\web\View $this
- * @var app\models\JobContainer $model
- */
+/* @var $this \yii\web\View  */
+/* @var $model \app\models\JobContainer */
+
 $this->params['breadcrumbs'][] = 'View #'.$model->id;
 ?>
+
+<style>
+    table.detail-view th {
+        width: 25%;
+        min-width: 150px;
+    }
+</style>
+
 <div class="giiant-crud site-search-view">
 
     <?php $this->beginBlock('ShippingInstruction'); ?>
@@ -19,7 +26,14 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
             'number',
             [
                 'label' => 'Shipper',
-                'attribute' => 'shipper.name',
+                'format' => 'html',
+                'value' => ''
+                .'<strong>'
+                .$model->shippingInstruction->shipper->name
+                .'</strong><br/>'
+                .$model->shippingInstruction->shipper->address.'<br/>'
+                .'Tlp: '
+                .$model->shippingInstruction->shipper->phone,
             ],
             [
                 'label' => 'Shipping',
@@ -40,18 +54,29 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
     DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'containerNumber',
+            [
+                'label' => 'Container Number',
+                'format' => 'raw',
+                'value' => '<b style="letter-spacing: 2px;">'.$model->containerNumber.'</b>',
+            ],
+            [
+                'label' => 'Type',
+                'value' => $model->sizeLabel.' '.$model->typeName,
+            ],
             'sealNumber',
-            'stuffingDate',
+            'stuffingDate:date',
+            [
+                'label' => 'Container Depo',
+                'attribute' => 'containerDepo.name',
+            ],
             [
                 'label' => 'Stuffing Location',
                 'attribute' => 'stuffingLocation.name',
             ],
-            [
-                'label' => 'Driver Name',
-                'attribute' => 'driver.name',
-            ],
-            'worknote',
+            'driverName',
+            'cellphone',
+            'policenumber',
+            'notes',
         ],
     ]);
     ?>

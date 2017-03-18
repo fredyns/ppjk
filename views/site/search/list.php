@@ -45,15 +45,23 @@ $this->params['breadcrumbs'][] = $this->title;
                     'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
                 ],
                 [
+                    'label' => 'Cont. Number',
                     'class' => 'fredyns\suite\grid\KartikViewColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',
                     'attribute' => 'containerNumber',
+                    'options' => [
+                        'width' => '120px',
+                    ],
                     'visible' => (!Yii::$app->user->isGuest),
                 ],
                 [
+                    'label' => 'Cont. Number',
                     'attribute' => 'containerNumber',
                     'visible' => (Yii::$app->user->isGuest),
                     'format' => 'html',
+                    'options' => [
+                        'width' => '120px',
+                    ],
                     'value' => function (JobContainer $model, $key, $index, $widget) {
                         return Html::a(
                                 $model->containerNumber
@@ -66,19 +74,49 @@ $this->params['breadcrumbs'][] = $this->title;
                         );
                     },
                 ],
-                'stuffingDate',
                 [
-                    'label' => 'Location',
-                    'attribute' => 'stuffingLocation.name',
+                    'label' => 'Date',
+                    'attribute' => 'stuffingDate',
+                    'options' => [
+                        'width' => '60px',
+                    ],
+                    'value' => function ($model) {
+                        $date = new \Datetime($model->stuffingDate);
+
+                        return ($date) ? $date->format('d M') : '-';
+                    },
+                ],
+                [
+                    'attribute' => 'size',
+                    'value' => function ($model) {
+                        return $model->size ? $model->sizeLabel : '-';
+                    },
+                ],
+                [
+                    'attribute' => 'type_id',
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'type.name', '-');
+                    },
                 ],
                 [
                     'label' => 'Driver',
-                    'attribute' => 'driver.name',
+                    'attribute' => 'driverName',
                 ],
                 [
-                    'label' => 'Supervisor',
-                    'attribute' => 'supervisor.name',
+                    'label' => 'Depo',
+                    'attribute' => 'containerDepoName',
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'containerDepo.name', '-');
+                    },
                 ],
+                [
+                    'label' => 'Location',
+                    'attribute' => 'stuffingLocationName',
+                    'value' => function ($model) {
+                        return ArrayHelper::getValue($model, 'stuffingLocation.name', '-');
+                    },
+                ],
+                'notes',
             ],
             'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false
             'headerRowOptions' => ['class' => 'kartik-sheet-style'],
