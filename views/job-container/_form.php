@@ -95,7 +95,10 @@ use app\models\TruckSupervisor;
                 <?=
                     $form
                     ->field($model, 'shippingInstructionNumber')
-                    ->textInput(['maxlength' => true]);
+                    ->textInput([
+                        'class' => 'form-control uppercase',
+                        'maxlength' => true,
+                ]);
                 ?>
 
                 <div id="input-shipper">
@@ -244,7 +247,12 @@ use app\models\TruckSupervisor;
 
         <!-- attribute containerNumber -->
         <?=
-        $form->field($model, 'containerNumber')->textInput(['maxlength' => true])
+            $form
+            ->field($model, 'containerNumber')
+            ->textInput([
+                'class' => 'form-control uppercase',
+                'maxlength' => 11,
+            ])
         ?>
 
         <!-- attribute size -->
@@ -259,7 +267,12 @@ use app\models\TruckSupervisor;
 
         <!-- attribute sealNumber -->
         <?=
-        $form->field($model, 'sealNumber')->textInput(['maxlength' => true])
+            $form
+            ->field($model, 'sealNumber')
+            ->textInput([
+                'class' => 'form-control uppercase',
+                'maxlength' => 11,
+            ])
         ?>
 
         <!-- attribute stuffingDate -->
@@ -423,7 +436,10 @@ use app\models\TruckSupervisor;
 
         <!-- attribute policenumber -->
         <?=
-        $form->field($model, 'policenumber')->textInput(['maxlength' => true])
+        $form->field($model, 'policenumber')->textInput([
+            'class' => 'form-control uppercase',
+            'maxlength' => 11,
+        ])
         ?>
 
         <!-- attribute notes -->
@@ -521,6 +537,11 @@ $js = <<<JS
         });
 
         $('input[name="JobContainerForm[newSi]"]').click();
+
+        $(".uppercase").keypress(function( event ) {
+            str = $(this).val();
+            $(this).val(str.toUpperCase());
+        });
 
         $('#jobcontainerform-shipperid').on('select2:select', function (evt) {
             shipper = $(this).val();
