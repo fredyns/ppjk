@@ -10,6 +10,7 @@ use dmstr\bootstrap\Tabs;
 use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use app\models\CompanyProfile;
+use app\models\ContainerPort;
 
 /**
  * @var yii\web\View $this
@@ -130,7 +131,7 @@ $formname = $model->formName();
             $destinationLabel = $model->destination_id;
 
             if ($model->destination_id > 0) {
-                if (($destination = TruckSupervisor::findOne($model->destination_id)) !== null) {
+                if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
                     $destinationLabel = $destination->name;
                 }
             }
