@@ -26,14 +26,7 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
             'number',
             [
                 'label' => 'Shipper',
-                'format' => 'html',
-                'value' => ''
-                .'<strong>'
-                .$model->shippingInstruction->shipper->name
-                .'</strong><br/>'
-                .$model->shippingInstruction->shipper->address.'<br/>'
-                .'Tlp: '
-                .$model->shippingInstruction->shipper->phone,
+                'attribute' => 'shipper.name',
             ],
             [
                 'label' => 'Shipping',
