@@ -65,6 +65,22 @@ use fredyns\suite\helpers\ActiveUser;
         </form>
         <!-- /.search form -->
 
+        <?php
+        $js = <<<JS
+
+	$(function () {
+
+      $("#navbar-search-input").keypress(function( event ) {
+        str = $(this).val();
+        $(this).val(str.toUpperCase());
+      });
+
+	});
+
+JS;
+
+        $this->registerJs($js, \yii\web\View::POS_READY);
+        ?>
         <?=
         dmstr\widgets\Menu::widget(
             [

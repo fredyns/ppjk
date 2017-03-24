@@ -182,6 +182,11 @@ if (Yii::$app->controller->action->id === 'login') {
         }
       });
 
+      $("#navbar-search-input").keypress(function( event ) {
+        str = $(this).val();
+        $(this).val(str.toUpperCase());
+      });
+ 
 	});
 
 JS;
