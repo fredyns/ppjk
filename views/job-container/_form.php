@@ -536,8 +536,6 @@ $js = <<<JS
 
         });
 
-        $('input[name="JobContainerForm[newSi]"]').click();
-
         $(".uppercase").keypress(function( event ) {
             str = $(this).val();
             $(this).val(str.toUpperCase());
@@ -554,17 +552,6 @@ $js = <<<JS
             }
         });
 
-        $('#jobcontainerform-driverid').on('select2:select', function (evt) {
-            driver = $(this).val();
-
-            if (driver && isNaN(driver))
-            {
-                $('#input-driverdetail').show('blind');
-            } else {
-                $('#input-driverdetail').hide('blind');
-            }
-        });
-
         $('#jobcontainerform-shippinginstructionnumber')
         .popover({
             title: "<strong>Petunjuk</strong>",
@@ -572,6 +559,11 @@ $js = <<<JS
             html: true,
             placement: "bottom"
         });
+
+        // first trigger
+
+        $('input[name="JobContainerForm[newSi]"]').click();
+        $('#jobcontainerform-shipperid').trigger('select2:select');
 
 	});
 
