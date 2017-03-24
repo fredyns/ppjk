@@ -78,6 +78,8 @@ $formname = $model->formName();
             ]);
             ?>
 
+        <div id="input-shipperdetail">
+
             <?=
                 $form
                 ->field($model, 'shipperAddress')
@@ -91,75 +93,77 @@ $formname = $model->formName();
 
             <?= $form->field($model, 'shipperEmail')->textInput(['maxlength' => true]) ?>
 
-            <!-- attribute shipping_id -->
-            <?php
-            $shippingLabel = $model->shipping_id;
+        </div>
 
-            if ($model->shipping_id > 0) {
-                if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
-                    $shippingLabel = $shipping->name;
-                }
+        <!-- attribute shipping_id -->
+        <?php
+        $shippingLabel = $model->shipping_id;
+
+        if ($model->shipping_id > 0) {
+            if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
+                $shippingLabel = $shipping->name;
             }
+        }
 
-            echo $form
-                ->field($model, 'shipping_id')
-                ->widget(Select2::classname(),
-                    [
-                    'initValueText' => $shippingLabel,
-                    'options' => ['placeholder' => 'mencari pelayaran ...'],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'tags' => true,
-                        'minimumInputLength' => 3,
-                        'language' => [
-                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                        ],
-                        'ajax' => [
-                            'url' => Url::to(['/api/company-profile/list-shipping']),
-                            'dataType' => 'json',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+        echo $form
+            ->field($model, 'shipping_id')
+            ->widget(Select2::classname(),
+                [
+                'initValueText' => $shippingLabel,
+                'options' => ['placeholder' => 'mencari pelayaran ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'tags' => true,
+                    'minimumInputLength' => 3,
+                    'language' => [
+                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
-            ]);
-            ?>
+                    'ajax' => [
+                        'url' => Url::to(['/api/company-profile/list-shipping']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                ],
+        ]);
+        ?>
 
-            <!-- attribute destination_id -->
-            <?php
-            $destinationLabel = $model->destination_id;
+        <!-- attribute destination_id -->
+        <?php
+        $destinationLabel = $model->destination_id;
 
-            if ($model->destination_id > 0) {
-                if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
-                    $destinationLabel = $destination->name;
-                }
+        if ($model->destination_id > 0) {
+            if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
+                $destinationLabel = $destination->name;
             }
+        }
 
-            echo $form
-                ->field($model, 'destination_id')
-                ->widget(Select2::classname(),
-                    [
-                    'initValueText' => $destinationLabel,
-                    'options' => ['placeholder' => 'mencari pelabuhan ...'],
-                    'pluginOptions' => [
-                        'allowClear' => true,
-                        'tags' => true,
-                        'minimumInputLength' => 3,
-                        'language' => [
-                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                        ],
-                        'ajax' => [
-                            'url' => Url::to(['/api/container-port/list']),
-                            'dataType' => 'json',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+        echo $form
+            ->field($model, 'destination_id')
+            ->widget(Select2::classname(),
+                [
+                'initValueText' => $destinationLabel,
+                'options' => ['placeholder' => 'mencari pelabuhan ...'],
+                'pluginOptions' => [
+                    'allowClear' => true,
+                    'tags' => true,
+                    'minimumInputLength' => 3,
+                    'language' => [
+                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
-            ]);
-            ?>
+                    'ajax' => [
+                        'url' => Url::to(['/api/container-port/list']),
+                        'dataType' => 'json',
+                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                    ],
+                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                ],
+        ]);
+        ?>
 
         </p>
 
@@ -199,51 +203,25 @@ $formname = $model->formName();
 
 </div>
 
-<script>
-
-    function shipper_check()
-    {
-        shipperInput = $('#<?= $formname ?>-shipper_id').val();
-
-        if (shipperInput && isNaN(shipperInput))
-        {
-            shipperDetail_show();
-        } else
-        {
-            shipperDetail_hide();
-        }
-    }
-
-    function shipperDetail_show()
-    {
-        $('.field-<?= $formname ?>-shipperaddress').show('blind');
-        $('.field-<?= $formname ?>-shippernpwp').show('blind');
-        $('.field-<?= $formname ?>-shipperphone').show('blind');
-        $('.field-<?= $formname ?>-shipperemail').show('blind');
-    }
-
-    function shipperDetail_hide()
-    {
-        $('.field-<?= $formname ?>-shipperaddress').hide('blind');
-        $('.field-<?= $formname ?>-shippernpwp').hide('blind');
-        $('.field-<?= $formname ?>-shipperphone').hide('blind');
-        $('.field-<?= $formname ?>-shipperemail').hide('blind');
-    }
-
-</script>
-
 <?php
 $js = <<<JS
 
 	$(function () {
-        $('.field-{$formname}-shipperaddress').hide();
-        $('.field-{$formname}-shippernpwp').hide();
-        $('.field-{$formname}-shipperphone').hide();
-        $('.field-{$formname}-shipperemail').hide();
+        $('#shippinginstructionform-shipper_id').on('select2:select', function (evt) {
+            shipper = $(this).val();
 
-        $('select').on('select2:select', function (evt) {
-            shipper_check();
+            if (shipper && isNaN(shipper))
+            {
+                $('#input-shipperdetail').show('blind');
+            } else {
+                $('#input-shipperdetail').hide('blind');
+            }
         });
+
+        // trigger
+
+        $('#shippinginstructionform-shipper_id').trigger('select2:select');
+
 	});
 
 JS;
