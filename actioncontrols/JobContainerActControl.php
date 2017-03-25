@@ -125,7 +125,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
         $action = static::ACTION_DELETED;
 
         // blacklist
-        if (ActiveUser::isAdmin()) {
+        if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
         }
 
@@ -179,7 +179,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
         parent::getAllowDelete($params);
 
         // blacklist
-        if (ActiveUser::isAdmin()) {
+        if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
         }
 

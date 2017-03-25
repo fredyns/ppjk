@@ -136,7 +136,7 @@ class CompanyTypeActControl extends \fredyns\suite\libraries\ActionControl
         parent::getAllowDelete($params);
 
         // blacklist
-        if (ActiveUser::isAdmin()) {
+        if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
         }
 

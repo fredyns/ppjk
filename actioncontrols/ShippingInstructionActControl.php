@@ -137,7 +137,7 @@ class ShippingInstructionActControl extends \fredyns\suite\libraries\ActionContr
         $action = static::ACTION_DELETED;
 
         // blacklist
-        if (ActiveUser::isAdmin()) {
+        if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
         }
 
@@ -229,7 +229,7 @@ class ShippingInstructionActControl extends \fredyns\suite\libraries\ActionContr
         parent::getAllowDelete($params);
 
         // blacklist
-        if (ActiveUser::isAdmin()) {
+        if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
         }
 
