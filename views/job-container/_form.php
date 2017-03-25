@@ -12,10 +12,8 @@ use kartik\widgets\Select2;
 use app\models\form\JobContainerForm;
 use app\models\CompanyProfile;
 use app\models\ContainerType;
-use app\models\Shipping;
 use app\models\ContainerPort;
 use app\models\StuffingLocation;
-use app\models\Profile;
 use app\models\TruckSupervisor;
 
 /* @var $this \yii\web\View $this */
@@ -55,7 +53,7 @@ use app\models\TruckSupervisor;
                 $form
                 ->field($model, 'newSi')
                 ->label('New SI')
-                ->radioList(JobContainerForm::optsNewSi());
+                ->radioList(JobContainerForm::optsNewSi(), ['itemOptions' => ['class' => 'newsi-opts']]);
             ?>
 
             <div id="input-picksi">
@@ -170,7 +168,7 @@ use app\models\TruckSupervisor;
                 $shippingLabel = $model->shippingId;
 
                 if ($model->shippingId > 0) {
-                    if (($shipping = Shipping::findOne($model->shippingId)) !== null) {
+                    if (($shipping = CompanyProfile::findOne($model->shippingId)) !== null) {
                         $shippingLabel = $shipping->name;
                     }
                 }
@@ -519,7 +517,7 @@ use app\models\TruckSupervisor;
 $js = <<<JS
 
 	$(function () {
-        $('input[name="JobContainerForm[newSi]"]').click(function(){
+        $('.newsi-opts').click(function(){
             newSi = $(this).val();
 
             if (newSi === 'yes') {
@@ -542,10 +540,10 @@ $js = <<<JS
         });
 
         $('#jobcontainerform-shipperid').on('select2:select', function (evt) {
+            newSi = $('input[name="JobContainerForm[newSi]:radio:checked"]').val();
             shipper = $(this).val();
 
-            if (shipper && isNaN(shipper))
-            {
+            if (newSi === 'yes' && shipper && isNaN(shipper)) {
                 $('#input-shipperdetail').show('blind');
             } else {
                 $('#input-shipperdetail').hide('blind');
@@ -562,8 +560,7 @@ $js = <<<JS
 
         // first trigger
 
-        $('input[name="JobContainerForm[newSi]"]').click();
-        $('#jobcontainerform-shipperid').trigger('select2:select');
+        $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').click();
 
 	});
 
