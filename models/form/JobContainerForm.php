@@ -126,6 +126,20 @@ class JobContainerForm extends JobContainer
                     return StringHelper::plaintextFilter($value);
                 },
             ],
+            [
+                [
+                    // new SI
+                    'shippingInstructionNumber',
+                    // container
+                    'containerNumber', 'sealNumber',
+                    'policenumber',
+                ],
+                'filter',
+                'filter' => function($value) {
+
+                    return strtoupper($value);
+                },
+            ],
             /* default value */
             ['newSi', 'default', 'value' => static::NEWSI_NO],
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
