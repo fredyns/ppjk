@@ -71,7 +71,7 @@ use app\models\TruckSupervisor;
                             'placeholder' => 'mencari shipping instruction ...',
                         ],
                         'pluginOptions' => [
-                            'minimumInputLength' => 3,
+                            'minimumInputLength' => 2,
                             'language' => [
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
@@ -123,7 +123,7 @@ use app\models\TruckSupervisor;
                             'pluginOptions' => [
                                 'allowClear' => true,
                                 'tags' => true,
-                                'minimumInputLength' => 3,
+                                'minimumInputLength' => 1,
                                 'language' => [
                                     'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                                 ],
@@ -185,7 +185,7 @@ use app\models\TruckSupervisor;
                         'pluginOptions' => [
                             'allowClear' => true,
                             'tags' => true,
-                            'minimumInputLength' => 3,
+                            'minimumInputLength' => 1,
                             'language' => [
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
@@ -221,7 +221,7 @@ use app\models\TruckSupervisor;
                         'pluginOptions' => [
                             'allowClear' => true,
                             'tags' => true,
-                            'minimumInputLength' => 3,
+                            'minimumInputLength' => 1,
                             'language' => [
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
@@ -303,7 +303,7 @@ use app\models\TruckSupervisor;
                 'pluginOptions' => [
                     'allowClear' => true,
                     'tags' => true,
-                    'minimumInputLength' => 3,
+                    'minimumInputLength' => 1,
                     'language' => [
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
@@ -338,7 +338,7 @@ use app\models\TruckSupervisor;
                 'pluginOptions' => [
                     'allowClear' => true,
                     'tags' => true,
-                    'minimumInputLength' => 3,
+                    'minimumInputLength' => 1,
                     'language' => [
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
@@ -373,7 +373,7 @@ use app\models\TruckSupervisor;
                 'pluginOptions' => [
                     'allowClear' => true,
                     'tags' => true,
-                    'minimumInputLength' => 3,
+                    'minimumInputLength' => 1,
                     'language' => [
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],
@@ -408,7 +408,7 @@ use app\models\TruckSupervisor;
                 'pluginOptions' => [
                     'allowClear' => true,
                     'tags' => true,
-                    'minimumInputLength' => 3,
+                    'minimumInputLength' => 1,
                     'language' => [
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],

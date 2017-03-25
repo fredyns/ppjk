@@ -62,7 +62,7 @@ $formname = $model->formName();
                     'pluginOptions' => [
                         'allowClear' => true,
                         'tags' => true,
-                        'minimumInputLength' => 3,
+                        'minimumInputLength' => 1,
                         'language' => [
                             'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                         ],
@@ -114,7 +114,7 @@ $formname = $model->formName();
                 'pluginOptions' => [
                     'allowClear' => true,
                     'tags' => true,
-                    'minimumInputLength' => 3,
+                    'minimumInputLength' => 1,
                     'language' => [
                         'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                     ],

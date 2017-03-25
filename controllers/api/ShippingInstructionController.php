@@ -36,7 +36,7 @@ class ShippingInstructionController extends \yii\rest\ActiveController
      */
     public function actionList($q = null, $id = null)
     {
-        $minimumInputLength = 3;
+        $minimumInputLength = 2;
         Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
         $out = [
             'results' => [
