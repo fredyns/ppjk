@@ -26,6 +26,11 @@ use app\models\TruckSupervisor;
         float: left;
         margin-right: 10px;
     }
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
 </style>
 
 <div class="job-container-form">
@@ -534,7 +539,7 @@ $js = <<<JS
 
         });
 
-        $(".uppercase").keypress(function( event ) {
+        $(".uppercase").keyup(function( event ) {
             str = $(this).val();
             $(this).val(str.toUpperCase());
         });

@@ -20,6 +20,14 @@ use app\models\ContainerPort;
 $formname = $model->formName();
 ?>
 
+<style>
+
+    .uppercase {
+        text-transform: uppercase;
+    }
+
+</style>
+
 <div class="shipping-instruction-form">
 
     <?php
@@ -40,7 +48,12 @@ $formname = $model->formName();
 
             <!-- attribute number -->
             <?=
-            $form->field($model, 'number')->textInput()
+                $form
+                ->field($model, 'number')
+                ->textInput([
+                    'class' => 'form-control uppercase',
+                    'maxlength' => true,
+                ])
             ?>
 
             <!-- attribute shipper_id -->
@@ -216,6 +229,11 @@ $js = <<<JS
             } else {
                 $('#input-shipperdetail').hide('blind');
             }
+        });
+
+        $(".uppercase").keyup(function( event ) {
+            str = $(this).val();
+            $(this).val(str.toUpperCase());
         });
 
         // trigger
