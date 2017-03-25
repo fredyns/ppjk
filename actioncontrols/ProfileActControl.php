@@ -57,8 +57,7 @@ class ProfileActControl extends \fredyns\suite\libraries\ActionControl
                 parent::messages(),
                 [
                 'otheruser' => "This Profile  connected to User Account.",
-                'hadtransport' => "This Profile ever had tranport containers.",
-                'ispersonel' => "This Profile registered as personel in Shipper.",
+                'ispersonel' => "This Profile registered as Company's personel.",
                 ]
         );
     }
@@ -242,10 +241,6 @@ class ProfileActControl extends \fredyns\suite\libraries\ActionControl
 
         if ($this->model->user_id > 0 && $this->model->user_id != Yii::$app->user->id) {
             $this->addErrorMsg($action, 'otheruser');
-        }
-
-        if ($this->model->getJobContainers()->count() > 0) {
-            $this->addErrorMsg($action, 'hadtransport');
         }
 
         if ($this->model->getPersonels()->count() > 0) {

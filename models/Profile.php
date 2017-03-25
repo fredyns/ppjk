@@ -109,14 +109,6 @@ class Profile extends BaseProfile
     /**
      * @return \yii\db\ActiveQuery
      */
-    public function getJobContainers()
-    {
-        return $this->hasMany(\app\models\JobContainer::className(), ['driver_id' => 'id']);
-    }
-
-    /**
-     * @return \yii\db\ActiveQuery
-     */
     public function getPersonels()
     {
         return $this->hasMany(\app\models\Personel::className(), ['profile_id' => 'id']);
