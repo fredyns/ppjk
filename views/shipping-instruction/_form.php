@@ -223,12 +223,15 @@ $js = <<<JS
         $('#shippinginstructionform-shipper_id').on('select2:select', function (evt) {
             shipper = $(this).val();
 
-            if (shipper && isNaN(shipper))
-            {
+            if (shipper && isNaN(shipper)) {
                 $('#input-shipperdetail').show('blind');
             } else {
                 $('#input-shipperdetail').hide('blind');
             }
+        });
+
+        $('#shippinginstructionform-shipper_id').on('select2:close', function (evt) {
+            $('#shippinginstructionform-shipper_id').trigger('select2:select');
         });
 
         $(".uppercase").keyup(function( event ) {

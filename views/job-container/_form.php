@@ -545,7 +545,7 @@ $js = <<<JS
         });
 
         $('#jobcontainerform-shipperid').on('select2:select', function (evt) {
-            newSi = $('input[name="JobContainerForm[newSi]:radio:checked"]').val();
+            newSi = $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').val();
             shipper = $(this).val();
 
             if (newSi === 'yes' && shipper && isNaN(shipper)) {
@@ -553,6 +553,10 @@ $js = <<<JS
             } else {
                 $('#input-shipperdetail').hide('blind');
             }
+        });
+
+        $('#jobcontainerform-shipperid').on('select2:close', function (evt) {
+            $('#jobcontainerform-shipperid').trigger('select2:select');
         });
 
         $('#jobcontainerform-shippinginstructionnumber')
