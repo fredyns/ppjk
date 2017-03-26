@@ -45,7 +45,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function modelLabel()
     {
-        return parent::modelLabel();
+        return ($this->model->containerNumber) ? $this->model->containerNumber : '#'.$this->model->id;
     }
 
     /**
