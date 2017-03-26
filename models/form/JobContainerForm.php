@@ -122,7 +122,6 @@ class JobContainerForm extends JobContainer
                 ],
                 'filter',
                 'filter' => function($value) {
-
                     return StringHelper::plaintextFilter($value);
                 },
             ],
@@ -136,7 +135,6 @@ class JobContainerForm extends JobContainer
                 ],
                 'filter',
                 'filter' => function($value) {
-
                     return strtoupper($value);
                 },
             ],
