@@ -89,7 +89,7 @@ class ShippingInstructionForm extends ShippingInstruction
             /* default value */
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
-            [['number', 'shipper_id', 'shipping_id', 'destination_id'], 'required'],
+            [['number', 'shipper_id'], 'required'],
             [
                 ['shipperAddress', 'shipperPhone'],
                 'required',

@@ -144,7 +144,6 @@ class JobContainerForm extends JobContainer
             ['newSi', 'default', 'value' => static::NEWSI_NO],
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
-            [['containerNumber'], 'required'],
             [
                 ['shippingInstruction_id'],
                 'required',
@@ -153,20 +152,20 @@ class JobContainerForm extends JobContainer
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked\').val();
+                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
 
                         return (newsi == \''.static::NEWSI_NO.'\');
                     }',
             ],
             [
-                ['shippingInstructionNumber', 'shipperId', 'shippingId', 'destinationId'],
+                ['shippingInstructionNumber', 'shipperId'],
                 'required',
                 'when' => function ($model, $attribute) {
                     return ($model->newSi == static::NEWSI_YES);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked\').val();
+                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
 
                         return (newsi == \''.static::NEWSI_YES.'\');
                     }',
@@ -182,7 +181,7 @@ class JobContainerForm extends JobContainer
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked\').val();
+                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
                         shipperInput = $(\'#'.$this->formName().'-shipperId\').val();
 
                         return (newsi == \''.static::NEWSI_YES.'\' && shipperInput && isNaN(shipperInput));
@@ -268,7 +267,7 @@ class JobContainerForm extends JobContainer
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'#'.$this->formName().'-newsi\').val();
+                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
 
                         return (newsi === \''.static::NEWSI_YES.'\');
                     }',
