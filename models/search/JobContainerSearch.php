@@ -16,6 +16,8 @@ use app\models\TruckSupervisor;
  */
 class JobContainerSearch extends JobContainer
 {
+    const CONTAINERNUMBERMASK = 'a{0,4}9{0,8}';
+
     // shipping instruction
     public $shippingInstructionNumber;
     public $shipper_id;
@@ -37,6 +39,19 @@ class JobContainerSearch extends JobContainer
     public function rules()
     {
         return [
+            [
+                [
+                    // SI
+                    'shippingInstructionNumber',
+                    // container
+                    'containerNumber', 'sealNumber',
+                    'policenumber',
+                ],
+                'filter',
+                'filter' => function($value) {
+                    return strtoupper($value);
+                },
+            ],
             // shipping instruction
             [
                 [
@@ -47,7 +62,6 @@ class JobContainerSearch extends JobContainer
                 ],
                 'filter',
                 'filter' => function($value) {
-
                     return StringHelper::plaintextFilter($value);
                 },
             ],
@@ -70,7 +84,6 @@ class JobContainerSearch extends JobContainer
                 ],
                 'filter',
                 'filter' => function($value) {
-
                     return StringHelper::plaintextFilter($value);
                 },
             ],

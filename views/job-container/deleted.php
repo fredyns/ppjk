@@ -2,11 +2,13 @@
 
 use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
+use yii\widgets\MaskedInput;
 use kartik\grid\GridView;
 use jino5577\daterangepicker\DateRangePicker;
 use app\models\JobContainer;
 use app\models\ContainerType;
 use app\actioncontrols\ShippingInstructionActControl;
+use app\models\search\JobContainerSearch;
 
 /**
  * @var yii\web\View $this
@@ -115,6 +117,19 @@ $this->params['breadcrumbs'][] = $this->title;
                     'options' => [
                         'width' => '120px',
                     ],
+                    'filter' => MaskedInput::widget([
+                        'name' => "JobContainerSearch[containerNumber]",
+                        'value' => $searchModel->containerNumber,
+                        'mask' => JobContainerSearch::CONTAINERNUMBERMASK,
+                        'options' => [
+                            'maxlength' => "11",
+                            'class' => "form-control",
+                            'style' => "text-transform: uppercase;",
+                        ],
+                        'clientOptions' => [
+                            'greedy' => false,
+                        ],
+                    ]),
                 ],
                 [
                     'attribute' => 'size',

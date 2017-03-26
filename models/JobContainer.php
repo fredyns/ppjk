@@ -25,6 +25,7 @@ class JobContainer extends BaseJobContainer
     const ALIAS_CONTAINERDEPO = 'containerDepo';
     const ALIAS_SUPERVISOR = 'supervisor';
     const ALIAS_TRUCKVENDOR = 'truckVendor';
+    const CONTAINERNUMBERMASK = 'aaaa9999999';
     const SIZE_20 = '20';
     const SIZE_40 = '40';
     const SIZE_45 = '45';

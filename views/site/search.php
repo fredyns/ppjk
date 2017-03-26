@@ -2,6 +2,8 @@
 
 use yii\helpers\Html;
 use yii\widgets\ActiveForm;
+use yii\widgets\MaskedInput;
+use app\models\JobContainer;
 
 /**
  * @var yii\web\View $this
@@ -30,7 +32,23 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
         <div class="form-group field-number required">
             <label class="col-lg-3 control-label" for="number">Container Number</label>
             <div class="col-lg-9">
-                <input type="text" id="number" class="form-control" name="number" value="<?= $searchTerm ?>">
+                <?=
+                MaskedInput::widget([
+                    'id' => "search-input",
+                    'name' => "number",
+                    'value' => $searchTerm,
+                    'mask' => JobContainer::CONTAINERNUMBERMASK,
+                    'options' => [
+                        'maxlength' => "11",
+                        'class' => "form-control mytooltip",
+                        'style' => "text-transform: uppercase;",
+                        'placeholder' => Yii::t('app', 'Search Container')."...",
+                        'title' => "Type the 11-digit number of container, with no spaces",
+                        'data-toggle' => "tooltip",
+                        'data-placement' => "bottom",
+                    ],
+                ]);
+                ?>
             </div>
         </div>
 

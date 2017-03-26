@@ -6,6 +6,7 @@ use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
 use yii\web\JsExpression;
+use yii\widgets\MaskedInput;
 use cornernote\returnurl\ReturnUrl;
 use dmstr\bootstrap\Tabs;
 use kartik\widgets\Select2;
@@ -13,6 +14,7 @@ use app\models\form\JobContainerForm;
 use app\models\CompanyProfile;
 use app\models\ContainerType;
 use app\models\ContainerPort;
+use app\models\JobContainer;
 use app\models\StuffingLocation;
 use app\models\TruckSupervisor;
 
@@ -252,10 +254,17 @@ use app\models\TruckSupervisor;
         <?=
             $form
             ->field($model, 'containerNumber')
-            ->textInput([
-                'class' => 'form-control uppercase',
-                'maxlength' => 11,
-            ])
+            ->textInput()
+            ->widget(
+                MaskedInput::className(),
+                [
+                'mask' => JobContainer::CONTAINERNUMBERMASK,
+                'options' => [
+                    'class' => 'form-control uppercase',
+                    'maxlength' => 11,
+                ],
+                ]
+        );
         ?>
 
         <!-- attribute size -->
@@ -537,11 +546,6 @@ $js = <<<JS
 
             $( "#jobcontainerform-shipperid" ).trigger("select2:select");
 
-        });
-
-        $(".uppercase").keyup(function( event ) {
-            str = $(this).val();
-            $(this).val(str.toUpperCase());
         });
 
         $('#jobcontainerform-shipperid').on('select2:select', function (evt) {

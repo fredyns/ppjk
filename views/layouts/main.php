@@ -4,7 +4,9 @@ use yii\bootstrap\Nav;
 use yii\helpers\Html;
 use yii\helpers\Url;
 use yii\widgets\Breadcrumbs;
+use yii\widgets\MaskedInput;
 use dmstr\widgets\Alert;
+use app\models\JobContainer;
 
 /* @var $this \yii\web\View */
 /* @var $content string */
@@ -87,17 +89,23 @@ if (Yii::$app->controller->action->id === 'login') {
                                 &nbsp;
                                 <form action="<?= Url::to(['/site/search']); ?>" method="get" class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
-                                        <input
-                                            type="text"
-                                            name="number"
-                                            class="form-control mytooltip"
-                                            id="navbar-search-input"
-                                            placeholder="<?= Yii::t('app', 'Search Container') ?>..."
-                                            title="Type the 11-digit number of container, with no spaces"
-                                            data-toggle="tooltip"
-                                            data-placement="bottom"
-                                            maxlength="11"
-                                            />
+                                        <?=
+                                        MaskedInput::widget([
+                                            'id' => "navbar-search-input",
+                                            'name' => "number",
+                                            'value' => Yii::$app->request->get('number'),
+                                            'mask' => JobContainer::CONTAINERNUMBERMASK,
+                                            'options' => [
+                                                'maxlength' => "11",
+                                                'class' => "form-control mytooltip",
+                                                'style' => "text-transform: uppercase;",
+                                                'placeholder' => Yii::t('app', 'Search Container')."...",
+                                                'title' => "Type the 11-digit number of container, with no spaces",
+                                                'data-toggle' => "tooltip",
+                                                'data-placement' => "bottom",
+                                            ],
+                                        ]);
+                                        ?>
                                     </div>
                                 </form>
                             </div>
@@ -182,11 +190,6 @@ if (Yii::$app->controller->action->id === 'login') {
         }
       });
 
-      $("#navbar-search-input").keypress(function( event ) {
-        str = $(this).val();
-        $(this).val(str.toUpperCase());
-      });
- 
 	});
 
 JS;

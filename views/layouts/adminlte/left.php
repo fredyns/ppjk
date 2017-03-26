@@ -2,7 +2,9 @@
 
 use yii\helpers\Html;
 use yii\helpers\Url;
+use yii\widgets\MaskedInput;
 use fredyns\suite\helpers\ActiveUser;
+use app\models\JobContainer;
 ?>
 <aside class="main-sidebar">
 
@@ -46,17 +48,23 @@ use fredyns\suite\helpers\ActiveUser;
         <!-- search form -->
         <form action="<?= Url::to(['/site/search']) ?>" method="get" class="sidebar-form">
             <div class="input-group">
-                <input
-                    type="text"
-                    name="number"
-                    class="form-control mytooltip"
-                    placeholder="<?= Yii::t('app', 'Search Container') ?>..."
-                    id="navbar-search-input"
-                    title="Type the 11-digit number of container, with no spaces"
-                    data-toggle="tooltip"
-                    data-placement="bottom"
-                    maxlength="11"
-                    />
+                <?=
+                MaskedInput::widget([
+                    'id' => "navbar-search-input",
+                    'name' => "number",
+                    'value' => Yii::$app->request->get('number'),
+                    'mask' => JobContainer::CONTAINERNUMBERMASK,
+                    'options' => [
+                        'maxlength' => "11",
+                        'class' => "form-control mytooltip",
+                        'style' => "text-transform: uppercase;",
+                        'placeholder' => Yii::t('app', 'Search Container')."...",
+                        'title' => "Type the 11-digit number of container, with no spaces",
+                        'data-toggle' => "tooltip",
+                        'data-placement' => "bottom",
+                    ],
+                ]);
+                ?>
                 <span class="input-group-btn">
                     <button type='submit' name='search' id='search-btn' class="btn btn-flat"><i class="fa fa-search"></i>
                     </button>
@@ -65,22 +73,6 @@ use fredyns\suite\helpers\ActiveUser;
         </form>
         <!-- /.search form -->
 
-        <?php
-        $js = <<<JS
-
-	$(function () {
-
-      $("#navbar-search-input").keypress(function( event ) {
-        str = $(this).val();
-        $(this).val(str.toUpperCase());
-      });
-
-	});
-
-JS;
-
-        $this->registerJs($js, \yii\web\View::POS_READY);
-        ?>
         <?=
         dmstr\widgets\Menu::widget(
             [
