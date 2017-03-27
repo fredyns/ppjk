@@ -535,45 +535,232 @@ $js = <<<JS
             newSi = $(this).val();
 
             if (newSi === 'yes') {
-                $('#input-newsi').show('blind');
-                $('#input-shipper').show('blind');
-                $('#input-picksi').hide('blind');
-            } else if (newSi === 'no') {
-                $('#input-shipper').hide('blind');
-                $('#input-newsi').hide('blind');
-                $('#input-picksi').show('blind');
-            }
-
-            $( "#jobcontainerform-shipperid" ).trigger("select2:select");
-
-        });
-
-        $('#jobcontainerform-shipperid').on('select2:select', function (evt) {
-            newSi = $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').val();
-            shipper = $(this).val();
-
-            if (newSi === 'yes' && shipper && isNaN(shipper)) {
-                $('#input-shipperdetail').show('blind');
+                $('#input-picksi').popover('hide');
+                $('#input-picksi').hide({
+                    effect: 'blind',
+                    complete: function(){
+                        $('#input-newsi').show({
+                            effect: 'blind',
+                            complete: function(){
+                                $('#jobcontainerform-shippinginstructionnumber').focus();
+                            }
+                        });
+                    }
+                });
             } else {
-                $('#input-shipperdetail').hide('blind');
+                $('#input-newsi').hide({
+                    effect: 'blind',
+                    complete: function(){
+                        $('#input-picksi').show({
+                            effect: 'blind',
+                            complete: function(){
+                                $('#jobcontainerform-shippinginstruction_id').select2('open');
+                                $('#input-picksi').popover('show');
+                            }
+                        });
+                    }
+                });
             }
         });
 
-        $('#jobcontainerform-shipperid').on('select2:close', function (evt) {
-            $('#jobcontainerform-shipperid').trigger('select2:select');
+        $('.newsi-opts').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $(this).click();
+                event.preventDefault();
+            }
         });
 
-        $('#jobcontainerform-shippinginstructionnumber')
-        .popover({
+        $('#select2-jobcontainerform-shippinginstruction_id-results').popover({
             title: "<strong>Petunjuk</strong>",
             content: "<p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p><p>Contoh : 0001 EE SRG</p><p><b>EE</b> : Emkl Ekspor<br/><b>EI</b> : Emkl Impor<br/><b>JPR</b> : Jepara<br/><b>SLO</b> : Solo<br/><b>SRG</b> : Semarang<br/><b>YGY</b> : Yogyakarta<br/></p>",
             html: true,
             placement: "bottom"
         });
 
+        $('#jobcontainerform-shippinginstruction_id').on('select2:open', function () {
+            $('#select2-jobcontainerform-shippinginstruction_id-results').popover('show');
+        });
+
+        $('#jobcontainerform-shippinginstruction_id').on('select2:close', function () {
+            $('#select2-jobcontainerform-shippinginstruction_id-results').popover('hide');
+            $('#jobcontainerform-containernumber').focus();
+        });
+
+        $('#jobcontainerform-shippinginstructionnumber').popover({
+            title: "<strong>Petunjuk</strong>",
+            content: "<p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p><p>Contoh : 0001 EE SRG</p><p><b>EE</b> : Emkl Ekspor<br/><b>EI</b> : Emkl Impor<br/><b>JPR</b> : Jepara<br/><b>SLO</b> : Solo<br/><b>SRG</b> : Semarang<br/><b>YGY</b> : Yogyakarta<br/></p>",
+            html: true,
+            placement: "bottom"
+        });
+
+        $('#jobcontainerform-shippinginstructionnumber').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-shipperid').select2('open');
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-shippinginstructionnumber').focus(function(event) {
+            $(this).popover('show');
+        });
+
+        $('#jobcontainerform-shippinginstructionnumber').blur(function(event) {
+            $(this).popover('hide');
+        });
+
+        $('#jobcontainerform-shipperid').on('select2:close', function (event) {
+            newSi = $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').val();
+            shipper = $(this).val();
+
+            if (newSi === 'yes' && shipper && isNaN(shipper)) {
+                $('#input-shipperdetail').show({
+                    effect: 'blind',
+                    complete: function(){
+                        $('#jobcontainerform-shipperaddress').focus();
+                    }
+                });
+            } else {
+                $('#input-shipperdetail').hide({
+                    effect: 'blind',
+                    complete: function(){
+                        setTimeout(function() {
+                            shipper = $('#jobcontainerform-shipperid').val();
+
+                            if (shipper) {
+                                $('#jobcontainerform-shippingid').select2('open');
+                            } else {
+                                $('#jobcontainerform-shippingid').select2('close');
+                            }
+                        }, 300);
+                    }
+                });
+            }
+        });
+
+        $('#jobcontainerform-shippingid').on('select2:close', function (event) {
+            setTimeout(function() {
+                shipping = $(this).val();
+
+                if (shipping) {
+                    $('#jobcontainerform-destinationid').select2('open');
+                } else {
+                    $('#jobcontainerform-destinationid').select2('close');
+                }
+            }, 300);
+        });
+
+        $('#jobcontainerform-destinationid').on('select2:close', function (event) {
+            $('#jobcontainerform-size').focus();
+        });
+
+        $('#jobcontainerform-containernumber').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-size').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-size').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-type_id').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-type_id').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-sealnumber').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-sealnumber').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-stuffingdate').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-stuffingdate').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $(this).blur();
+                $('#jobcontainerform-containerdepo_id').select2('open');
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-containerdepo_id').on('select2:close', function (event) {
+            setTimeout(function() {
+                depo = $(this).val();
+
+                if (depo) {
+                    $('#jobcontainerform-stuffinglocation_id').select2('open');
+                } else {
+                    $('#jobcontainerform-stuffinglocation_id').select2('close');
+                }
+            }, 300);
+        });
+
+        $('#jobcontainerform-stuffinglocation_id').on('select2:close', function (event) {
+            setTimeout(function() {
+                loc = $(this).val();
+
+                if (loc) {
+                    $('#jobcontainerform-supervisor_id').select2('open');
+                } else {
+                    $('#jobcontainerform-supervisor_id').select2('close');
+                }
+            }, 300);
+        });
+
+        $('#jobcontainerform-supervisor_id').on('select2:close', function (event) {
+            setTimeout(function() {
+                loc = $(this).val();
+
+                if (loc) {
+                    $('#jobcontainerform-truckvendor_id').select2('open');
+                } else {
+                    $('#jobcontainerform-truckvendor_id').select2('close');
+                }
+            }, 300);
+        });
+
+        $('#jobcontainerform-truckvendor_id').on('select2:close', function (event) {
+            $('#jobcontainerform-drivername').focus();
+        });
+
+        $('#jobcontainerform-drivername').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-cellphone').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-cellphone').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-policenumber').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-policenumber').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-notes').focus();
+                event.preventDefault();
+            }
+        });
+
         // first trigger
 
-        $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').click();
+        $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').click().focus();
+
+        shipper = $('#jobcontainerform-shipperid').val();
+
+        if (shipper && isNaN(shipper)) {
+            $('#input-shipperdetail').show();
+        } else {
+            $('#input-shipperdetail').hide();
+        }
 
 	});
 
