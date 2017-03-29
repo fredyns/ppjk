@@ -286,6 +286,10 @@ use app\models\TruckSupervisor;
                         'class' => 'form-control uppercase',
                         'maxlength' => 11,
                     ],
+                    'clientOptions' => [
+                        'greedy' => false,
+                        'removeMaskOnSubmit' => true,
+                    ],
                     ]
             );
             ?>
