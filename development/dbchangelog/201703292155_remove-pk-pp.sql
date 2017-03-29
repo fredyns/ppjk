@@ -1,0 +1,1 @@
+ALTER TABLE  `profile` DROP FOREIGN KEY  `fk_profile_picture` ;
