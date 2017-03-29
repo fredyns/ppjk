@@ -33,8 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
     <?php else: ?>
 
         <div class="row">
-            <div class="col-lg-3">&nbsp;</div>
-            <div class="col-lg-6">
+            <div class="col-lg-6 col-lg-offset-3">
 
                 <p>
                     If you have business inquiries or other questions, please fill out the following form to contact us.
@@ -42,8 +41,6 @@ $this->params['breadcrumbs'][] = $this->title;
                 </p>
 
             </div>
-            <div class="col-lg-3">&nbsp;</div>
-
         </div>
         <div class="row">
             <div class="col-lg-4">&nbsp;</div>
