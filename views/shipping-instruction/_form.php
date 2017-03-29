@@ -12,7 +12,7 @@ use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use app\models\CompanyProfile;
 use app\models\ContainerPort;
-use app\models\form\ShippingInstructionForm;
+use app\models\ShippingInstruction;
 
 /**
  * @var yii\web\View $this
@@ -60,7 +60,7 @@ $formname = $model->formName();
                 ->widget(
                     MaskedInput::className(),
                     [
-                    'mask' => ShippingInstructionForm::NUMBERMASK,
+                    'mask' => ShippingInstruction::NUMBERMASK,
                     'options' => [
                         'class' => 'form-control uppercase',
                         'maxlength' => 12,

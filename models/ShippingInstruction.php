@@ -18,6 +18,7 @@ class ShippingInstruction extends BaseShippingInstruction
     use ModelTool,
         ModelBlame,
         ModelSoftDelete;
+    const NUMBERMASK = '9999 aa a{2,5}';
     const ALIAS_SHIPPER = 'shipper';
     const ALIAS_SHIPPING = 'shipping';
     const ALIAS_DESTINATION = 'destination';
