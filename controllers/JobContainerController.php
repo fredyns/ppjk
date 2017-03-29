@@ -39,9 +39,7 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
      */
     public function actionCreate()
     {
-        $model = new JobContainerForm([
-            'newSi' => JobContainerForm::NEWSI_YES,
-        ]);
+        $model = new JobContainerForm();
         $actionControl = JobContainerActControl::checkAccess('create', $model);
 
         try {
@@ -52,7 +50,6 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
                     return $this->redirect([
                             'create',
                             'JobContainerForm' => [
-                                'newSi' => JobContainerForm::NEWSI_NO,
                                 'shippingInstruction_id' => $model->shippingInstruction_id,
                                 'shipperId' => $model->shipperId,
                                 'shippingId' => $model->shippingId,
@@ -67,7 +64,7 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
                             ],
                     ]);
                 } else {
-                    return $this->redirect(ReturnUrl::getUrl(Url::previous()));
+                    return $this->redirect(ReturnUrl::getUrl(['view', 'id' => $model->id]));
                 }
             } elseif (!Yii::$app->request->isPost) {
                 $model->load($_GET);
@@ -97,7 +94,6 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
 
             return $this->redirect(ReturnUrl::getUrl(Url::previous()));
         } elseif (!Yii::$app->request->isPost) {
-            $model->shippingInstructionNumber = $model->shippingInstruction->number;
             $model->shipperId = $model->shippingInstruction->shipper_id;
             $model->shippingId = $model->shippingInstruction->shipping_id;
             $model->destinationId = $model->shippingInstruction->destination_id;

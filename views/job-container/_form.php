@@ -16,6 +16,7 @@ use app\models\ContainerType;
 use app\models\ContainerPort;
 use app\models\JobContainer;
 use app\models\StuffingLocation;
+use app\models\ShippingInstruction;
 use app\models\TruckSupervisor;
 
 /* @var $this \yii\web\View $this */
@@ -24,10 +25,6 @@ use app\models\TruckSupervisor;
 ?>
 
 <style>
-    #jobcontainerform-newsi .radio {
-        float: left;
-        margin-right: 10px;
-    }
 
     .uppercase {
         text-transform: uppercase;
@@ -53,120 +50,135 @@ use app\models\TruckSupervisor;
 
         <?php $this->beginBlock('ShippingInstruction'); ?>
 
+        <br/>
         <div id="input-si">
 
-            <!-- attribute newSi -->
-            <?=
-                $form
-                ->field($model, 'newSi')
-                ->label('New SI')
-                ->radioList(JobContainerForm::optsNewSi(), ['itemOptions' => ['class' => 'newsi-opts']]);
+            <!-- attribute shippingInstruction_id -->
+            <?php
+            $siLabel = $model->shippingInstruction_id;
+
+            if ($model->shippingInstruction_id > 0) {
+                if (($si = ShippingInstruction::findOne($model->shippingInstruction_id)) !== null) {
+                    $siLabel = $si->number;
+                }
+            }
+
+            echo $form
+                ->field($model, 'shippingInstruction_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $siLabel,
+                    'options' => [
+                        'placeholder' => 'mencari shipping instruction ...',
+                    ],
+                    'pluginOptions' => [
+                        'tags' => true,
+                        'minimumInputLength' => 2,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/shipping-instruction/list']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(itemData) { return itemData.text; }'),
+                        'templateSelection' => new JsExpression('function (itemData) { return itemData.text; }'),
+                    ],
+            ]);
             ?>
 
-            <div id="input-picksi">
+            <!-- petunjuk format nomor SI -->
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Petunjuk</h3>
 
-                <!-- attribute shippingInstruction_id -->
-                <?=
-                    $form
-                    ->field($model, 'shippingInstruction_id')
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p>
+                            <p>Contoh : 0001 EE SRG</p>
+                            <p>
+                                <b>EE</b> : Emkl Ekspor<br/>
+                                <b>EI</b> : Emkl Impor<br/>
+                                <b>JPR</b> : Jepara<br/>
+                                <b>SLO</b> : Solo<br/>
+                                <b>SRG</b> : Semarang<br/>
+                                <b>YGY</b> : Yogyakarta<br/>
+                            </p>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+
+            </div>
+
+            <div id="input-sidetail">
+
+                <!-- attribute shipperId -->
+                <?php
+                $shipperLabel = $model->shipperId;
+
+                if ($model->shipperId > 0) {
+                    if (($shipper = CompanyProfile::findOne($model->shipperId)) !== null) {
+                        $shipperLabel = $shipper->name;
+                    }
+                }
+
+                echo $form
+                    ->field($model, 'shipperId')
+                    ->label('Shipper Name')
                     ->widget(Select2::classname(),
                         [
-                        'initValueText' => ArrayHelper::getValue($model, 'shippingInstruction.number'),
-                        'options' => [
-                            'placeholder' => 'mencari shipping instruction ...',
-                        ],
+                        'initValueText' => $shipperLabel,
+                        'options' => ['placeholder' => 'mencari perusahaan ...'],
                         'pluginOptions' => [
-                            'minimumInputLength' => 2,
+                            'tags' => true,
+                            'minimumInputLength' => 1,
                             'language' => [
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
                             'ajax' => [
-                                'url' => Url::to(['/api/shipping-instruction/list']),
+                                'url' => Url::to(['/api/company-profile/list-shipper']),
                                 'dataType' => 'json',
                                 'data' => new JsExpression('function(params) { return {q:params.term}; }')
                             ],
                             'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                            'templateResult' => new JsExpression('function(itemData) { return itemData.text; }'),
-                            'templateSelection' => new JsExpression('function (itemData) { return itemData.text; }'),
+                            'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                            'templateSelection' => new JsExpression('function (item) { return item.text; }'),
                         ],
                 ]);
                 ?>
 
-            </div>
+                <div id="input-shipperdetail">
 
-            <div id="input-newsi">
-
-                <!-- attribute shippingInstructionNumber -->
-                <?=
-                    $form
-                    ->field($model, 'shippingInstructionNumber')
-                    ->textInput([
-                        'class' => 'form-control uppercase',
-                        'maxlength' => true,
-                ]);
-                ?>
-
-                <div id="input-shipper">
-
-                    <!-- attribute shipperId -->
-                    <?php
-                    $shipperLabel = $model->shipperId;
-
-                    if ($model->shipperId > 0) {
-                        if (($shipper = CompanyProfile::findOne($model->shipperId)) !== null) {
-                            $shipperLabel = $shipper->name;
-                        }
-                    }
-
-                    echo $form
-                        ->field($model, 'shipperId')
-                        ->label('Shipper Name')
-                        ->widget(Select2::classname(),
-                            [
-                            'initValueText' => $shipperLabel,
-                            'options' => ['placeholder' => 'mencari perusahaan ...'],
-                            'pluginOptions' => [
-                                'allowClear' => true,
-                                'tags' => true,
-                                'minimumInputLength' => 1,
-                                'language' => [
-                                    'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                                ],
-                                'ajax' => [
-                                    'url' => Url::to(['/api/company-profile/list-shipper']),
-                                    'dataType' => 'json',
-                                    'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                                ],
-                                'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                                'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                                'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                            ],
-                    ]);
+                    <!-- attribute shipperAddress -->
+                    <?=
+                    $form->field($model, 'shipperAddress')->textarea(['rows' => 3])
                     ?>
 
-                    <div id="input-shipperdetail">
+                    <!-- attribute shipperPhone -->
+                    <?=
+                    $form->field($model, 'shipperPhone')->textInput(['maxlength' => true])
+                    ?>
 
-                        <!-- attribute shipperAddress -->
-                        <?=
-                        $form->field($model, 'shipperAddress')->textarea(['rows' => 3])
-                        ?>
+                    <!-- attribute shipperEmail -->
+                    <?=
+                    $form->field($model, 'shipperEmail')->textInput(['maxlength' => true])
+                    ?>
 
-                        <!-- attribute shipperPhone -->
-                        <?=
-                        $form->field($model, 'shipperPhone')->textInput(['maxlength' => true])
-                        ?>
-
-                        <!-- attribute shipperEmail -->
-                        <?=
-                        $form->field($model, 'shipperEmail')->textInput(['maxlength' => true])
-                        ?>
-
-                        <!-- attribute shipperNpwp -->
-                        <?=
-                        $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true])
-                        ?>
-
-                    </div>
+                    <!-- attribute shipperNpwp -->
+                    <?=
+                    $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true])
+                    ?>
 
                 </div>
 
@@ -250,214 +262,231 @@ use app\models\TruckSupervisor;
 
         <?php $this->beginBlock('main'); ?>
 
-        <!-- attribute containerNumber -->
-        <?=
-            $form
-            ->field($model, 'containerNumber')
-            ->textInput()
-            ->widget(
-                MaskedInput::className(),
-                [
-                'mask' => JobContainer::CONTAINERNUMBERMASK,
-                'options' => [
+        <br/>
+        <div id="input-container">
+
+            <!-- attribute containerNumber -->
+            <?=
+                $form
+                ->field($model, 'containerNumber')
+                ->textInput()
+                ->widget(
+                    MaskedInput::className(),
+                    [
+                    'mask' => JobContainer::CONTAINERNUMBERMASK,
+                    'options' => [
+                        'class' => 'form-control uppercase',
+                        'maxlength' => 11,
+                    ],
+                    ]
+            );
+            ?>
+
+            <!-- attribute size -->
+            <?=
+            $form->field($model, 'size')->dropDownList(JobContainerForm::optsSize())
+            ?>
+
+            <!-- attribute type_id -->
+            <?=
+            $form->field($model, 'type_id')->dropDownList(ContainerType::options())
+            ?>
+
+            <!-- attribute sealNumber -->
+            <?=
+                $form
+                ->field($model, 'sealNumber')
+                ->textInput([
                     'class' => 'form-control uppercase',
                     'maxlength' => 11,
-                ],
-                ]
-        );
-        ?>
+                ])
+            ?>
 
-        <!-- attribute size -->
-        <?=
-        $form->field($model, 'size')->dropDownList(JobContainerForm::optsSize())
-        ?>
+            <!-- attribute stuffingDate -->
+            <?=
+                $form
+                ->field($model, 'stuffingDate')
+                ->widget(\yii\jui\DatePicker::classname(),
+                    [
+                    'dateFormat' => 'yyyy-MM-dd',
+                    'options' => ['class' => 'form-control'],
+                    ]
+            );
+            ?>
 
-        <!-- attribute type_id -->
-        <?=
-        $form->field($model, 'type_id')->dropDownList(ContainerType::options())
-        ?>
+            <!-- attribute containerDepoId -->
+            <?php
+            $containerDepoLabel = $model->containerDepo_id;
 
-        <!-- attribute sealNumber -->
-        <?=
-            $form
-            ->field($model, 'sealNumber')
-            ->textInput([
+            if ($model->containerDepo_id > 0) {
+                if (($containerDepo = CompanyProfile::findOne($model->containerDepo_id)) !== null) {
+                    $containerDepoLabel = $containerDepo->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'containerDepo_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $containerDepoLabel,
+                    'options' => ['placeholder' => 'mencari perusahaan ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/company-profile/list-depo']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
+            ?>
+
+            <!-- attribute stuffingLocation_id -->
+            <?php
+            $locationLabel = $model->stuffingLocation_id;
+
+            if ($model->stuffingLocation_id > 0) {
+                if (($location = StuffingLocation::findOne($model->stuffingLocation_id)) !== null) {
+                    $locationLabel = $location->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'stuffingLocation_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $locationLabel,
+                    'options' => ['placeholder' => 'mencari lokasi stuffing ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/stuffing-location/list']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
+            ?>
+
+            <!-- attribute supervisor_id -->
+            <?php
+            $supervisorLabel = $model->supervisor_id;
+
+            if ($model->supervisor_id > 0) {
+                if (($supervisor = TruckSupervisor::findOne($model->supervisor_id)) !== null) {
+                    $supervisorLabel = $supervisor->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'supervisor_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $supervisorLabel,
+                    'options' => ['placeholder' => 'mencari mandor ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/truck-supervisor/list']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
+            ?>
+
+            <div id="input-spvdetail">
+
+                <!-- attribute supervisorPhone -->
+                <?=
+                $form->field($model, 'supervisorPhone')->textInput(['maxlength' => true])
+                ?>
+
+            </div>
+
+            <!-- attribute truckVendor_id -->
+            <?php
+            $truckVendorLabel = $model->truckVendor_id;
+
+            if ($model->truckVendor_id > 0) {
+                if (($truckVendor = CompanyProfile::findOne($model->truckVendor_id)) !== null) {
+                    $truckVendorLabel = $truckVendor->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'truckVendor_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $truckVendorLabel,
+                    'options' => ['placeholder' => 'mencari perusahaan ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/company-profile/list-truck-vendor']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
+            ?>
+
+            <!-- attribute driverName -->
+            <?=
+            $form->field($model, 'driverName')->textInput(['maxlength' => true])
+            ?>
+
+            <!-- attribute cellphone -->
+            <?=
+            $form->field($model, 'cellphone')->textInput(['maxlength' => true])
+            ?>
+
+            <!-- attribute policenumber -->
+            <?=
+            $form->field($model, 'policenumber')->textInput([
                 'class' => 'form-control uppercase',
                 'maxlength' => 11,
             ])
-        ?>
+            ?>
 
-        <!-- attribute stuffingDate -->
-        <?=
-            $form
-            ->field($model, 'stuffingDate')
-            ->widget(\yii\jui\DatePicker::classname(), [
-                'dateFormat' => 'yyyy-MM-dd',
-        ]);
-        ?>
+            <!-- attribute notes -->
+            <?=
+            $form->field($model, 'notes')->textarea(['rows' => 6])
+            ?>
 
-        <!-- attribute containerDepoId -->
-        <?php
-        $containerDepoLabel = $model->containerDepo_id;
-
-        if ($model->containerDepo_id > 0) {
-            if (($containerDepo = CompanyProfile::findOne($model->containerDepo_id)) !== null) {
-                $containerDepoLabel = $containerDepo->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'containerDepo_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $containerDepoLabel,
-                'options' => ['placeholder' => 'mencari perusahaan ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 1,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/company-profile/list-depo']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <!-- attribute stuffingLocation_id -->
-        <?php
-        $locationLabel = $model->stuffingLocation_id;
-
-        if ($model->stuffingLocation_id > 0) {
-            if (($location = StuffingLocation::findOne($model->stuffingLocation_id)) !== null) {
-                $locationLabel = $location->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'stuffingLocation_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $locationLabel,
-                'options' => ['placeholder' => 'mencari lokasi stuffing ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 1,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/stuffing-location/list']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <!-- attribute supervisor_id -->
-        <?php
-        $supervisorLabel = $model->supervisor_id;
-
-        if ($model->supervisor_id > 0) {
-            if (($supervisor = TruckSupervisor::findOne($model->supervisor_id)) !== null) {
-                $supervisorLabel = $supervisor->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'supervisor_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $supervisorLabel,
-                'options' => ['placeholder' => 'mencari mandor ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 1,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/truck-supervisor/list']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <!-- attribute truckVendor_id -->
-        <?php
-        $truckVendorLabel = $model->truckVendor_id;
-
-        if ($model->truckVendor_id > 0) {
-            if (($truckVendor = CompanyProfile::findOne($model->truckVendor_id)) !== null) {
-                $truckVendorLabel = $truckVendor->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'truckVendor_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $truckVendorLabel,
-                'options' => ['placeholder' => 'mencari perusahaan ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 1,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/company-profile/list-truck-vendor']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <!-- attribute driverName -->
-        <?=
-        $form->field($model, 'driverName')->textInput(['maxlength' => true])
-        ?>
-
-        <!-- attribute cellphone -->
-        <?=
-        $form->field($model, 'cellphone')->textInput(['maxlength' => true])
-        ?>
-
-        <!-- attribute policenumber -->
-        <?=
-        $form->field($model, 'policenumber')->textInput([
-            'class' => 'form-control uppercase',
-            'maxlength' => 11,
-        ])
-        ?>
-
-        <!-- attribute notes -->
-        <?=
-        $form->field($model, 'notes')->textarea(['rows' => 6])
-        ?>
+        </div>
 
         <?php $this->endBlock(); ?>
 
@@ -531,88 +560,37 @@ use app\models\TruckSupervisor;
 $js = <<<JS
 
 	$(function () {
-        $('.newsi-opts').click(function(){
-            newSi = $(this).val();
 
-            if (newSi === 'yes') {
-                $('#input-picksi').popover('hide');
-                $('#input-picksi').hide({
+        $('#jobcontainerform-shippinginstruction_id').on('select2:close', function (event) {
+            si = $(this).val();
+
+            if (si && isNaN(si)) {
+                $('#input-sidetail').show({
                     effect: 'blind',
                     complete: function(){
-                        $('#input-newsi').show({
-                            effect: 'blind',
-                            complete: function(){
-                                $('#jobcontainerform-shippinginstructionnumber').focus();
-                            }
-                        });
+                       $('#jobcontainerform-shipperid').select2('open');
                     }
                 });
             } else {
-                $('#input-newsi').hide({
+                $('#input-sidetail').hide({
                     effect: 'blind',
                     complete: function(){
-                        $('#input-picksi').show({
-                            effect: 'blind',
-                            complete: function(){
-                                $('#jobcontainerform-shippinginstruction_id').select2('open');
-                                $('#input-picksi').popover('show');
+                        setTimeout(function() {
+                            si = $('#jobcontainerform-shippinginstruction_id').val();
+
+                            if (si) {
+                                $('#jobcontainerform-containernumber').focus();
                             }
-                        });
+                        }, 300);
                     }
                 });
             }
         });
 
-        $('.newsi-opts').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $(this).click();
-                event.preventDefault();
-            }
-        });
-
-        $('#select2-jobcontainerform-shippinginstruction_id-results').popover({
-            title: "<strong>Petunjuk</strong>",
-            content: "<p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p><p>Contoh : 0001 EE SRG</p><p><b>EE</b> : Emkl Ekspor<br/><b>EI</b> : Emkl Impor<br/><b>JPR</b> : Jepara<br/><b>SLO</b> : Solo<br/><b>SRG</b> : Semarang<br/><b>YGY</b> : Yogyakarta<br/></p>",
-            html: true,
-            placement: "bottom"
-        });
-
-        $('#jobcontainerform-shippinginstruction_id').on('select2:open', function () {
-            $('#select2-jobcontainerform-shippinginstruction_id-results').popover('show');
-        });
-
-        $('#jobcontainerform-shippinginstruction_id').on('select2:close', function () {
-            $('#select2-jobcontainerform-shippinginstruction_id-results').popover('hide');
-            $('#jobcontainerform-containernumber').focus();
-        });
-
-        $('#jobcontainerform-shippinginstructionnumber').popover({
-            title: "<strong>Petunjuk</strong>",
-            content: "<p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p><p>Contoh : 0001 EE SRG</p><p><b>EE</b> : Emkl Ekspor<br/><b>EI</b> : Emkl Impor<br/><b>JPR</b> : Jepara<br/><b>SLO</b> : Solo<br/><b>SRG</b> : Semarang<br/><b>YGY</b> : Yogyakarta<br/></p>",
-            html: true,
-            placement: "bottom"
-        });
-
-        $('#jobcontainerform-shippinginstructionnumber').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-shipperid').select2('open');
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-shippinginstructionnumber').focus(function(event) {
-            $(this).popover('show');
-        });
-
-        $('#jobcontainerform-shippinginstructionnumber').blur(function(event) {
-            $(this).popover('hide');
-        });
-
         $('#jobcontainerform-shipperid').on('select2:close', function (event) {
-            newSi = $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').val();
             shipper = $(this).val();
 
-            if (newSi === 'yes' && shipper && isNaN(shipper)) {
+            if (shipper && isNaN(shipper)) {
                 $('#input-shipperdetail').show({
                     effect: 'blind',
                     complete: function(){
@@ -626,10 +604,8 @@ $js = <<<JS
                         setTimeout(function() {
                             shipper = $('#jobcontainerform-shipperid').val();
 
-                            if (shipper) {
+                            if (si) {
                                 $('#jobcontainerform-shippingid').select2('open');
-                            } else {
-                                $('#jobcontainerform-shippingid').select2('close');
                             }
                         }, 300);
                     }
@@ -637,9 +613,30 @@ $js = <<<JS
             }
         });
 
+        $('#jobcontainerform-shipperphone').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-shipperemail').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-shipperemail').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-shippernpwp').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#jobcontainerform-shippernpwp').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-shippingid').on('select2:open');
+                event.preventDefault();
+            }
+        });
+
         $('#jobcontainerform-shippingid').on('select2:close', function (event) {
             setTimeout(function() {
-                shipping = $(this).val();
+                shipping = $('#jobcontainerform-shippingid').val();
 
                 if (shipping) {
                     $('#jobcontainerform-destinationid').select2('open');
@@ -650,7 +647,7 @@ $js = <<<JS
         });
 
         $('#jobcontainerform-destinationid').on('select2:close', function (event) {
-            $('#jobcontainerform-size').focus();
+            $('#jobcontainerform-containernumber').focus();
         });
 
         $('#jobcontainerform-containernumber').keypress(function(event) {
@@ -691,7 +688,7 @@ $js = <<<JS
 
         $('#jobcontainerform-containerdepo_id').on('select2:close', function (event) {
             setTimeout(function() {
-                depo = $(this).val();
+                depo = $('#jobcontainerform-containerdepo_id').val();
 
                 if (depo) {
                     $('#jobcontainerform-stuffinglocation_id').select2('open');
@@ -703,7 +700,7 @@ $js = <<<JS
 
         $('#jobcontainerform-stuffinglocation_id').on('select2:close', function (event) {
             setTimeout(function() {
-                loc = $(this).val();
+                loc = $('#jobcontainerform-stuffinglocation_id').val();
 
                 if (loc) {
                     $('#jobcontainerform-supervisor_id').select2('open');
@@ -714,15 +711,38 @@ $js = <<<JS
         });
 
         $('#jobcontainerform-supervisor_id').on('select2:close', function (event) {
-            setTimeout(function() {
-                loc = $(this).val();
+            spv = $(this).val();
 
-                if (loc) {
-                    $('#jobcontainerform-truckvendor_id').select2('open');
-                } else {
-                    $('#jobcontainerform-truckvendor_id').select2('close');
-                }
-            }, 300);
+            if (spv && isNaN(spv)) {
+                $('#input-spvdetail').show({
+                    effect: 'blind',
+                    complete: function(){
+                        $('#jobcontainerform-supervisorphone').focus();
+                    }
+                });
+            } else {
+                $('#input-spvdetail').hide({
+                    effect: 'blind',
+                    complete: function(){
+                        setTimeout(function() {
+                            spv = $('#jobcontainerform-supervisor_id').val();
+
+                            if (spv) {
+                                $('#jobcontainerform-truckvendor_id').select2('open');
+                            } else {
+                                $('#jobcontainerform-truckvendor_id').select2('close');
+                            }
+                        }, 300);
+                    }
+                });
+            }
+        });
+
+        $('#jobcontainerform-supervisorphone').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#jobcontainerform-truckvendor_id').trigger('select2:open');
+                event.preventDefault();
+            }
         });
 
         $('#jobcontainerform-truckvendor_id').on('select2:close', function (event) {
@@ -752,15 +772,9 @@ $js = <<<JS
 
         // first trigger
 
-        $('input[name="JobContainerForm[newSi]"]:checked.newsi-opts').click().focus();
-
-        shipper = $('#jobcontainerform-shipperid').val();
-
-        if (shipper && isNaN(shipper)) {
-            $('#input-shipperdetail').show();
-        } else {
-            $('#input-shipperdetail').hide();
-        }
+        $('#jobcontainerform-shippinginstruction_id').trigger('select2:close');
+        $('#jobcontainerform-shipperid').trigger('select2:close');
+        $('#jobcontainerform-supervisor_id').trigger('select2:close');
 
 	});
 

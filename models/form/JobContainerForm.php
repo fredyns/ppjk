@@ -13,17 +13,13 @@ use app\models\StuffingLocation;
 use app\models\TruckSupervisor;
 use app\models\ContainerType;
 use app\models\ContainerPort;
+use app\models\form\ShippingInstructionForm;
 
 /**
  * This is the form model class for table "jobContainer".
  */
 class JobContainerForm extends JobContainer
 {
-    const NEWSI_YES = 'yes';
-    const NEWSI_NO = 'no';
-
-    public $newSi = 'no';
-    public $shippingInstructionNumber;
     public $shipperId;
     public $shipperAddress;
     public $shipperPhone;
@@ -41,7 +37,6 @@ class JobContainerForm extends JobContainer
         return ArrayHelper::merge(
                 parent::attributeLabels(),
                 [
-                'shippingInstructionNumber' => 'SI Number',
                 'shipperId' => 'Shipper Name',
                 'shipperAddress' => 'Shipper Address',
                 'shipperPhone' => 'Shipper Phone',
@@ -63,6 +58,21 @@ class JobContainerForm extends JobContainer
                 parent::behaviors(),
                 [
                 # custom behaviors
+                [
+                    'class' => BelongingModelBehavior::className(),
+                    'relatedAttribute' => 'shippingInstruction_id',
+                    'valueAttribute' => 'number',
+                    'modelClass' => ShippingInstructionForm::className(),
+                    'copyAttributes' => [
+                        'shipper_id' => 'shipperId',
+                        'shipperAddress' => 'shipperAddress',
+                        'shipperPhone' => 'shipperPhone',
+                        'shipperEmail' => 'shipperEmail',
+                        'shipperNpwp' => 'shipperNpwp',
+                        'shipping_id' => 'shippingId',
+                        'destination_id' => 'destinationId',
+                    ],
+                ],
                 [
                     'class' => BelongingModelBehavior::className(),
                     'relatedAttribute' => 'containerDepo_id',
@@ -110,7 +120,7 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // new SI
-                    'shippingInstructionNumber',
+                    'shippingInstruction_id',
                     'shipperId', 'shipperAddress', 'shipperPhone', 'shipperEmail', 'shipperNpwp',
                     'shippingId', 'destinationId',
                     // container
@@ -128,7 +138,7 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // new SI
-                    'shippingInstructionNumber',
+                    'shippingInstruction_id', 'shipperId',
                     // container
                     'containerNumber', 'sealNumber',
                     'policenumber',
@@ -139,50 +149,37 @@ class JobContainerForm extends JobContainer
                 },
             ],
             /* default value */
-            ['newSi', 'default', 'value' => static::NEWSI_NO],
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
+            [['shippingInstruction_id'], 'required'],
             [
-                ['shippingInstruction_id'],
+                ['shipperId'],
                 'required',
                 'when' => function ($model, $attribute) {
-                    return ($model->newSi == 'no');
+                    return (is_numeric($model->shippingInstruction_id) == FALSE);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
+                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
 
-                        return (newsi == \''.static::NEWSI_NO.'\');
-                    }',
-            ],
-            [
-                ['shippingInstructionNumber', 'shipperId'],
-                'required',
-                'when' => function ($model, $attribute) {
-                    return ($model->newSi == static::NEWSI_YES);
-                },
-                'whenClient' => '
-                    function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
-
-                        return (newsi == \''.static::NEWSI_YES.'\');
+                        return (si && isNaN(si));
                     }',
             ],
             [
                 ['shipperAddress', 'shipperPhone'],
                 'required',
                 'when' => function ($model, $attribute) {
-                    $newSi = ($model->newSi == static::NEWSI_YES);
+                    $newSi = (is_numeric($model->shippingInstruction_id) == FALSE);
                     $newShipper = (is_numeric($model->shipperId) == FALSE);
 
                     return ($newSi && $newShipper);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
-                        shipperInput = $(\'#'.$this->formName().'-shipperId\').val();
+                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
+                        shipper = $(\'#'.$this->formName().'-shipperid\').val();
 
-                        return (newsi == \''.static::NEWSI_YES.'\' && shipperInput && isNaN(shipperInput));
+                        return (si && isNaN(si) && shipper && isNaN(shipper));
                     }',
             ],
             [
@@ -193,21 +190,19 @@ class JobContainerForm extends JobContainer
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        supervisorInput = $(\'#'.$this->formName().'-supervisorId\').val();
+                        supervisorInput = $(\'#'.$this->formName().'-supervisorid\').val();
 
                         return (supervisorInput && isNaN(supervisorInput));
                     }',
             ],
             /* safe */
             /* field type */
-            [['shippingInstruction_id', 'type_id'], 'integer'],
+            [['type_id'], 'integer'],
             [['size', 'recordStatus', 'notes'], 'string'],
-            [['containerNumber'], 'string', 'max' => 12],
+            [['shippingInstruction_id', 'containerNumber'], 'string', 'max' => 12],
             [['policenumber'], 'string', 'max' => 16],
             [
                 [
-                    // new si
-                    'shippingInstructionNumber',
                     // container
                     'sealNumber',
                     'cellphone',
@@ -238,11 +233,6 @@ class JobContainerForm extends JobContainer
             [['shipperNpwp'], 'string', 'max' => 32],
             /* value limitation */
             [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
-            ['newSi', 'in', 'range' => [
-                    self::NEWSI_YES,
-                    self::NEWSI_NO,
-                ]
-            ],
             ['size', 'in', 'range' => [
                     self::SIZE_20,
                     self::SIZE_40,
@@ -256,18 +246,18 @@ class JobContainerForm extends JobContainer
                 ]
             ],
             [
-                ['shippingInstructionNumber'],
+                ['shippingInstruction_id'],
                 'unique',
                 'targetAttribute' => 'number',
                 'targetClass' => ShippingInstruction::className(),
                 'when' => function ($model, $attribute) {
-                    return ($model->newSi == static::NEWSI_YES);
+                    return (is_numeric($model->$attribute) == FALSE);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        newsi = $(\'input[name="JobContainerForm[newSi]"]:checked.newsi-opts\').val();
+                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
 
-                        return (newsi === \''.static::NEWSI_YES.'\');
+                        return (si && isNaN(si));
                     }',
             ],
             [['shipperEmail'], 'email'],
@@ -279,7 +269,7 @@ class JobContainerForm extends JobContainer
                 'targetClass' => ShippingInstruction::className(),
                 'targetAttribute' => ['shippingInstruction_id' => 'id'],
                 'when' => function ($model, $attribute) {
-                    return ($model->newSi == static::NEWSI_NO);
+                    return (is_numeric($model->$attribute));
                 },
             ],
             [
@@ -360,67 +350,5 @@ class JobContainerForm extends JobContainer
                 },
             ],
         ];
-    }
-
-    /**
-     * get column newSi enum value label
-     * @param string $value
-     * @return string
-     */
-    public static function getNewSi($value)
-    {
-        $labels = self::optsNewSi();
-
-        if (isset($labels[$value])) {
-            return $labels[$value];
-        }
-
-        return $value;
-    }
-
-    /**
-     * column newSi ENUM value labels
-     * @return array
-     */
-    public static function optsNewSi()
-    {
-        return [
-            self::NEWSI_NO => 'No',
-            self::NEWSI_YES => 'Yes',
-        ];
-    }
-
-    /**
-     * @inheritdoc
-     */
-    public function beforeSave($insert)
-    {
-        $mirrorAttributes = [
-            // SI field => Container field
-            'number' => 'shippingInstructionNumber',
-            'shipper_id' => 'shipperId',
-            'shipperAddress' => 'shipperAddress',
-            'shipperPhone' => 'shipperPhone',
-            'shipperEmail' => 'shipperEmail',
-            'shipperNpwp' => 'shipperNpwp',
-            'shipping_id' => 'shippingId',
-            'destination_id' => 'destinationId',
-        ];
-
-        if ($this->newSi == static::NEWSI_YES) {
-            $shippingInstruction = new ShippingInstructionForm;
-            $shippingInstruction->copy($this, $mirrorAttributes);
-
-            if ($shippingInstruction->save(false)) {
-                $this->shippingInstruction_id = $shippingInstruction->id;
-            } else {
-                $msg = 'Shipping Instruction error.<br/>'.implode('<br/>', $shippingInstruction->getErrors());
-                $this->addError('_exception', $msg);
-
-                return false;
-            }
-        }
-
-        return parent::beforeSave($insert);
     }
 }
