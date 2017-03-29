@@ -22,6 +22,10 @@ $formname = $model->formName();
 
 <style>
 
+    #select2-shippinginstructionform-shipper_id-results li, #select2-shippinginstructionform-shipper_id-container {
+        text-transform: uppercase;
+    }
+
     .uppercase {
         text-transform: uppercase;
     }
@@ -100,11 +104,11 @@ $formname = $model->formName();
                 ->hint('<i class="greynote">*sesuai yang tertera di NPWP</i>')
             ?>
 
-            <?= $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true]) ?>
-
             <?= $form->field($model, 'shipperPhone')->textInput(['maxlength' => true]) ?>
 
             <?= $form->field($model, 'shipperEmail')->textInput(['maxlength' => true]) ?>
+
+            <?= $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true]) ?>
 
         </div>
 
@@ -219,29 +223,81 @@ $formname = $model->formName();
 <?php
 $js = <<<JS
 
-	$(function () {
-        $('#shippinginstructionform-shipper_id').on('select2:select', function (evt) {
-            shipper = $(this).val();
+	$(function() {
 
-            if (shipper && isNaN(shipper)) {
-                $('#input-shipperdetail').show('blind');
-            } else {
-                $('#input-shipperdetail').hide('blind');
+        $('#shippinginstructionform-number').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#shippinginstructionform-shipper_id').select2('open');
+                event.preventDefault();
             }
         });
 
-        $('#shippinginstructionform-shipper_id').on('select2:close', function (evt) {
-            $('#shippinginstructionform-shipper_id').trigger('select2:select');
+        $('#shippinginstructionform-shipper_id').on('select2:open', function (event) {
+            $('.select2-search__field').addClass('uppercase');
         });
 
-        $(".uppercase").keyup(function( event ) {
-            str = $(this).val();
-            $(this).val(str.toUpperCase());
+        $('#shippinginstructionform-shipper_id').on('select2:close', function (event) {
+            shipper = $(this).val();
+
+            if (shipper && isNaN(shipper)) {
+                $('#input-shipperdetail').show({
+                    effect: 'blind',
+                    complete: function(){
+                        $('#shippinginstructionform-shipperaddress').focus();
+                    }
+                });
+            } else {
+                $('#input-shipperdetail').hide({
+                    effect: 'blind',
+                    complete: function(){
+                        setTimeout(function() {
+                            shipper = $('#shippinginstructionform-shipper_id').val();
+
+                            if (shipper) {
+                                $('#shippinginstructionform-shipping_id').select2('open');
+                            }
+                        }, 300);
+                    }
+                });
+            }
+        });
+
+        $('#shippinginstructionform-shipperphone').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#shippinginstructionform-shipperemail').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#shippinginstructionform-shipperemail').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#shippinginstructionform-shippernpwp').focus();
+                event.preventDefault();
+            }
+        });
+
+        $('#shippinginstructionform-shippernpwp').keypress(function(event) {
+            if ( event.which == 13 ) {
+                $('#shippinginstructionform-shipping_id').select2('open');
+                event.preventDefault();
+            }
+        });
+
+        $('#shippinginstructionform-shipping_id').on('select2:close', function (event) {
+            setTimeout(function() {
+                shipping = $('#shippinginstructionform-shipping_id').val();
+
+                if (shipping) {
+                    $('#shippinginstructionform-destination_id').select2('open');
+                } else {
+                    $('#shippinginstructionform-destination_id').select2('close');
+                }
+            }, 300);
         });
 
         // trigger
 
-        $('#shippinginstructionform-shipper_id').trigger('select2:select');
+        $('#shippinginstructionform-shipper_id').trigger('select2:close');
 
 	});
 
