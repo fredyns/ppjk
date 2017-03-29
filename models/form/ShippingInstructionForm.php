@@ -15,6 +15,8 @@ use app\models\CompanyProfile;
  */
 class ShippingInstructionForm extends ShippingInstruction
 {
+    const NUMBERMASK = '9999 aa a{2,5}';
+
     public $shipperAddress;
     public $shipperPhone;
     public $shipperEmail;

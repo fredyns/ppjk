@@ -5,12 +5,14 @@ use yii\helpers\ArrayHelper;
 use yii\helpers\Html;
 use yii\helpers\StringHelper;
 use yii\helpers\Url;
+use yii\widgets\MaskedInput;
 use cornernote\returnurl\ReturnUrl;
 use dmstr\bootstrap\Tabs;
 use kartik\widgets\Select2; // or kartik\select2\Select2
 use yii\web\JsExpression;
 use app\models\CompanyProfile;
 use app\models\ContainerPort;
+use app\models\form\ShippingInstructionForm;
 
 /**
  * @var yii\web\View $this
@@ -54,10 +56,21 @@ $formname = $model->formName();
             <?=
                 $form
                 ->field($model, 'number')
-                ->textInput([
-                    'class' => 'form-control uppercase',
-                    'maxlength' => true,
-                ])
+                ->textInput()
+                ->widget(
+                    MaskedInput::className(),
+                    [
+                    'mask' => ShippingInstructionForm::NUMBERMASK,
+                    'options' => [
+                        'class' => 'form-control uppercase',
+                        'maxlength' => 12,
+                    ],
+                    'clientOptions' => [
+                        'greedy' => false,
+                        'removeMaskOnSubmit' => false,
+                    ],
+                    ]
+            );
             ?>
 
             <!-- petunjuk format nomor SI -->
