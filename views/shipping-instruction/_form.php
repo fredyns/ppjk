@@ -48,7 +48,7 @@ $formname = $model->formName();
     <div class="">
         <?php $this->beginBlock('main'); ?>
 
-        <p>
+        <div>
 
             <!-- attribute number -->
             <?=
@@ -59,6 +59,38 @@ $formname = $model->formName();
                     'maxlength' => true,
                 ])
             ?>
+
+            <!-- petunjuk format nomor SI -->
+            <div class="form-group">
+                <div class="col-sm-6 col-sm-offset-3">
+                    <div class="box box-primary">
+                        <div class="box-header with-border">
+                            <h3 class="box-title">Petunjuk</h3>
+
+                            <div class="box-tools pull-right">
+                                <button type="button" class="btn btn-box-tool" data-widget="collapse"><i class="fa fa-minus"></i>
+                                </button>
+                                <button type="button" class="btn btn-box-tool" data-widget="remove"><i class="fa fa-times"></i></button>
+                            </div>
+                        </div>
+                        <!-- /.box-header -->
+                        <div class="box-body">
+                            <p>4 digit angka, spasi, 2 digit kode,spasi, 3 digit kota.</p>
+                            <p>Contoh : 0001 EE SRG</p>
+                            <p>
+                                <b>EE</b> : Emkl Ekspor<br/>
+                                <b>EI</b> : Emkl Impor<br/>
+                                <b>JPR</b> : Jepara<br/>
+                                <b>SLO</b> : Solo<br/>
+                                <b>SRG</b> : Semarang<br/>
+                                <b>YGY</b> : Yogyakarta<br/>
+                            </p>
+                        </div>
+                        <!-- /.box-body -->
+                    </div>
+                </div>
+
+            </div>
 
             <!-- attribute shipper_id -->
             <?php
@@ -95,94 +127,94 @@ $formname = $model->formName();
             ]);
             ?>
 
-        <div id="input-shipperdetail">
+            <div id="input-shipperdetail">
 
-            <?=
-                $form
-                ->field($model, 'shipperAddress')
-                ->textarea(['rows' => 3])
-                ->hint('<i class="greynote">*sesuai yang tertera di NPWP</i>')
+                <?=
+                    $form
+                    ->field($model, 'shipperAddress')
+                    ->textarea(['rows' => 3])
+                    ->hint('<i class="greynote">*sesuai yang tertera di NPWP</i>')
+                ?>
+
+                <?= $form->field($model, 'shipperPhone')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'shipperEmail')->textInput(['maxlength' => true]) ?>
+
+                <?= $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true]) ?>
+
+            </div>
+
+            <!-- attribute shipping_id -->
+            <?php
+            $shippingLabel = $model->shipping_id;
+
+            if ($model->shipping_id > 0) {
+                if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
+                    $shippingLabel = $shipping->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'shipping_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $shippingLabel,
+                    'options' => ['placeholder' => 'mencari pelayaran ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/company-profile/list-shipping']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
             ?>
 
-            <?= $form->field($model, 'shipperPhone')->textInput(['maxlength' => true]) ?>
+            <!-- attribute destination_id -->
+            <?php
+            $destinationLabel = $model->destination_id;
 
-            <?= $form->field($model, 'shipperEmail')->textInput(['maxlength' => true]) ?>
+            if ($model->destination_id > 0) {
+                if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
+                    $destinationLabel = $destination->name;
+                }
+            }
 
-            <?= $form->field($model, 'shipperNpwp')->textInput(['maxlength' => true]) ?>
+            echo $form
+                ->field($model, 'destination_id')
+                ->widget(Select2::classname(),
+                    [
+                    'initValueText' => $destinationLabel,
+                    'options' => ['placeholder' => 'mencari pelabuhan ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 3,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/container-port/list']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
+            ?>
 
         </div>
-
-        <!-- attribute shipping_id -->
-        <?php
-        $shippingLabel = $model->shipping_id;
-
-        if ($model->shipping_id > 0) {
-            if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
-                $shippingLabel = $shipping->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'shipping_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $shippingLabel,
-                'options' => ['placeholder' => 'mencari pelayaran ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 1,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/company-profile/list-shipping']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        <!-- attribute destination_id -->
-        <?php
-        $destinationLabel = $model->destination_id;
-
-        if ($model->destination_id > 0) {
-            if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
-                $destinationLabel = $destination->name;
-            }
-        }
-
-        echo $form
-            ->field($model, 'destination_id')
-            ->widget(Select2::classname(),
-                [
-                'initValueText' => $destinationLabel,
-                'options' => ['placeholder' => 'mencari pelabuhan ...'],
-                'pluginOptions' => [
-                    'allowClear' => true,
-                    'tags' => true,
-                    'minimumInputLength' => 3,
-                    'language' => [
-                        'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                    ],
-                    'ajax' => [
-                        'url' => Url::to(['/api/container-port/list']),
-                        'dataType' => 'json',
-                        'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                    ],
-                    'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                    'templateResult' => new JsExpression('function(item) { return item.text; }'),
-                    'templateSelection' => new JsExpression('function (item) { return item.text; }'),
-                ],
-        ]);
-        ?>
-
-        </p>
 
         <?php $this->endBlock(); ?>
 
