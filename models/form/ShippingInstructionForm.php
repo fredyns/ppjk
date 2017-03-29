@@ -86,6 +86,17 @@ class ShippingInstructionForm extends ShippingInstruction
                     return StringHelper::plaintextFilter($value);
                 },
             ],
+            [
+                [
+                    'number',
+                    'shipper_id',
+                ],
+                'filter',
+                'filter' => function($value) {
+
+                    return strtoupper($value);
+                },
+            ],
             /* default value */
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
