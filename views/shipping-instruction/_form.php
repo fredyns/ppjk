@@ -341,8 +341,9 @@ $js = <<<JS
         });
 
         // trigger
-
-        $('#shippinginstructionform-shipper_id').trigger('select2:close');
+    
+        $('#input-shipperdetail').hide();
+        $('#shippinginstructionform-number').focus();
 
 	});
 

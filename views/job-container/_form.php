@@ -792,9 +792,10 @@ $js = <<<JS
 
         // first trigger
 
-        $('#jobcontainerform-shippinginstruction_id').trigger('select2:close');
-        $('#jobcontainerform-shipperid').trigger('select2:close');
-        $('#jobcontainerform-supervisor_id').trigger('select2:close');
+        $('#input-spvdetail').hide();
+        $('#input-shipperdetail').hide();
+        $('#input-sidetail').hide();
+        $('#jobcontainerform-containernumber').focus();
 
 	});
 
