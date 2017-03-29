@@ -45,6 +45,29 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
 
     <hr />
 
+    <br/>
+
+    <!-- attribute picture -->
+
+    <?php if (!empty($model->picture_id)): ?>
+
+        <div class="col-sm-6 col-sm-offset-3">
+            <p>
+                <?=
+                Html::img(
+                    ['/file', 'id' => $model->picture_id],
+                    [
+                    'class' => 'img-responsive',
+                    'alt' => 'picture',
+                    ]
+                )
+                ?>
+            </p>
+        </div>
+        <div class="clearfix"></div>
+
+    <?php endif; ?>
+
     <?php $this->beginBlock('app\models\Profile'); ?>
     <?=
     DetailView::widget([
