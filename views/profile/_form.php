@@ -29,11 +29,13 @@ use dmstr\bootstrap\Tabs;
     <div class="">
         <?php $this->beginBlock('main'); ?>
 
+        <br/>
+
         <!-- attribute picture -->
 
         <?php if (!empty($model->picture_id)): ?>
 
-            <div class="col-md-4">
+            <div class="col-sm-6 col-sm-offset-3">
                 <p>
                     <?=
                     Html::img(
