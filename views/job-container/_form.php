@@ -284,7 +284,7 @@ use app\models\TruckSupervisor;
                     'mask' => JobContainer::CONTAINERNUMBERMASK,
                     'options' => [
                         'class' => 'form-control uppercase',
-                        'maxlength' => 11,
+                        'maxlength' => 12,
                     ],
                     'clientOptions' => [
                         'greedy' => false,
