@@ -178,6 +178,7 @@ class JobContainerSearch extends JobContainer
                     ],
                     // job container
                     'id',
+                    'shippingInstruction_id',
                     'containerNumber',
                     'size',
                     'type_id' => [
@@ -203,6 +204,7 @@ class JobContainerSearch extends JobContainer
                     'policenumber',
                 ],
                 'defaultOrder' => [
+                    'shippingInstruction_id' => SORT_DESC,
                     'id' => SORT_DESC,
                 ],
             ],

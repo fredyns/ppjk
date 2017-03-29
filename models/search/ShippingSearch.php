@@ -12,6 +12,7 @@ use app\models\Shipping;
  */
 class ShippingSearch extends Shipping
 {
+
     /**
      * @inheritdoc
      */
@@ -48,7 +49,6 @@ class ShippingSearch extends Shipping
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +65,6 @@ class ShippingSearch extends Shipping
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -82,6 +81,11 @@ class ShippingSearch extends Shipping
             'pagination' => [
                 'pageSize' => 50,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ],
+            ],
         ]);
 
         if (!$this->validate()) {
@@ -92,13 +96,13 @@ class ShippingSearch extends Shipping
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                'id' => $this->id,
+                'created_at' => $this->created_at,
+                'created_by' => $this->created_by,
+                'updated_at' => $this->updated_at,
+                'updated_by' => $this->updated_by,
+                'deleted_at' => $this->deleted_at,
+                'deleted_by' => $this->deleted_by,
         ]);
 
         $query

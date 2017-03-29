@@ -81,6 +81,11 @@ class StuffingLocationSearch extends StuffingLocation
             'pagination' => [
                 'pageSize' => 50,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ],
+            ],
         ]);
 
         if (!$this->validate()) {

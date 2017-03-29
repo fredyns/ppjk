@@ -12,6 +12,7 @@ use app\models\Profile;
  */
 class ProfileSearch extends Profile
 {
+
     /**
      * @inheritdoc
      */
@@ -47,7 +48,6 @@ class ProfileSearch extends Profile
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -64,6 +64,11 @@ class ProfileSearch extends Profile
             'pagination' => [
                 'pageSize' => 50,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ],
+            ],
         ]);
 
         if (!$this->validate()) {
@@ -74,9 +79,9 @@ class ProfileSearch extends Profile
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'user_id' => $this->user_id,
-            'picture_id' => $this->picture_id,
+                'id' => $this->id,
+                'user_id' => $this->user_id,
+                'picture_id' => $this->picture_id,
         ]);
 
         $query

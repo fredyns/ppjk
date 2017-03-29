@@ -81,6 +81,11 @@ class TruckSupervisorSearch extends TruckSupervisor
             'pagination' => [
                 'pageSize' => 50,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ],
+            ],
         ]);
 
         if (!$this->validate()) {

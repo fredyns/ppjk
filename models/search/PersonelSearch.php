@@ -12,13 +12,15 @@ use app\models\Personel;
  */
 class PersonelSearch extends Personel
 {
+
     /**
      * @inheritdoc
      */
     public function rules()
     {
         return [
-            [['id', 'companyProfile_id', 'profile_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at', 'deleted_by'], 'integer'],
+            [['id', 'companyProfile_id', 'profile_id', 'created_at', 'created_by', 'updated_at', 'updated_by', 'deleted_at',
+                'deleted_by'], 'integer'],
             [['title', 'recordStatus'], 'safe'],
         ];
     }
@@ -48,7 +50,6 @@ class PersonelSearch extends Personel
         return $this->search();
     }
 
-    
     /**
      * search deleted models
      *
@@ -65,7 +66,6 @@ class PersonelSearch extends Personel
         return $this->search();
     }
 
-    
     /**
      * Creates data provider instance with search query applied
      *
@@ -82,6 +82,11 @@ class PersonelSearch extends Personel
             'pagination' => [
                 'pageSize' => 50,
             ],
+            'sort' => [
+                'defaultOrder' => [
+                    'id' => SORT_DESC,
+                ],
+            ],
         ]);
 
         if (!$this->validate()) {
@@ -92,15 +97,15 @@ class PersonelSearch extends Personel
 
         $query
             ->andFilterWhere([
-            'id' => $this->id,
-            'companyProfile_id' => $this->companyProfile_id,
-            'profile_id' => $this->profile_id,
-            'created_at' => $this->created_at,
-            'created_by' => $this->created_by,
-            'updated_at' => $this->updated_at,
-            'updated_by' => $this->updated_by,
-            'deleted_at' => $this->deleted_at,
-            'deleted_by' => $this->deleted_by,
+                'id' => $this->id,
+                'companyProfile_id' => $this->companyProfile_id,
+                'profile_id' => $this->profile_id,
+                'created_at' => $this->created_at,
+                'created_by' => $this->created_by,
+                'updated_at' => $this->updated_at,
+                'updated_by' => $this->updated_by,
+                'deleted_at' => $this->deleted_at,
+                'deleted_by' => $this->deleted_by,
         ]);
 
         $query
