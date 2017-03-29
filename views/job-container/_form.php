@@ -26,6 +26,14 @@ use app\models\TruckSupervisor;
 
 <style>
 
+    #select2-jobcontainerform-shippinginstruction_id-results li, #select2-jobcontainerform-shippinginstruction_id-container {
+        text-transform: uppercase;
+    }
+
+    #select2-jobcontainerform-shipperid-results li, #select2-jobcontainerform-shipperid-container {
+        text-transform: uppercase;
+    }
+
     .uppercase {
         text-transform: uppercase;
     }
@@ -561,6 +569,10 @@ $js = <<<JS
 
 	$(function () {
 
+        $('#jobcontainerform-shippinginstruction_id').on('select2:open', function (event) {
+            $('.select2-search__field').addClass('uppercase');
+        });
+
         $('#jobcontainerform-shippinginstruction_id').on('select2:close', function (event) {
             si = $(this).val();
 
@@ -585,6 +597,10 @@ $js = <<<JS
                     }
                 });
             }
+        });
+
+        $('#jobcontainerform-shipperid').on('select2:open', function (event) {
+            $('.select2-search__field').addClass('uppercase');
         });
 
         $('#jobcontainerform-shipperid').on('select2:close', function (event) {
