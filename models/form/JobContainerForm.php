@@ -186,11 +186,11 @@ class JobContainerForm extends JobContainer
                 ['supervisorPhone'],
                 'required',
                 'when' => function ($model, $attribute) {
-                    return (is_numeric($model->supervisor_id) == FALSE);
+                    return ($model->supervisor_id && is_numeric($model->supervisor_id) == FALSE);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        supervisorInput = $(\'#'.$this->formName().'-supervisorid\').val();
+                        supervisorInput = $(\'#'.$this->formName().'-supervisor_id\').val();
 
                         return (supervisorInput && isNaN(supervisorInput));
                     }',
@@ -232,6 +232,21 @@ class JobContainerForm extends JobContainer
             [['shipperEmail'], 'string', 'max' => 64],
             [['shipperNpwp'], 'string', 'max' => 32],
             /* value limitation */
+            [
+                ['shippingInstruction_id'],
+                'match',
+                'pattern' => ShippingInstruction::NUMBERPATTERN,
+                'when' => function ($model, $attribute) {
+                    return (is_numeric($model->$attribute) == FALSE);
+                },
+                'whenClient' => '
+                    function (attribute, value) {
+                        sinumber = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
+/*regex*/
+                        return (sinumber && isNaN(sinumber));
+                    }',
+                'message' => 'Format nomor SI tidak sesuai.'
+            ],
             [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
             ['size', 'in', 'range' => [
                     self::SIZE_20,

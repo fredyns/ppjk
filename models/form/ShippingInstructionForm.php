@@ -131,6 +131,21 @@ class ShippingInstructionForm extends ShippingInstruction
             [['shipperEmail'], 'string', 'max' => 64],
             [['shipperNpwp'], 'string', 'max' => 32],
             /* value limitation */
+            [
+                ['number'],
+                'match',
+                'pattern' => static::NUMBERPATTERN,
+                'when' => function ($model, $attribute) {
+                    return (is_numeric($model->$attribute) == FALSE);
+                },
+                'whenClient' => '
+                    function (attribute, value) {
+                        number = $(\'#'.$this->formName().'-number\').val();
+/*regex*/
+                        return (number && isNaN(number));
+                    }',
+                'message' => 'Format nomor SI tidak sesuai.'
+            ],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
