@@ -55,13 +55,17 @@ use app\models\JobContainer;
                     'value' => Yii::$app->request->get('number'),
                     'mask' => JobContainer::CONTAINERNUMBERMASK,
                     'options' => [
-                        'maxlength' => 12,
+                        'maxlength' => true,
                         'class' => "form-control mytooltip",
                         'style' => "text-transform: uppercase;",
                         'placeholder' => Yii::t('app', 'Search Container')."...",
                         'title' => "Type the 11-digit number of container, with no spaces",
                         'data-toggle' => "tooltip",
                         'data-placement' => "bottom",
+                    ],
+                    'clientOptions' => [
+                        'greedy' => false,
+                        'removeMaskOnSubmit' => true,
                     ],
                 ]);
                 ?>

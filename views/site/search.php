@@ -39,13 +39,17 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
                     'value' => $searchTerm,
                     'mask' => JobContainer::CONTAINERNUMBERMASK,
                     'options' => [
-                        'maxlength' => "11",
+                        'maxlength' => true,
                         'class' => "form-control mytooltip",
                         'style' => "text-transform: uppercase;",
                         'placeholder' => Yii::t('app', 'Search Container')."...",
                         'title' => "Type the 11-digit number of container, with no spaces",
                         'data-toggle' => "tooltip",
                         'data-placement' => "bottom",
+                    ],
+                    'clientOptions' => [
+                        'greedy' => false,
+                        'removeMaskOnSubmit' => true,
                     ],
                 ]);
                 ?>
