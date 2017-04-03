@@ -77,11 +77,11 @@ $this->params['breadcrumbs'][] = $this->title;
 
                         return 'SI <b>#'.$siActControl->linkTo.'</b>'
                             .' &nbsp;<i class="inline-label">from</i> '
-                            .$model->shippingInstruction->shipper->name
+                            .$model->subAttribute('shippingInstruction.shipper.name')
                             .' &nbsp;<i class="inline-label">to</i> '
-                            .$model->shippingInstruction->destination->name
+                            .$model->subAttribute('shippingInstruction.destination.name')
                             .' &nbsp;<i class="inline-label">with</i> '
-                            .$model->shippingInstruction->shipping->name;
+                            .$model->subAttribute('shippingInstruction.shipping.name');
                     },
                     'group' => true, // enable grouping,
                     'groupedRow' => true, // move grouped column to a single grouped row
