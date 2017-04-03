@@ -96,7 +96,7 @@ if (Yii::$app->controller->action->id === 'login') {
                                             'value' => Yii::$app->request->get('number'),
                                             'mask' => JobContainer::CONTAINERNUMBERMASK,
                                             'options' => [
-                                                'maxlength' => "11",
+                                                'maxlength' => 12,
                                                 'class' => "form-control mytooltip",
                                                 'style' => "text-transform: uppercase;",
                                                 'placeholder' => Yii::t('app', 'Search Container')."...",
