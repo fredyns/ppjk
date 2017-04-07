@@ -17,6 +17,8 @@ use app\models\form\ShippingInstructionForm;
 
 /**
  * This is the form model class for table "jobContainer".
+ *
+ * @property ShippingInstructionForm $shippingInstruction
  */
 class JobContainerForm extends JobContainer
 {
@@ -242,7 +244,7 @@ class JobContainerForm extends JobContainer
                 'whenClient' => '
                     function (attribute, value) {
                         sinumber = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
-/*regex*/
+
                         return (sinumber && isNaN(sinumber));
                     }',
                 'message' => 'Format nomor SI tidak sesuai.'
@@ -365,5 +367,13 @@ class JobContainerForm extends JobContainer
                 },
             ],
         ];
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShippingInstruction()
+    {
+        return $this->hasOne(ShippingInstructionForm::className(), ['id' => 'shippingInstruction_id']);
     }
 }
