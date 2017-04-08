@@ -6,6 +6,7 @@ use Yii;
 use yii\helpers\ArrayHelper;
 use fredyns\suite\behaviors\BelongingModelBehavior;
 use fredyns\suite\helpers\StringHelper;
+use app\behaviors\SIBehavior;
 use app\models\JobContainer;
 use app\models\CompanyProfile;
 use app\models\ShippingInstruction;
@@ -61,19 +62,7 @@ class JobContainerForm extends JobContainer
                 [
                 # custom behaviors
                 [
-                    'class' => BelongingModelBehavior::className(),
-                    'relatedAttribute' => 'shippingInstruction_id',
-                    'valueAttribute' => 'number',
-                    'modelClass' => ShippingInstructionForm::className(),
-                    'copyAttributes' => [
-                        'shipper_id' => 'shipperId',
-                        'shipperAddress' => 'shipperAddress',
-                        'shipperPhone' => 'shipperPhone',
-                        'shipperEmail' => 'shipperEmail',
-                        'shipperNpwp' => 'shipperNpwp',
-                        'shipping_id' => 'shippingId',
-                        'destination_id' => 'destinationId',
-                    ],
+                    'class' => SIBehavior::className(),
                 ],
                 [
                     'class' => BelongingModelBehavior::className(),
