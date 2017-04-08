@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "d6d8867fbec50015b068f69aaf9c142d",
+    "content-hash": "3c53e945626adee7559518543e0c0551",
     "packages": [
         {
             "name": "2amigos/yii2-chartjs-widget",
@@ -1320,12 +1320,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/fredyns/yii2-suite.git",
-                "reference": "22c037552c2d2a2352ef91a34fe37e689a068bf0"
+                "reference": "8c309ddebee2a463f97a04114561537fe6365e0e"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/fredyns/yii2-suite/zipball/22c037552c2d2a2352ef91a34fe37e689a068bf0",
-                "reference": "22c037552c2d2a2352ef91a34fe37e689a068bf0",
+                "url": "https://api.github.com/repos/fredyns/yii2-suite/zipball/8c309ddebee2a463f97a04114561537fe6365e0e",
+                "reference": "8c309ddebee2a463f97a04114561537fe6365e0e",
                 "shasum": ""
             },
             "require": {
@@ -1367,7 +1367,7 @@
                 "suite",
                 "yii2"
             ],
-            "time": "2017-01-24 14:07:59"
+            "time": "2017-03-30 13:15:06"
         },
         {
             "name": "friendsofphp/php-cs-fixer",
