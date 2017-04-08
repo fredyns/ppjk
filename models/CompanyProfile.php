@@ -14,6 +14,8 @@ use app\models\base\CompanyProfile as BaseCompanyProfile;
  *
  * @property boolean $showSiServices
  * @property boolean $showSiOrders
+ * @property boolean $showContainerServices
+ * @property boolean $showTruckServices
  *
  * @property ShippingInstruction[] $siServices
  * @property ShippingInstruction[] $siOrders
@@ -79,6 +81,30 @@ class CompanyProfile extends BaseCompanyProfile
     }
 
     /**
+     * get all container services by depo company
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getContainerServices()
+    {
+        return $this
+                ->hasMany(JobContainer::className(), ['containerDepo_id' => 'id'])
+                ->andWhere(['recordStatus' => JobContainer::RECORDSTATUS_ACTIVE]);
+    }
+
+    /**
+     * get all truck services by truck vendor
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getTruckServices()
+    {
+        return $this
+                ->hasMany(JobContainer::className(), ['truckVendor_id' => 'id'])
+                ->andWhere(['recordStatus' => JobContainer::RECORDSTATUS_ACTIVE]);
+    }
+
+    /**
      * check whether it's necessary to show SI services
      *
      * @return boolean
@@ -96,5 +122,25 @@ class CompanyProfile extends BaseCompanyProfile
     public function getShowSiOrders()
     {
         return ($this->companyType_id == static::TYPE_SHIPPER OR $this->getSiOrders()->count() > 0);
+    }
+
+    /**
+     * check whether it's necessary to show container services
+     *
+     * @return boolean
+     */
+    public function getShowContainerServices()
+    {
+        return ($this->companyType_id == static::TYPE_DEPO OR $this->getContainerServices()->count() > 0);
+    }
+
+    /**
+     * check whether it's necessary to show truck services
+     *
+     * @return boolean
+     */
+    public function getShowTruckServices()
+    {
+        return ($this->companyType_id == static::TYPE_TRUCKVENDOR OR $this->getTruckServices()->count() > 0);
     }
 }
