@@ -11,6 +11,12 @@ use app\models\base\CompanyProfile as BaseCompanyProfile;
 
 /**
  * This is the model class for table "companyProfile".
+ *
+ * @property boolean $showSiServices
+ * @property boolean $showSiOrders
+ *
+ * @property ShippingInstruction[] $siServices
+ * @property ShippingInstruction[] $siOrders
  */
 class CompanyProfile extends BaseCompanyProfile
 {
@@ -46,5 +52,49 @@ class CompanyProfile extends BaseCompanyProfile
                 # custom validation rules
                 ]
         );
+    }
+
+    /**
+     * get all SI services by shipping company
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSiServices()
+    {
+        return $this
+                ->hasMany(ShippingInstruction::className(), ['shipping_id' => 'id'])
+                ->andWhere(['recordStatus' => ShippingInstruction::RECORDSTATUS_ACTIVE]);
+    }
+
+    /**
+     * get all SI orders by shipper company
+     *
+     * @return \yii\db\ActiveQuery
+     */
+    public function getSiOrders()
+    {
+        return $this
+                ->hasMany(ShippingInstruction::className(), ['shipper_id' => 'id'])
+                ->andWhere(['recordStatus' => ShippingInstruction::RECORDSTATUS_ACTIVE]);
+    }
+
+    /**
+     * check whether it's necessary to show SI services
+     *
+     * @return boolean
+     */
+    public function getShowSiServices()
+    {
+        return ($this->companyType_id == static::TYPE_SHIPPING OR $this->getSiServices()->count() > 0);
+    }
+
+    /**
+     * check whether it's necessary to show SI services
+     *
+     * @return boolean
+     */
+    public function getShowSiOrders()
+    {
+        return ($this->companyType_id == static::TYPE_SHIPPER OR $this->getSiOrders()->count() > 0);
     }
 }
