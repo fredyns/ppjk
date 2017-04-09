@@ -15,8 +15,9 @@ use app\models\base\TruckSupervisor as BaseTruckSupervisor;
 class TruckSupervisor extends BaseTruckSupervisor
 {
 
-    use ModelTool, ModelBlame, ModelSoftDelete;
-    
+    use ModelTool,
+        ModelBlame,
+        ModelSoftDelete;
 
     /**
      * @inheritdoc
@@ -24,10 +25,9 @@ class TruckSupervisor extends BaseTruckSupervisor
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -37,10 +37,18 @@ class TruckSupervisor extends BaseTruckSupervisor
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJobContainers()
+    {
+        return parent::getJobContainers()
+                ->andWhere(['recordStatus' => JobContainer::RECORDSTATUS_ACTIVE]);
     }
 }

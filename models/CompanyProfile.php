@@ -57,6 +57,15 @@ class CompanyProfile extends BaseCompanyProfile
     }
 
     /**
+     * @inheritdoc
+     */
+    public function getPersonels()
+    {
+        return parent::getPersonels()
+                ->andWhere(['recordStatus' => Personel::RECORDSTATUS_ACTIVE]);
+    }
+
+    /**
      * get all SI services by shipping company
      *
      * @return \yii\db\ActiveQuery

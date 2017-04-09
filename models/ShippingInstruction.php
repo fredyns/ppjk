@@ -72,4 +72,13 @@ class ShippingInstruction extends BaseShippingInstruction
     {
         return parent::getDestination()->alias(static::ALIAS_DESTINATION);
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJobContainers()
+    {
+        return parent::getJobContainers()
+                ->andWhere(['recordStatus' => JobContainer::RECORDSTATUS_ACTIVE]);
+    }
 }

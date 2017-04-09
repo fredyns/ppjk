@@ -51,4 +51,13 @@ class ContainerType extends BaseContainerType
     {
         return ArrayHelper::map(static::find()->all(), 'id', 'name');
     }
+
+    /**
+     * @inheritdoc
+     */
+    public function getJobContainers()
+    {
+        return parent::getJobContainers()
+                ->andWhere(['recordStatus' => JobContainer::RECORDSTATUS_ACTIVE]);
+    }
 }

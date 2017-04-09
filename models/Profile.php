@@ -111,7 +111,9 @@ class Profile extends BaseProfile
      */
     public function getPersonels()
     {
-        return $this->hasMany(\app\models\Personel::className(), ['profile_id' => 'id']);
+        return $this
+                ->hasMany(Personel::className(), ['profile_id' => 'id'])
+                ->andWhere(['recordStatus' => Personel::RECORDSTATUS_ACTIVE]);
     }
 
     /**

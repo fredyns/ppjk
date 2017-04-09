@@ -15,8 +15,9 @@ use app\models\base\ContainerPort as BaseContainerPort;
 class ContainerPort extends BaseContainerPort
 {
 
-    use ModelTool, ModelBlame, ModelSoftDelete;
-    
+    use ModelTool,
+        ModelBlame,
+        ModelSoftDelete;
 
     /**
      * @inheritdoc
@@ -24,10 +25,9 @@ class ContainerPort extends BaseContainerPort
     public function behaviors()
     {
         return ArrayHelper::merge(
-            parent::behaviors(),
-            [
+                parent::behaviors(), [
                 # custom behaviors
-            ]
+                ]
         );
     }
 
@@ -37,10 +37,18 @@ class ContainerPort extends BaseContainerPort
     public function rules()
     {
         return ArrayHelper::merge(
-             parent::rules(),
-             [
-                  # custom validation rules
-             ]
+                parent::rules(), [
+                # custom validation rules
+                ]
         );
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function getShippingInstructions()
+    {
+        return parent::getShippingInstructions()
+                ->andWhere(['recordStatus' => ShippingInstruction::RECORDSTATUS_ACTIVE]);
     }
 }
