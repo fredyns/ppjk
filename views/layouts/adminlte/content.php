@@ -1,6 +1,8 @@
 <?php
 
+use yii\helpers\Html;
 use yii\widgets\Breadcrumbs;
+use cornernote\returnurl\ReturnUrl;
 use dmstr\widgets\Alert;
 ?>
 <div class="content-wrapper">
@@ -12,6 +14,11 @@ use dmstr\widgets\Alert;
             ]
         )
         ?>
+        <?php if (ReturnUrl::getRequestToken()): ?>
+            <span class="pull-left">
+                <?= Html::a('<i class="fa fa-arrow-circle-left"></i> Back', ReturnUrl::getUrl()); ?>
+            </span>
+        <?php endif; ?>
     </section>
 
     <section class="content">
