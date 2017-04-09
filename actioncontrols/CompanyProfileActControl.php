@@ -67,7 +67,10 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
                 [
                 'deleteself' => "Can't delete main Company Profile.",
                 'haspersonel' => "This Shipper has personel list.",
-                'hassi' => "This Company had SI history.",
+                'hassiservice' => "This Company had SI service(s) history.",
+                'hassiorder' => "This Company had SI order(s) history.",
+                'hascontainer' => "This Company had container rent(s) history.",
+                'hastrucking' => "This Company had trucking history.",
                 ]
         );
     }
@@ -417,8 +420,20 @@ class CompanyProfileActControl extends \fredyns\suite\libraries\ActionControl
             $this->addErrorMsg($action, 'haspersonel');
         }
 
-        if ($this->model->getShippingInstructions()->count() > 0) {
-            $this->addErrorMsg($action, 'hassi');
+        if ($this->model->getSiServices()->count() > 0) {
+            $this->addErrorMsg($action, 'hassiservice');
+        }
+
+        if ($this->model->getSiOrders()->count() > 0) {
+            $this->addErrorMsg($action, 'hassiorder');
+        }
+
+        if ($this->model->getContainerServices()->count() > 0) {
+            $this->addErrorMsg($action, 'hascontainer');
+        }
+
+        if ($this->model->getTruckServices()->count() > 0) {
+            $this->addErrorMsg($action, 'hastrucking');
         }
 
         // conclusion
