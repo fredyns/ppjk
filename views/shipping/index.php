@@ -52,12 +52,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
                     'class' => 'fredyns\suite\grid\KartikViewColumn',
-                    'actionControl' => 'app\actioncontrols\ShippingActControl',
+                    'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                     'attribute' => 'name',
                 ],
                 [
                     'class' => 'fredyns\suite\grid\KartikActionColumn',
-                    'actionControl' => 'app\actioncontrols\ShippingActControl',
+                    'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                 ],
             ],
             'containerOptions' => ['style' => 'overflow: auto'], // only set when $responsive = false

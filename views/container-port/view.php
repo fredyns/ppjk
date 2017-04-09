@@ -124,7 +124,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
                     return \fredyns\suite\widgets\LinkedDetail::widget([
                         'model' => $model,
                         'attribute' => 'shipping',
-                        'actionControl' => 'app\actioncontrols\ShippingActControl',
+                        'actionControl' => 'app\actioncontrols\CompanyProfileActControl',
                     ]);
                 },
             ],
