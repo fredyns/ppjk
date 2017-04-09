@@ -49,6 +49,7 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
                 if (isset($_POST['nextAction']) && $_POST['nextAction'] === 'more') {
                     return $this->redirect([
                             'create',
+                            'ru' => ReturnUrl::getRequestToken(),
                             'JobContainerForm' => [
                                 'shippingInstruction_id' => $model->shippingInstruction_id,
                                 'shipperId' => $model->shipperId,
