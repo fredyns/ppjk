@@ -76,13 +76,24 @@ $this->params['breadcrumbs'][] = $this->title;
                             'model' => $model->shippingInstruction,
                         ]);
 
-                        return 'SI <b>#'.$siActControl->linkTo.'</b>'
-                            .' &nbsp;<i class="inline-label">from</i> '
-                            .$model->shippingInstruction->shipper->name
-                            .' &nbsp;<i class="inline-label">to</i> '
-                            .$model->shippingInstruction->destination->name
-                            .' &nbsp;<i class="inline-label">with</i> '
-                            .$model->shippingInstruction->shipping->name;
+                        $shipperName = $model->subAttribute('shippingInstruction.shipper.name');
+                        $destinationName = $model->subAttribute('shippingInstruction.destination.name');
+                        $shippingName = $model->subAttribute('shippingInstruction.shipping.name');
+                        $pieces = ['SI <b>#'.$siActControl->linkTo.'</b>'];
+
+                        if ($shipperName) {
+                            $pieces[] = '<i class="inline-label">from</i> '.$shipperName;
+                        }
+
+                        if ($destinationName) {
+                            $pieces[] = '<i class="inline-label">to</i> '.$destinationName;
+                        }
+
+                        if ($shippingName) {
+                            $pieces[] = '<i class="inline-label">with</i> '.$shippingName;
+                        }
+
+                        return implode(' &nbsp;', $pieces);
                     },
                     'group' => true, // enable grouping,
                     'groupedRow' => true, // move grouped column to a single grouped row
