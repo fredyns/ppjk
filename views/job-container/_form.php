@@ -584,7 +584,13 @@ $js = <<<JS
                 $('#input-sidetail').show({
                     effect: 'blind',
                     complete: function(){
-                       $('#jobcontainerform-shipperid').select2('open');
+                        shipperid = $('#jobcontainerform-shipperid').val();
+
+                        if (shipperid) {
+                            $('#jobcontainerform-shipperid').trigger('select2:close');
+                        } else {
+                            $('#jobcontainerform-shipperid').select2('open');
+                        }
                     }
                 });
             } else {
@@ -649,19 +655,19 @@ $js = <<<JS
 
         $('#jobcontainerform-shippernpwp').keypress(function(event) {
             if ( event.which == 13 ) {
-                $('#jobcontainerform-shippingid').on('select2:open');
+                $('#jobcontainerform-shippingid').select2('open');
                 event.preventDefault();
             }
         });
 
         $('#jobcontainerform-shippingid').on('select2:close', function (event) {
             setTimeout(function() {
-                shipping = $('#jobcontainerform-shippingid').val();
+                destinationid = $('#jobcontainerform-destinationid').val();
 
-                if (shipping) {
-                    $('#jobcontainerform-destinationid').select2('open');
+                if (destinationid) {
+                    $('#jobcontainerform-destinationid').trigger('select2:close');
                 } else {
-                    $('#jobcontainerform-destinationid').select2('close');
+                    $('#jobcontainerform-destinationid').select2('open');
                 }
             }, 300);
         });
@@ -701,31 +707,38 @@ $js = <<<JS
         $('#jobcontainerform-stuffingdate').keypress(function(event) {
             if ( event.which == 13 ) {
                 $(this).blur();
-                $('#jobcontainerform-containerdepo_id').select2('open');
+                containerdepo_id = $('#jobcontainerform-containerdepo_id').val();
+
+                if (containerdepo_id) {
+                    $('#jobcontainerform-containerdepo_id').trigger('select2:close');
+                } else {
+                    $('#jobcontainerform-containerdepo_id').select2('open');
+                }
+
                 event.preventDefault();
             }
         });
 
         $('#jobcontainerform-containerdepo_id').on('select2:close', function (event) {
             setTimeout(function() {
-                depo = $('#jobcontainerform-containerdepo_id').val();
+                stuffinglocation_id = $('#jobcontainerform-stuffinglocation_id').val();
 
-                if (depo) {
-                    $('#jobcontainerform-stuffinglocation_id').select2('open');
+                if (stuffinglocation_id) {
+                    $('#jobcontainerform-stuffinglocation_id').trigger('select2:close');
                 } else {
-                    $('#jobcontainerform-stuffinglocation_id').select2('close');
+                    $('#jobcontainerform-stuffinglocation_id').select2('open');
                 }
             }, 300);
         });
 
         $('#jobcontainerform-stuffinglocation_id').on('select2:close', function (event) {
             setTimeout(function() {
-                loc = $('#jobcontainerform-stuffinglocation_id').val();
+                supervisor_id = $('#jobcontainerform-supervisor_id').val();
 
-                if (loc) {
-                    $('#jobcontainerform-supervisor_id').select2('open');
+                if (supervisor_id) {
+                    $('#jobcontainerform-supervisor_id').trigger('select2:close');
                 } else {
-                    $('#jobcontainerform-supervisor_id').select2('close');
+                    $('#jobcontainerform-supervisor_id').select2('open');
                 }
             }, 300);
         });
@@ -745,12 +758,12 @@ $js = <<<JS
                     effect: 'blind',
                     complete: function(){
                         setTimeout(function() {
-                            spv = $('#jobcontainerform-supervisor_id').val();
+                            truckvendor_id = $('#jobcontainerform-truckvendor_id').val();
 
-                            if (spv) {
-                                $('#jobcontainerform-truckvendor_id').select2('open');
+                            if (truckvendor_id) {
+                                $('#jobcontainerform-truckvendor_id').trigger('select2:close');
                             } else {
-                                $('#jobcontainerform-truckvendor_id').select2('close');
+                                $('#jobcontainerform-truckvendor_id').select2('open');
                             }
                         }, 300);
                     }
@@ -760,7 +773,14 @@ $js = <<<JS
 
         $('#jobcontainerform-supervisorphone').keypress(function(event) {
             if ( event.which == 13 ) {
-                $('#jobcontainerform-truckvendor_id').trigger('select2:open');
+                truckvendor_id = $('#jobcontainerform-truckvendor_id').val();
+
+                if (truckvendor_id) {
+                    $('#jobcontainerform-truckvendor_id').trigger('select2:close');
+                } else {
+                    $('#jobcontainerform-truckvendor_id').select2('open');
+                }
+    
                 event.preventDefault();
             }
         });
