@@ -77,7 +77,7 @@ use app\models\TruckSupervisor;
                     [
                     'initValueText' => $siLabel,
                     'options' => [
-                        'placeholder' => 'mencari shipping instruction ...',
+                        'placeholder' => 'isian nomor SI...',
                     ],
                     'pluginOptions' => [
                         'tags' => true,
@@ -780,7 +780,7 @@ $js = <<<JS
                 } else {
                     $('#jobcontainerform-truckvendor_id').select2('open');
                 }
-    
+
                 event.preventDefault();
             }
         });
