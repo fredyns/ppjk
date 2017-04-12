@@ -83,7 +83,7 @@ class ContainerPortSearch extends ContainerPort
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
+                    'name' => SORT_ASC,
                 ],
             ],
         ]);

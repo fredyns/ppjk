@@ -83,7 +83,7 @@ class StuffingLocationSearch extends StuffingLocation
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
+                    'name' => SORT_ASC,
                 ],
             ],
         ]);

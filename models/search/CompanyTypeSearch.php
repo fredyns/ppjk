@@ -96,7 +96,7 @@ class CompanyTypeSearch extends CompanyType
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
+                    'name' => SORT_ASC,
                 ],
             ],
         ]);

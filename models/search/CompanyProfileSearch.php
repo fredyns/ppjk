@@ -151,7 +151,7 @@ class CompanyProfileSearch extends CompanyProfile
             ],
             'sort' => [
                 'defaultOrder' => [
-                    'id' => SORT_DESC,
+                    'name' => SORT_ASC,
                 ],
             ],
         ]);
