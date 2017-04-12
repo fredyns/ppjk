@@ -61,7 +61,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
 
         <div class="form-group col-sm-offset-3 col-lg-9">
             <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
         </div>
 
         <?php ActiveForm::end(); ?>
