@@ -577,6 +577,7 @@ $js = <<<JS
             $('.select2-search__field').addClass('uppercase');
         });
 
+        /*/
         $('#jobcontainerform-shippinginstruction_id').on('select2:close', function (event) {
             si = $(this).val();
 
@@ -608,11 +609,13 @@ $js = <<<JS
                 });
             }
         });
+        /*/
 
         $('#jobcontainerform-shipperid').on('select2:open', function (event) {
             $('.select2-search__field').addClass('uppercase');
         });
 
+        /*/
         $('#jobcontainerform-shipperid').on('select2:close', function (event) {
             shipper = $(this).val();
 
@@ -638,6 +641,7 @@ $js = <<<JS
                 });
             }
         });
+        /*/
 
         $('#jobcontainerform-shipperphone').keypress(function(event) {
             if ( event.which == 13 ) {
@@ -660,6 +664,7 @@ $js = <<<JS
             }
         });
 
+        /*/
         $('#jobcontainerform-shippingid').on('select2:close', function (event) {
             setTimeout(function() {
                 destinationid = $('#jobcontainerform-destinationid').val();
@@ -671,10 +676,13 @@ $js = <<<JS
                 }
             }, 300);
         });
+        /*/
 
+        /*/
         $('#jobcontainerform-destinationid').on('select2:close', function (event) {
             $('#jobcontainerform-containernumber').focus();
         });
+        /*/
 
         $('#jobcontainerform-containernumber').keypress(function(event) {
             if ( event.which == 13 ) {
@@ -719,6 +727,7 @@ $js = <<<JS
             }
         });
 
+        /*/
         $('#jobcontainerform-containerdepo_id').on('select2:close', function (event) {
             setTimeout(function() {
                 stuffinglocation_id = $('#jobcontainerform-stuffinglocation_id').val();
@@ -730,7 +739,9 @@ $js = <<<JS
                 }
             }, 300);
         });
+        /*/
 
+        /*/
         $('#jobcontainerform-stuffinglocation_id').on('select2:close', function (event) {
             setTimeout(function() {
                 supervisor_id = $('#jobcontainerform-supervisor_id').val();
@@ -742,7 +753,9 @@ $js = <<<JS
                 }
             }, 300);
         });
+        /*/
 
+        /*/
         $('#jobcontainerform-supervisor_id').on('select2:close', function (event) {
             spv = $(this).val();
 
@@ -770,6 +783,7 @@ $js = <<<JS
                 });
             }
         });
+        /*/
 
         $('#jobcontainerform-supervisorphone').keypress(function(event) {
             if ( event.which == 13 ) {
@@ -785,9 +799,11 @@ $js = <<<JS
             }
         });
 
+        /*/
         $('#jobcontainerform-truckvendor_id').on('select2:close', function (event) {
             $('#jobcontainerform-drivername').focus();
         });
+        /*/
 
         $('#jobcontainerform-drivername').keypress(function(event) {
             if ( event.which == 13 ) {
