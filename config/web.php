@@ -16,6 +16,7 @@ $config = [
         'session' => [
             'class' => 'yii\web\DbSession',
             'sessionTable' => 'yii_session',
+            'timeout' => 60 * 15,
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
