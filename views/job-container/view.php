@@ -40,7 +40,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
         </div>
 
         <div class="pull-right">
-            <?= $actionControl->buttons(['update', 'delete', 'restore']); ?>
+            <?= $actionControl->buttons(['update', 'copy', 'delete', 'restore']); ?>
         </div>
 
     </div>

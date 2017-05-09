@@ -16,6 +16,9 @@ use app\models\JobContainer;
  * @author Fredy Nurman Saleh <email@fredyns.net>
  *
  * @property JobContainer $model data model
+ *
+ * @property string $allowCopy is allowing accessing copy page
+ * @property array $urlCopy url config for Copy page
  */
 class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
 {
@@ -53,11 +56,7 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
      */
     public function actionPersistentModel()
     {
-        return ArrayHelper::merge(
-                parent::actionPersistentModel(), [
-                #  additional action name
-                ]
-        );
+        return [static::ACTION_VIEW, static::ACTION_UPDATE, 'copy', static::ACTION_DELETE, static::ACTION_RESTORE];
     }
 
     /**
@@ -80,6 +79,19 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
         return ArrayHelper::merge(
                 parent::actions(),
                 [
+                'copy' => [
+                    'label' => 'Copy',
+                    'url' => $this->urlCopy,
+                    'icon' => Icon::show('copy'),
+                    'linkOptions' => [
+                        'title' => 'copy cargo details',
+                        'aria-label' => 'Copy',
+                        'data-pjax' => '0',
+                    ],
+                    'buttonOptions' => [
+                        'class' => 'btn btn-default',
+                    ],
+                ],
                 /* / action sample / */
 
                 # 'action_name' => [
@@ -97,6 +109,25 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
                 # ],
                 ]
         );
+    }
+
+    /**
+     * get URL param to copy model
+     *
+     * @return array
+     */
+    public function getUrlCopy()
+    {
+        if ($this->model instanceof ActiveRecord) {
+            $param = $this->modelParam();
+            $param[0] = $this->actionRoute('create');
+            $param['ru'] = ReturnUrl::getToken();
+            $param['JobContainerForm'] = $this->model->attributes;
+
+            return $param;
+        }
+
+        return [];
     }
 
     /**
@@ -147,6 +178,14 @@ class JobContainerActControl extends \fredyns\suite\libraries\ActionControl
 
         // conclusion
         return ($this->isError($action) == FALSE);
+    }
+    /*     * *
+     * check wether user can create similiar job
+     */
+
+    public function getAllowCopy($params = [])
+    {
+        return $this->getAllowCreate($params);
     }
 
     /**
