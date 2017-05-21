@@ -28,7 +28,7 @@ $this->params['breadcrumbs'][] = $this->title;
                             <?=
                             ChartJs::widget([
                                 'id' => 'salesChart',
-                                'type' => 'line',
+                                'type' => 'bar',
                                 'options' => [
                                     'height' => 200,
                                     'width' => 700
