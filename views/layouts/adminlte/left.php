@@ -161,6 +161,16 @@ use app\models\JobContainer;
                         'options' => ['class' => 'header'],
                     ],
                     [
+                        'label' => Yii::t('app', 'Homepage'),
+                        'icon' => 'fa fa-page',
+                        'url' => ['/site/page', 'slug' => 'home'],
+                    ],
+                    [
+                        'label' => Yii::t('app', 'Chart'),
+                        'icon' => 'fa fa-page',
+                        'url' => ['/site/page', 'slug' => 'chart'],
+                    ],
+                    [
                         'label' => Yii::t('app', 'Office Branches'),
                         'icon' => 'fa fa-page',
                         'url' => ['/site/page', 'slug' => 'branches'],
