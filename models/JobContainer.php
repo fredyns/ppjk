@@ -167,6 +167,11 @@ class JobContainer extends BaseJobContainer
         $oldMonthly = MonthlyLog::cycle($old);
         $newMonthly = MonthlyLog::cycle($new);
 
+        if ($oldMonthly != $newMonthly) {
+            MonthlyLog::decrement($old);
+            MonthlyLog::increment($new);
+        }
+
         return parent::beforeSave($insert);
     }
 }
