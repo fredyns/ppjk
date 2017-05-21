@@ -15,7 +15,9 @@ use app\models\TruckSupervisor;
 use app\models\ContainerType;
 use app\models\ContainerPort;
 use app\models\DailyLog;
+use app\models\DailyShipper;
 use app\models\MonthlyLog;
+use app\models\MonthlyShipper;
 use app\models\form\ShippingInstructionForm;
 
 /**
@@ -384,27 +386,37 @@ class JobContainerForm extends JobContainer
     public function pushCounter()
     {
         // daily counter
-        $old = $this->getOldAttribute('stuffingDate');
-        $new = $this->getAttribute('stuffingDate');
+        $oldDate = $this->getOldAttribute('stuffingDate');
+        $newDate = $this->getAttribute('stuffingDate');
 
-        if ($old != $new) {
-            DailyLog::decrement($old);
-            DailyLog::increment($new);
+        if ($oldDate != $newDate) {
+            DailyLog::decrement($oldDate);
+            DailyLog::increment($newDate);
         }
 
         // monthly counter
-        $oldMonthly = MonthlyLog::cycle($old);
-        $newMonthly = MonthlyLog::cycle($new);
+        $oldMonth = MonthlyLog::cycle($oldDate);
+        $newMonth = MonthlyLog::cycle($newDate);
 
-        if ($oldMonthly != $newMonthly) {
-            MonthlyLog::decrement($old);
-            MonthlyLog::increment($new);
+        if ($oldMonth != $newMonth) {
+            MonthlyLog::decrement($oldMonth);
+            MonthlyLog::increment($newMonth);
         }
 
         // daily shipper
-        //$oldShipper = $this->shippingInstruction->shipper_id;
-        //$newShipper = $this->getAttribute('shipperId');
+        $oldShipper = $this->shipperId;
+        $newShipper = $this->shippingInstruction->shipper_id;
 
+        if ($oldDate != $newDate OR $oldShipper != $newShipper) {
+            DailyShipper::decrement($oldShipper, $oldDate);
+            DailyShipper::increment($newShipper, $newDate);
+        }
+
+        // monthly shipper
+        if ($oldMonth != $newMonth OR $oldShipper != $newShipper) {
+            MonthlyShipper::decrement($oldShipper, $oldMonth);
+            MonthlyShipper::increment($newShipper, $newMonth);
+        }
         //Yii::$app->getSession()->addFlash('info', "old: {$oldShipper}; new: {$newShipper};");
     }
 }
