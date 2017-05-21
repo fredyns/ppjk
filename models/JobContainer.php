@@ -164,8 +164,8 @@ class JobContainer extends BaseJobContainer
         }
 
         // monthly counter
-        $oldMonthly = MonthlyLog::formatDate($old);
-        $newMonthly = MonthlyLog::formatDate($new);
+        $oldMonthly = MonthlyLog::cycle($old);
+        $newMonthly = MonthlyLog::cycle($new);
 
         return parent::beforeSave($insert);
     }
