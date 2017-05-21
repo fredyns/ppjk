@@ -148,38 +148,4 @@ class JobContainer extends BaseJobContainer
         return $this->subAttribute('type.name');
     }
 
-    /**
-     * @inheritdoc
-     */
-    public function beforeSave($insert)
-    {
-        $this->pushCounter();
-
-        return parent::beforeSave($insert);
-    }
-
-    /**
-     * update all counter
-     */
-    public function pushCounter()
-    {
-        // daily counter
-
-        $old = $this->getOldAttribute('stuffingDate');
-        $new = $this->getAttribute('stuffingDate');
-
-        if ($old != $new) {
-            DailyLog::decrement($old);
-            DailyLog::increment($new);
-        }
-
-        // monthly counter
-        $oldMonthly = MonthlyLog::cycle($old);
-        $newMonthly = MonthlyLog::cycle($new);
-
-        if ($oldMonthly != $newMonthly) {
-            MonthlyLog::decrement($old);
-            MonthlyLog::increment($new);
-        }
-    }
 }

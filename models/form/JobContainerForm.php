@@ -14,6 +14,8 @@ use app\models\StuffingLocation;
 use app\models\TruckSupervisor;
 use app\models\ContainerType;
 use app\models\ContainerPort;
+use app\models\DailyLog;
+use app\models\MonthlyLog;
 use app\models\form\ShippingInstructionForm;
 
 /**
@@ -364,5 +366,45 @@ class JobContainerForm extends JobContainer
     public function getShippingInstruction()
     {
         return $this->hasOne(ShippingInstructionForm::className(), ['id' => 'shippingInstruction_id']);
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        $this->pushCounter();
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * update all counter
+     */
+    public function pushCounter()
+    {
+        // daily counter
+        $old = $this->getOldAttribute('stuffingDate');
+        $new = $this->getAttribute('stuffingDate');
+
+        if ($old != $new) {
+            DailyLog::decrement($old);
+            DailyLog::increment($new);
+        }
+
+        // monthly counter
+        $oldMonthly = MonthlyLog::cycle($old);
+        $newMonthly = MonthlyLog::cycle($new);
+
+        if ($oldMonthly != $newMonthly) {
+            MonthlyLog::decrement($old);
+            MonthlyLog::increment($new);
+        }
+
+        // daily shipper
+        //$oldShipper = $this->shippingInstruction->shipper_id;
+        //$newShipper = $this->getAttribute('shipperId');
+
+        //Yii::$app->getSession()->addFlash('info', "old: {$oldShipper}; new: {$newShipper};");
     }
 }
