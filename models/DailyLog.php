@@ -15,7 +15,6 @@ use app\models\base\DailyLog as BaseDailyLog;
  */
 class DailyLog extends BaseDailyLog
 {
-
     use ModelTool,
         ModelBlame;
 
@@ -90,5 +89,58 @@ class DailyLog extends BaseDailyLog
         }
 
         return $data;
+    }
+
+    /**
+     * update daily counter
+     * 
+     * @param string $date
+     * @param integer $increment
+     * @return integer
+     */
+    public static function counter($date, $increment)
+    {
+        $sql = <<<SQL
+
+            INSERT INTO `daily_log`
+            (`date`, `containerQty`)
+
+            VALUES
+            (:date, IF(:increment>0, :increment, 0))
+
+            ON DUPLICATE KEY UPDATE
+            `containerQty` = IF((`containerQty` + :increment)>0, (`containerQty` + :increment), 0)
+            ;
+
+SQL;
+        if ($date) {
+            return Yii::$app->db
+                    ->createCommand($sql, [':date' => $date, ':increment' => $increment])
+                    ->execute();
+        }
+
+        return false;
+    }
+
+    /**
+     * increment counter
+     * 
+     * @param string $date
+     * @return integer
+     */
+    public static function increment($date)
+    {
+        return static::counter($date, 1);
+    }
+
+    /**
+     * decrement counter
+     *
+     * @param string $date
+     * @return integer
+     */
+    public static function decrement($date)
+    {
+        return static::counter($date, -1);
     }
 }

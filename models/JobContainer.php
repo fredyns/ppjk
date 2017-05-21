@@ -17,7 +17,6 @@ use app\models\base\JobContainer as BaseJobContainer;
  */
 class JobContainer extends BaseJobContainer
 {
-
     use ModelTool,
         ModelBlame,
         ModelSoftDelete;
@@ -147,5 +146,27 @@ class JobContainer extends BaseJobContainer
     public function getTypeName()
     {
         return $this->subAttribute('type.name');
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function beforeSave($insert)
+    {
+        // daily counter
+
+        $old = $this->getOldAttribute('stuffingDate');
+        $new = $this->getAttribute('stuffingDate');
+
+        if ($old != $new) {
+            DailyLog::decrement($old);
+            DailyLog::increment($new);
+        }
+
+        // monthly counter
+        $oldMonthly = MonthlyLog::formatDate($old);
+        $newMonthly = MonthlyLog::formatDate($new);
+
+        return parent::beforeSave($insert);
     }
 }
