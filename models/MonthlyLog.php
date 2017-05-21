@@ -80,7 +80,9 @@ class MonthlyLog extends BaseMonthlyLog
 
 SQL;
         if ($date) {
-            return Yii::$app->db->createCommand($sql, [':date' => $date, ':increment' => $increment]);
+            return Yii::$app->db
+                    ->createCommand($sql, [':date' => $date, ':increment' => $increment])
+                    ->execute();
         }
 
         return false;
