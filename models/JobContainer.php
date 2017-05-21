@@ -153,6 +153,16 @@ class JobContainer extends BaseJobContainer
      */
     public function beforeSave($insert)
     {
+        $this->pushCounter();
+
+        return parent::beforeSave($insert);
+    }
+
+    /**
+     * update all counter
+     */
+    public function pushCounter()
+    {
         // daily counter
 
         $old = $this->getOldAttribute('stuffingDate');
@@ -171,7 +181,5 @@ class JobContainer extends BaseJobContainer
             MonthlyLog::decrement($old);
             MonthlyLog::increment($new);
         }
-
-        return parent::beforeSave($insert);
     }
 }
