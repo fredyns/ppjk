@@ -67,7 +67,11 @@ class SiteController extends Controller
      */
     public function actionIndex()
     {
-        return $this->render('index');
+        $publicPage = 'page/home';
+        $userPage = 'page/chart';
+        $view = Yii::$app->user->isGuest ? $publicPage : $userPage;
+
+        return $this->render($view);
     }
 
     /**
