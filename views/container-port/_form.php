@@ -73,10 +73,12 @@ use dmstr\bootstrap\Tabs;
 
 </div>
 
-<script src="https://cdn.jsdelivr.net/places.js/1/places.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/places.js@1.4.14"></script>
 <script>
     var placesAutocomplete = places({
-        container: document.querySelector('#containerportform-name')
+        container: document.querySelector('#containerportform-name'),
+        appId: '7T97HYDQ33',
+        apiKey: '4340a5dc7718e5cf4a012402f92f0012'
     });
 </script>
 
