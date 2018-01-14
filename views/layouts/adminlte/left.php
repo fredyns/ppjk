@@ -93,12 +93,6 @@ use app\models\JobContainer;
                         'url' => ['/job-container'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Shipping Instruction'),
-                        'encode' => FALSE,
-                        'icon' => 'fa fa-newspaper-o',
-                        'url' => ['/shipping-instruction'],
-                    ],
-                    [
                         'label' => 'Master',
                         'options' => ['class' => 'header'],
                     ],
