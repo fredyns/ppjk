@@ -21,9 +21,9 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
     <?php $this->beginBlock('ShippingInstruction'); ?>
     <?=
     DetailView::widget([
-        'model' => $model->shippingInstruction,
+        'model' => $model,
         'attributes' => [
-            'number',
+            'deliveryOrder', 
             [
                 'label' => 'Shipper',
                 'attribute' => 'shipper.name',

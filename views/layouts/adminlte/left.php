@@ -19,8 +19,7 @@ use app\models\JobContainer;
 
                 if (!empty($profile->picture_id)) {
                     echo Html::img(
-                        ['/file', 'id' => $profile->picture_id],
-                        [
+                        ['/file', 'id' => $profile->picture_id], [
                         'class' => '',
                         'alt' => $profile->user->username,
                         'style' => 'max-length: 45px; max-width: 45px;',
@@ -53,19 +52,19 @@ use app\models\JobContainer;
                     'id' => "navbar-search-input",
                     'name' => "number",
                     'value' => Yii::$app->request->get('number'),
-                    'mask' => JobContainer::CONTAINERNUMBERMASK,
+                    'mask' => JobContainer::DOMASK,
                     'options' => [
                         'maxlength' => true,
                         'class' => "form-control mytooltip",
                         'style' => "text-transform: uppercase;",
-                        'placeholder' => Yii::t('app', 'Search Container')."...",
-                        'title' => "Type the 11-digit number of container, with no spaces",
+                        'placeholder' => Yii::t('app', 'Search DO')."...",
+                        'title' => "Type the delivery order number",
                         'data-toggle' => "tooltip",
                         'data-placement' => "bottom",
                     ],
                     'clientOptions' => [
                         'greedy' => false,
-                        'removeMaskOnSubmit' => true,
+                        'removeMaskOnSubmit' => false,
                     ],
                 ]);
                 ?>

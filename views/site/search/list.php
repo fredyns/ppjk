@@ -26,24 +26,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'dataProvider' => new ArrayDataProvider(['allModels' => $containers, 'pagination' => FALSE]),
             'columns' => [
                 ['class' => '\kartik\grid\CheckboxColumn'],
-                [
-                    'label' => 'Shipping Instruction',
-                    'attribute' => 'shippingInstructionNumber',
-                    'format' => 'html',
-                    'value' => function (JobContainer $model, $key, $index, $widget) {
-                        return 'SI <b>#'.$model->shippingInstruction->number.'</b>'
-                            .' &nbsp;<i class="inline-label">from</i> '
-                            .$model->shippingInstruction->shipper->name
-                            .' &nbsp;<i class="inline-label">to</i> '
-                            .$model->shippingInstruction->destination->name
-                            .' &nbsp;<i class="inline-label">with</i> '
-                            .$model->shippingInstruction->shipping->name;
-                    },
-                    'group' => true, // enable grouping,
-                    'groupedRow' => true, // move grouped column to a single grouped row
-                    'groupOddCssClass' => 'kv-grouped-row', // configure odd group cell css class
-                    'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
-                ],
+                'deliveryOrder',
                 [
                     'label' => 'Cont. Number',
                     'class' => 'fredyns\suite\grid\KartikViewColumn',

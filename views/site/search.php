@@ -30,26 +30,26 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
         ?>
 
         <div class="form-group field-number required">
-            <label class="col-lg-3 control-label" for="number">Container Number</label>
+            <label class="col-lg-3 control-label" for="number">Delivery Order</label>
             <div class="col-lg-9">
                 <?=
                 MaskedInput::widget([
                     'id' => "search-input",
                     'name' => "number",
                     'value' => $searchTerm,
-                    'mask' => JobContainer::CONTAINERNUMBERMASK,
+                    'mask' => JobContainer::DOMASK,
                     'options' => [
                         'maxlength' => true,
                         'class' => "form-control mytooltip",
                         'style' => "text-transform: uppercase;",
-                        'placeholder' => Yii::t('app', 'Search Container')."...",
-                        'title' => "Type the 11-digit number of container, with no spaces",
+                        'placeholder' => Yii::t('app', 'Search DO')."...",
+                        'title' => "Type the delivery order number",
                         'data-toggle' => "tooltip",
                         'data-placement' => "bottom",
                     ],
                     'clientOptions' => [
                         'greedy' => false,
-                        'removeMaskOnSubmit' => true,
+                        'removeMaskOnSubmit' => false,
                     ],
                 ]);
                 ?>
@@ -77,15 +77,15 @@ $this->params['breadcrumbs'][] = ['label' => 'Search', 'url' => ['search', 'numb
         <?= $this->render('search/view', ['model' => $containers[0]]); ?>
     <?php elseif (empty($searchTerm)): ?>
         <div class="help-block help-block-error ">
-            Please type Container Number to search.
+            Please type Delivery Order Number to search.
         </div>
     <?php elseif (strlen($searchTerm) < 6): ?>
         <div class="help-block help-block-error ">
-            Container Number is too short.
+            Delivery Order Number is too short.
         </div>
     <?php elseif (empty($containers)): ?>
         <div class="help-block help-block-error ">
-            Container not found.
+            Delivery Order not found.
         </div>
     <?php else: ?>
         ...

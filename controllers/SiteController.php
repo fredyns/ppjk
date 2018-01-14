@@ -147,23 +147,23 @@ class SiteController extends Controller
     {
         $id = Yii::$app->request->get('id');
         $number = Yii::$app->request->get('number');
-        $containerList = strtoupper($number);
-        $containerList = str_replace(', ', ',', $containerList);
-        $containerList = str_replace(' ', ',', $containerList);
-        $containerList = str_replace(chr(13), ',', $containerList);
-        $containerNumbers = explode(',', $containerList);
-        $containerNumbers = array_filter($containerNumbers);
-        $searchTerm = implode(', ', $containerNumbers);
-        $criteria = ['containerNumber' => $containerNumbers];
+        $number = strtoupper($number);
+        //$containerList = str_replace(', ', ',', $containerList);
+        //$containerList = str_replace(' ', ',', $containerList);
+        //$containerList = str_replace(chr(13), ',', $containerList);
+        //$containerNumbers = explode(',', $containerList);
+        //$containerNumbers = array_filter($containerNumbers);
+        //$searchTerm = implode(', ', $containerNumbers);
+        $criteria = ['deliveryOrder' => $number];
 
         if ($id > 0) {
             $criteria['id'] = $id;
         }
 
-        return $this->render('search',
-                [
-                'searchTerm' => $searchTerm,
+        return $this->render('search', [
+                'searchTerm' => $number,
                 'containers' => JobContainer::findAll($criteria),
         ]);
     }
+
 }
