@@ -67,7 +67,21 @@ $this->params['breadcrumbs'][] = $this->title;
             'headerRowOptions' => ['class' => 'x'],
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
-                'deliveryOrder',
+                [
+                    'attribute' => 'deliveryOrder',
+                    'filter' => MaskedInput::widget([
+                        'name' => "JobContainerSearch[deliveryOrder]",
+                        'value' => $searchModel->deliveryOrder,
+                        'mask' => JobContainerSearch::DOMASK,
+                        'options' => [
+                            'class' => "form-control",
+                            'style' => "text-transform: uppercase;",
+                        ],
+                        'clientOptions' => [
+                            'greedy' => false,
+                        ],
+                    ]),
+                ],
                 [
                     'label' => 'Date',
                     'attribute' => 'stuffingDate',
