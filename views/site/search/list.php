@@ -36,6 +36,9 @@ $this->params['breadcrumbs'][] = $this->title;
                         'width' => '120px',
                     ],
                     'visible' => (!Yii::$app->user->isGuest),
+                    'value' => function (JobContainer $model, $key, $index, $widget) {
+                        return $model->containerNumberFormated;
+                    },
                 ],
                 [
                     'label' => 'Cont. Number',
@@ -47,7 +50,7 @@ $this->params['breadcrumbs'][] = $this->title;
                     ],
                     'value' => function (JobContainer $model, $key, $index, $widget) {
                         return Html::a(
-                                $model->containerNumber
+                                $model->containerNumberFormated
                                 ,
                                 [
                                 '/site/search',

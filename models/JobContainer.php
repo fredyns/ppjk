@@ -17,6 +17,7 @@ use app\models\base\JobContainer as BaseJobContainer;
  */
 class JobContainer extends BaseJobContainer
 {
+
     use ModelTool,
         ModelBlame,
         ModelSoftDelete;
@@ -65,14 +66,32 @@ class JobContainer extends BaseJobContainer
     public function attributeLabels()
     {
         return ArrayHelper::merge(
-                parent::attributeLabels(),
-                [
+                parent::attributeLabels(), [
                 'shippingInstruction_id' => 'No SI',
                 'containerDepo_id' => 'Depo',
                 'supervisor_id' => 'Mandor',
                 'policenumber' => 'Police Number',
                 ]
         );
+    }
+
+    /**
+     * return formated container number for easy reading
+     * 
+     * @return string
+     */
+    public function getContainerNumberFormated()
+    {
+        if (empty($this->containerNumber)){
+            return null;
+        }
+
+        $code = substr($this->containerNumber, 0, 4);
+        $number = substr($this->containerNumber, 4);
+        $numberArray = str_split($number, 3);
+        $numberFormated = implode(' ', $numberArray);
+
+        return "{$code} {$numberFormated}";
     }
 
     /**

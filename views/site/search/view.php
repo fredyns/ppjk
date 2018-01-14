@@ -50,7 +50,7 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
             [
                 'label' => 'Container Number',
                 'format' => 'raw',
-                'value' => '<b style="letter-spacing: 2px;">'.$model->containerNumber.'</b>',
+                'value' => '<b style="letter-spacing: 2px;">'.$model->containerNumberFormated.'</b>',
             ],
             [
                 'label' => 'Type',

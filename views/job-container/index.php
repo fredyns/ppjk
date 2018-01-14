@@ -114,6 +114,9 @@ $this->params['breadcrumbs'][] = $this->title;
                             'greedy' => false,
                         ],
                     ]),
+                    'value' => function (JobContainer $model, $key, $index, $widget) {
+                        return $model->containerNumberFormated;
+                    },
                 ],
                 [
                     'attribute' => 'size',
