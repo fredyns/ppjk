@@ -42,7 +42,7 @@ class JobContainerSearch extends JobContainer
             [
                 [
                     // SI
-                    'shippingInstructionNumber',
+                    'deliveryOrder',
                     // container
                     'containerNumber', 'sealNumber',
                     'policenumber',
@@ -55,7 +55,7 @@ class JobContainerSearch extends JobContainer
             // shipping instruction
             [
                 [
-                    'shippingInstructionNumber',
+                    'deliveryOrder',
                     'shipperName',
                     'shippingName',
                     'destinationName',
@@ -66,7 +66,15 @@ class JobContainerSearch extends JobContainer
                 },
             ],
             // job container
-            [['id', 'type_id', 'created_by', 'updated_by', 'deleted_by'], 'integer'],
+            [
+                [
+                    'id',
+                    'shipper_id', 'shipping_id', 'destination_id',
+                    'type_id',
+                    'created_by', 'updated_by', 'deleted_by',
+                ],
+                'integer',
+            ],
             [
                 [
                     'containerNumber',
@@ -148,13 +156,12 @@ class JobContainerSearch extends JobContainer
     public function search()
     {
         $query = JobContainer::find()
-            ->joinWith('shippingInstruction')
             ->joinWith('stuffingLocation')
             ->joinWith('truckVendor')
             ->joinWith('supervisor')
-            ->joinWith('shippingInstruction.shipper')
-            ->joinWith('shippingInstruction.shipping')
-            ->joinWith('shippingInstruction.destination');
+            ->joinWith('shipper')
+            ->joinWith('shipping')
+            ->joinWith('destination');
 
         $dataProvider = new ActiveDataProvider([
             'query' => $query,
@@ -164,21 +171,21 @@ class JobContainerSearch extends JobContainer
             'sort' => [
                 'attributes' => [
                     // SI
-                    'shippingInstructionNumber' => [
-                        'asc' => [ShippingInstruction::tableName().'.number' => SORT_ASC],
-                        'desc' => [ShippingInstruction::tableName().'.number' => SORT_DESC],
-                    ],
                     'shipperName' => [
-                        'asc' => [ShippingInstruction::ALIAS_SHIPPER.'.name' => SORT_ASC],
-                        'desc' => [ShippingInstruction::ALIAS_SHIPPER.'.name' => SORT_DESC],
+                        'asc' => [static::ALIAS_SHIPPER.'.name' => SORT_ASC],
+                        'desc' => [static::ALIAS_SHIPPER.'.name' => SORT_DESC],
+                    ],
+                    'shippingName' => [
+                        'asc' => [static::ALIAS_SHIPPING.'.name' => SORT_ASC],
+                        'desc' => [static::ALIAS_SHIPPING.'.name' => SORT_DESC],
                     ],
                     'destinationName' => [
-                        'asc' => [ShippingInstruction::ALIAS_DESTINATION.'.name' => SORT_ASC],
-                        'desc' => [ShippingInstruction::ALIAS_DESTINATION.'.name' => SORT_DESC],
+                        'asc' => [static::ALIAS_DESTINATION.'.name' => SORT_ASC],
+                        'desc' => [static::ALIAS_DESTINATION.'.name' => SORT_DESC],
                     ],
                     // job container
                     'id',
-                    'shippingInstruction_id',
+                    'deliveryOrder',
                     'containerNumber',
                     'size',
                     'type_id' => [
@@ -204,7 +211,6 @@ class JobContainerSearch extends JobContainer
                     'policenumber',
                 ],
                 'defaultOrder' => [
-                    'shippingInstruction_id' => SORT_DESC,
                     'id' => SORT_DESC,
                 ],
             ],
@@ -218,13 +224,11 @@ class JobContainerSearch extends JobContainer
         }
 
         $query->andFilterWhere([
-            // shipping instruction
-            ShippingInstruction::tableName().'.shipper_id' => $this->shipper_id,
-            ShippingInstruction::tableName().'.shipping_id' => $this->shipping_id,
-            ShippingInstruction::tableName().'.destination_id' => $this->destination_id,
             // job container
+            static::tableName().'.shipper_id' => $this->shipper_id,
+            static::tableName().'.shipping_id' => $this->shipping_id,
+            static::tableName().'.destination_id' => $this->destination_id,
             static::tableName().'.id' => $this->id,
-            static::tableName().'.shippingInstruction_id' => $this->shippingInstruction_id,
             static::tableName().'.size' => $this->size,
             static::tableName().'.type_id' => $this->type_id,
             static::tableName().'.stuffingDate' => $this->stuffingDate,
@@ -238,15 +242,12 @@ class JobContainerSearch extends JobContainer
             static::tableName().'.deleted_by' => $this->deleted_by,
         ]);
 
-        // shipping instruction
-        $query
-            ->andFilterWhere(['like', ShippingInstruction::tableName().'.number', $this->shippingInstructionNumber])
-            ->andFilterWhere(['like', ShippingInstruction::ALIAS_SHIPPER.'.name', $this->shipperName])
-            ->andFilterWhere(['like', ShippingInstruction::ALIAS_SHIPPING.'.name', $this->shippingName])
-            ->andFilterWhere(['like', ShippingInstruction::ALIAS_DESTINATION.'.name', $this->destinationName]);
-
         // job container
         $query
+            ->andFilterWhere(['like', static::tableName().'.deliveryOrder', $this->deliveryOrder])
+            ->andFilterWhere(['like', static::ALIAS_SHIPPER.'.name', $this->shipperName])
+            ->andFilterWhere(['like', static::ALIAS_SHIPPING.'.name', $this->shippingName])
+            ->andFilterWhere(['like', static::ALIAS_DESTINATION.'.name', $this->destinationName])
             ->andFilterWhere(['like', static::tableName().'.containerNumber', $this->containerNumber])
             ->andFilterWhere(['like', static::tableName().'.sealNumber', $this->sealNumber])
             ->andFilterWhere(['like', static::ALIAS_CONTAINERDEPO.'.name', $this->containerDepoName])
@@ -279,4 +280,5 @@ class JobContainerSearch extends JobContainer
 
         return $dataProvider;
     }
+
 }

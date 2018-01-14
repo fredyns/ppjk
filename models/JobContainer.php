@@ -24,6 +24,11 @@ class JobContainer extends BaseJobContainer
     const ALIAS_CONTAINERDEPO = 'containerDepo';
     const ALIAS_SUPERVISOR = 'supervisor';
     const ALIAS_TRUCKVENDOR = 'truckVendor';
+    const ALIAS_SHIPPER = 'shipper';
+    const ALIAS_SHIPPING = 'shipping';
+    const ALIAS_DESTINATION = 'destination';
+    const DOMASK = '9999 aa a{2,5}';
+    const DOPATTERN = '/^[0-9]+ [a-zA-Z]+ [a-zA-Z]+$/';
     const CONTAINERNUMBERMASK = 'aaaa 9999999';
     const SIZE_20 = '20';
     const SIZE_40 = '40';
@@ -68,6 +73,30 @@ class JobContainer extends BaseJobContainer
                 'policenumber' => 'Police Number',
                 ]
         );
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShipper()
+    {
+        return parent::getShipper()->alias(static::ALIAS_SHIPPER);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getShipping()
+    {
+        return parent::getShipping()->alias(static::ALIAS_SHIPPING);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDestination()
+    {
+        return parent::getDestination()->alias(static::ALIAS_DESTINATION);
     }
 
     /**

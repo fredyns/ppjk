@@ -68,33 +68,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
-                    'label' => 'Shipping Inst.',
-                    'attribute' => 'shippingInstructionNumber',
-                    'format' => 'html',
-                    'value' => function (JobContainer $model, $key, $index, $widget) {
-                        $siActControl = new ShippingInstructionActControl([
-                            'model' => $model->shippingInstruction,
-                        ]);
-
-                        $shipperName = $model->subAttribute('shippingInstruction.shipper.name');
-                        $destinationName = $model->subAttribute('shippingInstruction.destination.name');
-                        $shippingName = $model->subAttribute('shippingInstruction.shipping.name');
-                        $pieces = ['SI <b>#'.$siActControl->linkTo.'</b>'];
-
-                        if ($shipperName) {
-                            $pieces[] = '<i class="inline-label">from</i> '.$shipperName;
-                        }
-
-                        if ($destinationName) {
-                            $pieces[] = '<i class="inline-label">to</i> '.$destinationName;
-                        }
-
-                        if ($shippingName) {
-                            $pieces[] = '<i class="inline-label">with</i> '.$shippingName;
-                        }
-
-                        return implode(' &nbsp;', $pieces);
-                    },
+                    'attribute' => 'deliveryOrder',
                     'group' => true, // enable grouping,
                     'groupedRow' => true, // move grouped column to a single grouped row
                     'groupOddCssClass' => 'kv-grouped-row', // configure odd group cell css class

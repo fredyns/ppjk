@@ -27,13 +27,10 @@ use app\models\form\ShippingInstructionForm;
  */
 class JobContainerForm extends JobContainer
 {
-    public $shipperId;
     public $shipperAddress;
     public $shipperPhone;
     public $shipperEmail;
     public $shipperNpwp;
-    public $shippingId;
-    public $destinationId;
     public $supervisorPhone;
 
     /**
@@ -44,13 +41,10 @@ class JobContainerForm extends JobContainer
         return ArrayHelper::merge(
                 parent::attributeLabels(),
                 [
-                'shipperId' => 'Shipper Name',
                 'shipperAddress' => 'Shipper Address',
                 'shipperPhone' => 'Shipper Phone',
                 'shipperEmail' => 'Shipper Email',
                 'shipperNpwp' => 'Shipper NPWP',
-                'shippingId' => 'Shipping Name',
-                'destinationId' => 'Destination Name',
                 'supervisorPhone' => 'Mandor Phone',
                 ]
         );
@@ -66,7 +60,34 @@ class JobContainerForm extends JobContainer
                 [
                 # custom behaviors
                 [
-                    'class' => SIBehavior::className(),
+                    'class' => BelongingModelBehavior::className(),
+                    'relatedAttribute' => 'shipper_id',
+                    'valueAttribute' => 'name',
+                    'modelClass' => CompanyProfile::className(),
+                    'modelAttributes' => [
+                        'companyType_id' => CompanyProfile::TYPE_SHIPPER,
+                    ],
+                    'copyAttributes' => [
+                        'address' => 'shipperAddress',
+                        'phone' => 'shipperPhone',
+                        'email' => 'shipperEmail',
+                        'npwp' => 'shipperNpwp',
+                    ],
+                ],
+                [
+                    'class' => BelongingModelBehavior::className(),
+                    'relatedAttribute' => 'shipping_id',
+                    'valueAttribute' => 'name',
+                    'modelClass' => CompanyProfile::className(),
+                    'modelAttributes' => [
+                        'companyType_id' => CompanyProfile::TYPE_SHIPPING,
+                    ],
+                ],
+                [
+                    'class' => BelongingModelBehavior::className(),
+                    'modelClass' => ContainerPort::className(),
+                    'relatedAttribute' => 'destination_id',
+                    'valueAttribute' => 'name',
                 ],
                 [
                     'class' => BelongingModelBehavior::className(),
@@ -114,10 +135,10 @@ class JobContainerForm extends JobContainer
             /* filter */
             [
                 [
-                    // new SI
-                    'shippingInstruction_id',
-                    'shipperId', 'shipperAddress', 'shipperPhone', 'shipperEmail', 'shipperNpwp',
-                    'shippingId', 'destinationId',
+                    // SI
+                    'deliveryOrder',
+                    'shipper_id', 'shipperAddress', 'shipperPhone', 'shipperEmail', 'shipperNpwp',
+                    'shipping_id', 'destination_id',
                     // container
                     'containerNumber', 'sealNumber',
                     'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id',
@@ -133,7 +154,8 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // new SI
-                    'shippingInstruction_id', 'shipperId',
+                    'deliveryOrder', 'shipper_id',
+                    'shipping_id', 'destination_id',
                     // container
                     'containerNumber', 'sealNumber',
                     'policenumber',
@@ -146,35 +168,20 @@ class JobContainerForm extends JobContainer
             /* default value */
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
-            [['shippingInstruction_id'], 'required'],
-            [
-                ['shipperId'],
-                'required',
-                'when' => function ($model, $attribute) {
-                    return (is_numeric($model->shippingInstruction_id) == FALSE);
-                },
-                'whenClient' => '
-                    function (attribute, value) {
-                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
-
-                        return (si && isNaN(si));
-                    }',
-            ],
+            [['deliveryOrder','shipper_id'], 'required'],
             [
                 ['shipperAddress', 'shipperPhone'],
                 'required',
                 'when' => function ($model, $attribute) {
-                    $newSi = (is_numeric($model->shippingInstruction_id) == FALSE);
-                    $newShipper = (is_numeric($model->shipperId) == FALSE);
+                    $newShipper = (is_numeric($model->shipper_id) == FALSE);
 
-                    return ($newSi && $newShipper);
+                    return ($newShipper);
                 },
                 'whenClient' => '
                     function (attribute, value) {
-                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
-                        shipper = $(\'#'.$this->formName().'-shipperid\').val();
+                        shipper = $(\'#'.$this->formName().'-shipper_id\').val();
 
-                        return (si && isNaN(si) && shipper && isNaN(shipper));
+                        return (shipper && isNaN(shipper));
                     }',
             ],
             [
@@ -194,7 +201,7 @@ class JobContainerForm extends JobContainer
             /* field type */
             [['type_id'], 'integer'],
             [['size', 'recordStatus', 'notes'], 'string'],
-            [['shippingInstruction_id', 'containerNumber'], 'string', 'max' => 12],
+            [['deliveryOrder', 'containerNumber'], 'string', 'max' => 12],
             [['policenumber'], 'string', 'max' => 16],
             [
                 [
@@ -211,7 +218,7 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // new si
-                    'shipperId', 'shippingId', 'destinationId',
+                    'shipper_id', 'shipping_id', 'destination_id',
                     // container
                     'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id',
                 ],
@@ -228,19 +235,10 @@ class JobContainerForm extends JobContainer
             [['shipperNpwp'], 'string', 'max' => 32],
             /* value limitation */
             [
-                ['shippingInstruction_id'],
+                ['deliveryOrder'],
                 'match',
-                'pattern' => ShippingInstruction::NUMBERPATTERN,
-                'when' => function ($model, $attribute) {
-                    return (is_numeric($model->$attribute) == FALSE);
-                },
-                'whenClient' => '
-                    function (attribute, value) {
-                        sinumber = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
-
-                        return (sinumber && isNaN(sinumber));
-                    }',
-                'message' => 'Format nomor SI tidak sesuai.'
+                'pattern' => static::DOPATTERN,
+                'message' => 'Format Delivery Order tidak sesuai.'
             ],
             [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
             ['size', 'in', 'range' => [
@@ -255,33 +253,8 @@ class JobContainerForm extends JobContainer
                     self::RECORDSTATUS_DELETED,
                 ]
             ],
-            [
-                ['shippingInstruction_id'],
-                'unique',
-                'targetAttribute' => 'number',
-                'targetClass' => ShippingInstruction::className(),
-                'when' => function ($model, $attribute) {
-                    return (is_numeric($model->$attribute) == FALSE);
-                },
-                'whenClient' => '
-                    function (attribute, value) {
-                        si = $(\'#'.$this->formName().'-shippinginstruction_id\').val();
-
-                        return (si && isNaN(si));
-                    }',
-            ],
             [['shipperEmail'], 'email'],
             /* value references */
-            [
-                ['shippingInstruction_id'],
-                'exist',
-                'skipOnError' => true,
-                'targetClass' => ShippingInstruction::className(),
-                'targetAttribute' => ['shippingInstruction_id' => 'id'],
-                'when' => function ($model, $attribute) {
-                    return (is_numeric($model->$attribute));
-                },
-            ],
             [
                 ['type_id'],
                 'exist',
@@ -330,31 +303,31 @@ class JobContainerForm extends JobContainer
                 },
             ],
             [
-                ['shipperId'],
+                ['shipper_id'],
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => CompanyProfile::className(),
-                'targetAttribute' => ['shipperId' => 'id'],
+                'targetAttribute' => ['shipper_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
                 },
             ],
             [
-                ['shippingId'],
+                ['shipping_id'],
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => CompanyProfile::className(),
-                'targetAttribute' => ['shippingId' => 'id'],
+                'targetAttribute' => ['shipping_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
                 },
             ],
             [
-                ['destinationId'],
+                ['destination_id'],
                 'exist',
                 'skipOnError' => true,
                 'targetClass' => ContainerPort::className(),
-                'targetAttribute' => ['destinationId' => 'id'],
+                'targetAttribute' => ['destination_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
                 },
@@ -404,8 +377,8 @@ class JobContainerForm extends JobContainer
         }
 
         // daily shipper
-        $oldShipper = $this->shipperId;
-        $newShipper = $this->shippingInstruction->shipper_id;
+        $oldShipper = $this->getOldAttribute('shipper_id');
+        $newShipper = $this->shipper_id;
 
         if ($oldDate != $newDate OR $oldShipper != $newShipper) {
             DailyShipper::decrement($oldShipper, $oldDate);

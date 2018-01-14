@@ -26,11 +26,7 @@ use app\models\TruckSupervisor;
 
 <style>
 
-    #select2-jobcontainerform-shippinginstruction_id-results li, #select2-jobcontainerform-shippinginstruction_id-container {
-        text-transform: uppercase;
-    }
-
-    #select2-jobcontainerform-shipperid-results li, #select2-jobcontainerform-shipperid-container {
+    #select2-jobcontainerform-shipper_id-results li, #select2-jobcontainerform-shipper_id-container {
         text-transform: uppercase;
     }
 
@@ -61,43 +57,29 @@ use app\models\TruckSupervisor;
         <br/>
         <div id="input-si">
 
-            <!-- attribute shippingInstruction_id -->
-            <?php
-            $siLabel = $model->shippingInstruction_id;
-
-            if ($model->shippingInstruction_id > 0) {
-                if (($si = ShippingInstruction::findOne($model->shippingInstruction_id)) !== null) {
-                    $siLabel = $si->number;
-                }
-            }
-
-            echo $form
-                ->field($model, 'shippingInstruction_id')
-                ->widget(Select2::classname(),
+            <!-- attribute deliveryOrder -->
+            <?=
+                $form
+                ->field($model, 'deliveryOrder')
+                ->textInput()
+                ->widget(
+                    MaskedInput::className(),
                     [
-                    'initValueText' => $siLabel,
+                    'mask' => JobContainer::DOMASK,
                     'options' => [
+                        'class' => 'form-control uppercase',
+                        'maxlength' => 12,
                         'placeholder' => 'isian nomor SI...',
                     ],
-                    'pluginOptions' => [
-                        'tags' => true,
-                        'minimumInputLength' => 2,
-                        'language' => [
-                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
-                        ],
-                        'ajax' => [
-                            'url' => Url::to(['/api/shipping-instruction/list']),
-                            'dataType' => 'json',
-                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
-                        ],
-                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
-                        'templateResult' => new JsExpression('function(itemData) { return itemData.text; }'),
-                        'templateSelection' => new JsExpression('function (itemData) { return itemData.text; }'),
+                    'clientOptions' => [
+                        'greedy' => false,
+                        'removeMaskOnSubmit' => false,
                     ],
-            ]);
+                    ]
+            );
             ?>
 
-            <!-- petunjuk format nomor SI -->
+            <!-- petunjuk format nomor DO -->
             <div class="form-group">
                 <div class="col-sm-6 col-sm-offset-3">
                     <div class="box box-primary">
@@ -131,18 +113,18 @@ use app\models\TruckSupervisor;
 
             <div id="input-sidetail">
 
-                <!-- attribute shipperId -->
+                <!-- attribute shipper_id -->
                 <?php
-                $shipperLabel = $model->shipperId;
+                $shipperLabel = $model->shipper_id;
 
-                if ($model->shipperId > 0) {
-                    if (($shipper = CompanyProfile::findOne($model->shipperId)) !== null) {
+                if ($model->shipper_id > 0) {
+                    if (($shipper = CompanyProfile::findOne($model->shipper_id)) !== null) {
                         $shipperLabel = $shipper->name;
                     }
                 }
 
                 echo $form
-                    ->field($model, 'shipperId')
+                    ->field($model, 'shipper_id')
                     ->label('Shipper Name')
                     ->widget(Select2::classname(),
                         [
@@ -150,7 +132,7 @@ use app\models\TruckSupervisor;
                         'options' => ['placeholder' => 'mencari perusahaan ...'],
                         'pluginOptions' => [
                             'tags' => true,
-                            'minimumInputLength' => 1,
+                            'minimumInputLength' => 2,
                             'language' => [
                                 'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
                             ],
@@ -190,18 +172,18 @@ use app\models\TruckSupervisor;
 
                 </div>
 
-                <!-- attribute shippingId -->
+                <!-- attribute shipping_id -->
                 <?php
-                $shippingLabel = $model->shippingId;
+                $shippingLabel = $model->shipping_id;
 
-                if ($model->shippingId > 0) {
-                    if (($shipping = CompanyProfile::findOne($model->shippingId)) !== null) {
+                if ($model->shipping_id > 0) {
+                    if (($shipping = CompanyProfile::findOne($model->shipping_id)) !== null) {
                         $shippingLabel = $shipping->name;
                     }
                 }
 
                 echo $form
-                    ->field($model, 'shippingId')
+                    ->field($model, 'shipping_id')
                     ->label('Shipping Name')
                     ->widget(Select2::classname(),
                         [
@@ -226,18 +208,18 @@ use app\models\TruckSupervisor;
                 ]);
                 ?>
 
-                <!-- attribute destinationId -->
+                <!-- attribute destination_id -->
                 <?php
-                $destinationLabel = $model->destinationId;
+                $destinationLabel = $model->destination_id;
 
-                if ($model->destinationId > 0) {
-                    if (($destination = ContainerPort::findOne($model->destinationId)) !== null) {
+                if ($model->destination_id > 0) {
+                    if (($destination = ContainerPort::findOne($model->destination_id)) !== null) {
                         $destinationLabel = $destination->name;
                     }
                 }
 
                 echo $form
-                    ->field($model, 'destinationId')
+                    ->field($model, 'destination_id')
                     ->label('Destination Name')
                     ->widget(Select2::classname(),
                         [
@@ -539,7 +521,7 @@ use app\models\TruckSupervisor;
                 [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-success',
-                'onClick' => "$('#nextAction').val('done');",
+                'onClick' => "$('#nextAction').val('index');",
                 ]
             );
             echo ' &nbsp; ';
@@ -548,7 +530,7 @@ use app\models\TruckSupervisor;
                 [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-primary',
-                'onClick' => "$('#nextAction').val('more');",
+                'onClick' => "$('#nextAction').val('create');",
                 ]
             );
         } else {
@@ -569,273 +551,6 @@ use app\models\TruckSupervisor;
 </div>
 
 <?php
-$js = <<<JS
-
-	$(function () {
-
-        $('#jobcontainerform-shippinginstruction_id').on('select2:open', function (event) {
-            $('.select2-search__field').addClass('uppercase');
-        });
-
-        /*/
-        $('#jobcontainerform-shippinginstruction_id').on('select2:close', function (event) {
-            si = $(this).val();
-
-            if (si && isNaN(si)) {
-                $('#input-sidetail').show({
-                    effect: 'blind',
-                    complete: function(){
-                        shipperid = $('#jobcontainerform-shipperid').val();
-
-                        if (shipperid) {
-                            $('#jobcontainerform-shipperid').trigger('select2:close');
-                        } else {
-                            $('#jobcontainerform-shipperid').select2('open');
-                        }
-                    }
-                });
-            } else {
-                $('#input-sidetail').hide({
-                    effect: 'blind',
-                    complete: function(){
-                        setTimeout(function() {
-                            si = $('#jobcontainerform-shippinginstruction_id').val();
-
-                            if (si) {
-                                $('#jobcontainerform-containernumber').focus();
-                            }
-                        }, 300);
-                    }
-                });
-            }
-        });
-        /*/
-
-        $('#jobcontainerform-shipperid').on('select2:open', function (event) {
-            $('.select2-search__field').addClass('uppercase');
-        });
-
-        /*/
-        $('#jobcontainerform-shipperid').on('select2:close', function (event) {
-            shipper = $(this).val();
-
-            if (shipper && isNaN(shipper)) {
-                $('#input-shipperdetail').show({
-                    effect: 'blind',
-                    complete: function(){
-                        $('#jobcontainerform-shipperaddress').focus();
-                    }
-                });
-            } else {
-                $('#input-shipperdetail').hide({
-                    effect: 'blind',
-                    complete: function(){
-                        setTimeout(function() {
-                            shipper = $('#jobcontainerform-shipperid').val();
-
-                            if (si) {
-                                $('#jobcontainerform-shippingid').select2('open');
-                            }
-                        }, 300);
-                    }
-                });
-            }
-        });
-        /*/
-
-        $('#jobcontainerform-shipperphone').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-shipperemail').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-shipperemail').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-shippernpwp').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-shippernpwp').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-shippingid').select2('open');
-                event.preventDefault();
-            }
-        });
-
-        /*/
-        $('#jobcontainerform-shippingid').on('select2:close', function (event) {
-            setTimeout(function() {
-                destinationid = $('#jobcontainerform-destinationid').val();
-
-                if (destinationid) {
-                    $('#jobcontainerform-destinationid').trigger('select2:close');
-                } else {
-                    $('#jobcontainerform-destinationid').select2('open');
-                }
-            }, 300);
-        });
-        /*/
-
-        /*/
-        $('#jobcontainerform-destinationid').on('select2:close', function (event) {
-            $('#jobcontainerform-containernumber').focus();
-        });
-        /*/
-
-        $('#jobcontainerform-containernumber').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-size').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-size').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-type_id').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-type_id').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-sealnumber').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-sealnumber').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-stuffingdate').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-stuffingdate').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $(this).blur();
-                containerdepo_id = $('#jobcontainerform-containerdepo_id').val();
-
-                if (containerdepo_id) {
-                    $('#jobcontainerform-containerdepo_id').trigger('select2:close');
-                } else {
-                    $('#jobcontainerform-containerdepo_id').select2('open');
-                }
-
-                event.preventDefault();
-            }
-        });
-
-        /*/
-        $('#jobcontainerform-containerdepo_id').on('select2:close', function (event) {
-            setTimeout(function() {
-                stuffinglocation_id = $('#jobcontainerform-stuffinglocation_id').val();
-
-                if (stuffinglocation_id) {
-                    $('#jobcontainerform-stuffinglocation_id').trigger('select2:close');
-                } else {
-                    $('#jobcontainerform-stuffinglocation_id').select2('open');
-                }
-            }, 300);
-        });
-        /*/
-
-        /*/
-        $('#jobcontainerform-stuffinglocation_id').on('select2:close', function (event) {
-            setTimeout(function() {
-                supervisor_id = $('#jobcontainerform-supervisor_id').val();
-
-                if (supervisor_id) {
-                    $('#jobcontainerform-supervisor_id').trigger('select2:close');
-                } else {
-                    $('#jobcontainerform-supervisor_id').select2('open');
-                }
-            }, 300);
-        });
-        /*/
-
-        /*/
-        $('#jobcontainerform-supervisor_id').on('select2:close', function (event) {
-            spv = $(this).val();
-
-            if (spv && isNaN(spv)) {
-                $('#input-spvdetail').show({
-                    effect: 'blind',
-                    complete: function(){
-                        $('#jobcontainerform-supervisorphone').focus();
-                    }
-                });
-            } else {
-                $('#input-spvdetail').hide({
-                    effect: 'blind',
-                    complete: function(){
-                        setTimeout(function() {
-                            truckvendor_id = $('#jobcontainerform-truckvendor_id').val();
-
-                            if (truckvendor_id) {
-                                $('#jobcontainerform-truckvendor_id').trigger('select2:close');
-                            } else {
-                                $('#jobcontainerform-truckvendor_id').select2('open');
-                            }
-                        }, 300);
-                    }
-                });
-            }
-        });
-        /*/
-
-        $('#jobcontainerform-supervisorphone').keypress(function(event) {
-            if ( event.which == 13 ) {
-                truckvendor_id = $('#jobcontainerform-truckvendor_id').val();
-
-                if (truckvendor_id) {
-                    $('#jobcontainerform-truckvendor_id').trigger('select2:close');
-                } else {
-                    $('#jobcontainerform-truckvendor_id').select2('open');
-                }
-
-                event.preventDefault();
-            }
-        });
-
-        /*/
-        $('#jobcontainerform-truckvendor_id').on('select2:close', function (event) {
-            $('#jobcontainerform-drivername').focus();
-        });
-        /*/
-
-        $('#jobcontainerform-drivername').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-cellphone').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-cellphone').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-policenumber').focus();
-                event.preventDefault();
-            }
-        });
-
-        $('#jobcontainerform-policenumber').keypress(function(event) {
-            if ( event.which == 13 ) {
-                $('#jobcontainerform-notes').focus();
-                event.preventDefault();
-            }
-        });
-
-        // first trigger
-
-        $('#input-spvdetail').hide();
-        $('#input-shipperdetail').hide();
-        $('#input-sidetail').hide();
-        $('#jobcontainerform-containernumber').focus();
-
-	});
-
-JS;
-
+$js= $this->render('_form.js');
 $this->registerJs($js, \yii\web\View::POS_READY);
 
