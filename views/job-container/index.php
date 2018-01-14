@@ -78,6 +78,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         ],
                         'clientOptions' => [
                             'greedy' => false,
+                            'removeMaskOnSubmit' => false,
                         ],
                     ]),
                 ],
@@ -114,12 +115,13 @@ $this->params['breadcrumbs'][] = $this->title;
                         'value' => $searchModel->containerNumber,
                         'mask' => JobContainerSearch::CONTAINERNUMBERMASK,
                         'options' => [
-                            'maxlength' => "11",
+                            'maxlength' => true,
                             'class' => "form-control",
                             'style' => "text-transform: uppercase;",
                         ],
                         'clientOptions' => [
                             'greedy' => false,
+                            'removeMaskOnSubmit' => true,
                         ],
                     ]),
                     'value' => function (JobContainer $model, $key, $index, $widget) {
