@@ -94,10 +94,6 @@ class JobContainerController extends \app\controllers\base\JobContainerControlle
             Yii::$app->getSession()->addFlash('success', "Data successfully updated!");
 
             return $this->redirect(ReturnUrl::getUrl(Url::previous()));
-        } elseif (!Yii::$app->request->isPost) {
-            $model->shipperId = $model->shippingInstruction->shipper_id;
-            $model->shippingId = $model->shippingInstruction->shipping_id;
-            $model->destinationId = $model->shippingInstruction->destination_id;
         }
 
         return $this->render('update',
