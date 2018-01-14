@@ -14,6 +14,10 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
         width: 25%;
         min-width: 150px;
     }
+    .numbering {
+        font-family: monospace;
+        letter-spacing: 1px;
+    }
 </style>
 
 <div class="giiant-crud site-search-view">
@@ -23,7 +27,12 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
     DetailView::widget([
         'model' => $model,
         'attributes' => [
-            'deliveryOrder', 
+            [
+                'attribute' => 'deliveryOrder',
+                'format' => 'html',
+                'value' => '<b class="numbering">'.$model->deliveryOrder.'</b>'
+                . '&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; ',
+            ],
             [
                 'label' => 'Shipper',
                 'attribute' => 'shipper.name',
@@ -48,13 +57,10 @@ $this->params['breadcrumbs'][] = 'View #'.$model->id;
         'model' => $model,
         'attributes' => [
             [
-                'label' => 'Container Number',
-                'format' => 'raw',
-                'value' => '<b style="letter-spacing: 2px;">'.$model->containerNumberFormated.'</b>',
-            ],
-            [
-                'label' => 'Type',
-                'value' => $model->sizeLabel.' '.$model->typeName,
+                'label' => 'Container',
+                'format' => 'html',
+                'value' => '<b class="numbering">'.$model->containerNumberFormated.'</b>'
+                .'  / '.$model->sizeLabel.' / '.$model->typeName,
             ],
             'sealNumber',
             'stuffingDate:date',
