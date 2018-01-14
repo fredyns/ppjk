@@ -67,13 +67,7 @@ $this->params['breadcrumbs'][] = $this->title;
             'headerRowOptions' => ['class' => 'x'],
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
-                [
-                    'attribute' => 'deliveryOrder',
-                    'group' => true, // enable grouping,
-                    'groupedRow' => true, // move grouped column to a single grouped row
-                    'groupOddCssClass' => 'kv-grouped-row', // configure odd group cell css class
-                    'groupEvenCssClass' => 'kv-grouped-row', // configure even group cell css class
-                ],
+                'deliveryOrder',
                 [
                     'label' => 'Date',
                     'attribute' => 'stuffingDate',
