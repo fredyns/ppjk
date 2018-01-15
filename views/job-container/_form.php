@@ -530,7 +530,7 @@ use app\models\TruckSupervisor;
                 [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-primary',
-                'onClick' => "$('#nextAction').val('create');",
+                'onClick' => "$('#nextAction').val('more');",
                 ]
             );
         } else {
