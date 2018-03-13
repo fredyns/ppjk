@@ -54,7 +54,7 @@ $this->params['breadcrumbs'][] = $this->title;
                                 ,
                                 [
                                 '/site/search',
-                                'number' => $model->containerNumber,
+                                'number' => $model->deliveryOrder,
                                 'id' => $model->id,
                                 ]
                         );
