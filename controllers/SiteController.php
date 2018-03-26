@@ -11,6 +11,7 @@ use fredyns\suite\filters\AdminLTELayout;
 use fredyns\suite\helpers\ViewHelper;
 use app\models\form\ContactForm;
 use app\models\JobContainer;
+use app\models\search\JobContainerPublicSearch;
 
 class SiteController extends Controller
 {
@@ -147,6 +148,8 @@ class SiteController extends Controller
     {
         $id = Yii::$app->request->get('id');
         $number = Yii::$app->request->get('number');
+        $shipper = (string) Yii::$app->request->get('shipper');
+
         $number = strtoupper($number);
         //$containerList = str_replace(', ', ',', $containerList);
         //$containerList = str_replace(' ', ',', $containerList);
@@ -160,9 +163,35 @@ class SiteController extends Controller
             $criteria['id'] = $id;
         }
 
+        $query = JobContainer::find()
+            ->andWhere($criteria)
+        ;
+
+        if (strlen($shipper) > 2) {
+            $query->andFilterWhere(['like', 'name', $shipper]);
+        }
+
         return $this->render('search', [
                 'searchTerm' => $number,
-                'containers' => JobContainer::findAll($criteria),
+                'containers' => $query->all(),
+        ]);
+    }
+
+    /**
+     * Lists all active JobContainer models.
+     * @return mixed
+     */
+    public function actionCari()
+    {
+        $searchModel = new JobContainerPublicSearch;
+        $dataProvider = $searchModel->searchIndex($_GET);
+
+        Tabs::clearLocalStorage();
+        Url::remember();
+
+        return $this->render('cari', [
+                'dataProvider' => $dataProvider,
+                'searchModel' => $searchModel,
         ]);
     }
 
