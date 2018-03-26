@@ -59,8 +59,7 @@ if (Yii::$app->controller->action->id === 'login') {
                                 $logoMini = '<span class="logo-mini">'.Yii::$app->params['initials'].'</span>';
                                 $logoLg = '<span class="logo-lg">'
                                     .Html::img(
-                                        '@web/jasco/logo.png',
-                                        [
+                                        '@web/jasco/logo.png', [
                                         'alt' => Yii::$app->name,
                                         'style' => 'length: 70%; width: 70%;',
                                         ]
@@ -87,13 +86,13 @@ if (Yii::$app->controller->action->id === 'login') {
                                 ]);
                                 ?>
                                 &nbsp;
-                                <form action="<?= Url::to(['/site/search']); ?>" method="get" class="navbar-form navbar-left" role="search">
+                                <form action="<?= Url::to(['/site/cari']); ?>" method="get" class="navbar-form navbar-left" role="search">
                                     <div class="form-group">
                                         <?=
                                         MaskedInput::widget([
                                             'id' => "navbar-search-input",
-                                            'name' => "number",
-                                            'value' => Yii::$app->request->get('number'),
+                                            'name' => "deliveryOrder",
+                                            'value' => Yii::$app->request->get('deliveryOrder'),
                                             'mask' => JobContainer::DOMASK,
                                             'options' => [
                                                 'maxlength' => true,
@@ -120,6 +119,7 @@ if (Yii::$app->controller->action->id === 'login') {
                                 Nav::widget([
                                     'options' => ['class' => 'navbar-nav navbar-right'],
                                     'items' => [
+                                        ['label' => 'Search Container', 'url' => ['/site/cari']],
                                         [
                                             'label' => 'Login',
                                             'url' => ['/user/security/login'],
@@ -165,8 +165,7 @@ if (Yii::$app->controller->action->id === 'login') {
                                 Html::img('@web/jasco/slide/slide004a.jpg'),
                                 Html::img('@web/jasco/slide/slide005a.jpg'),
                                 ]
-                                ,
-                                [
+                                , [
                                 'class' => "rslides",
                                 'id' => "slider",
                                 'encode' => false,
@@ -175,8 +174,8 @@ if (Yii::$app->controller->action->id === 'login') {
                             ?>
                         </div>
 
-                        <?php
-                        $js = <<<JS
+    <?php
+    $js = <<<JS
 
 	$(function () {
 
@@ -198,13 +197,13 @@ if (Yii::$app->controller->action->id === 'login') {
 
 JS;
 
-                        $this->registerJs($js, \yii\web\View::POS_READY);
-                        ?>
+    $this->registerJs($js, \yii\web\View::POS_READY);
+    ?>
                         <div class="row">
 
                             <div class="col-md-8">
 
-                                <?= $content ?>
+    <?= $content ?>
 
                             </div>
 
@@ -319,7 +318,7 @@ JS;
 
             </div>
 
-            <?php $this->endBody() ?>
+    <?php $this->endBody() ?>
         </body>
     </html>
     <?php $this->endPage() ?>
