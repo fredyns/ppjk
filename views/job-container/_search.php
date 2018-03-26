@@ -1,7 +1,7 @@
 <?php
 
 use yii\helpers\Html;
-use yii\widgets\ActiveForm;
+use yii\bootstrap\ActiveForm;
 
 /**
  * @var yii\web\View $this
@@ -14,8 +14,9 @@ use yii\widgets\ActiveForm;
 
     <?php
     $form = ActiveForm::begin([
-        'action' => ['index'],
-        'method' => 'get',
+            'action' => ['index'],
+            'layout' => 'horizontal',
+            'method' => 'get',
     ]);
     ?>
 
