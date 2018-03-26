@@ -33,10 +33,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud job-container-index">
 
     <h1>
-        <?= Yii::t('app', 'Job Containers') ?>
-        <small class="badge">
-            Search
-        </small>
+        <?= Yii::t('app', 'Search Containers') ?>
     </h1>
 
     <div class="job-container-search">
