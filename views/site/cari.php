@@ -167,10 +167,10 @@ $this->params['breadcrumbs'][] = $this->title;
                     },
                 ],
                 [
-                    'label' => 'Depo',
-                    'attribute' => 'containerDepoName',
+                    'label' => 'Shipper',
+                    'attribute' => 'shipperName',
                     'value' => function ($model) {
-                        return ArrayHelper::getValue($model, 'containerDepo.name', '-');
+                        return ArrayHelper::getValue($model, 'shipper.name', '-');
                     },
                 ],
                 [
@@ -180,7 +180,7 @@ $this->params['breadcrumbs'][] = $this->title;
                         return ArrayHelper::getValue($model, 'stuffingLocation.name', '-');
                     },
                 ],
-                'notes',
+                //'notes',
                 [
                     'class' => 'fredyns\suite\grid\KartikActionColumn',
                     'actionControl' => 'app\actioncontrols\JobContainerActControl',
