@@ -108,17 +108,6 @@ $this->params['breadcrumbs'][] = $this->title;
 
     </div>
 
-    <?php
-    \yii\widgets\Pjax::begin([
-        'id' => 'pjax-main',
-        'enableReplaceState' => false,
-        'linkSelector' => '#pjax-main ul.pagination a, th a',
-        'clientOptions' => [
-            'pjax:success' => 'function(){alert(\"yo\")}',
-        ],
-    ]);
-    ?>
-
     <div class="row">
         <div class="col-md-12">
             <?= Html::errorSummary($searchModel); ?>
@@ -247,7 +236,5 @@ $this->params['breadcrumbs'][] = $this->title;
         ?>
 
     </div>
-
-    <?php \yii\widgets\Pjax::end(); ?>
 
 </div>
