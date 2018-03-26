@@ -12,6 +12,8 @@ use fredyns\suite\helpers\ViewHelper;
 use app\models\form\ContactForm;
 use app\models\JobContainer;
 use app\models\search\JobContainerPublicSearch;
+use yii\helpers\Url;
+use dmstr\bootstrap\Tabs;
 
 class SiteController extends Controller
 {
