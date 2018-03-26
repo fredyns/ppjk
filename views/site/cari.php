@@ -99,10 +99,12 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
         );
         ?>
-
-        <div class="form-group">
-            <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
-            <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>
+        <div class="form-group field-submit">
+            <label class="control-label col-sm-3" for="submit">&nbsp;</label>
+            <div class="col-sm-6">
+                <?= Html::submitButton('Search', ['class' => 'btn btn-primary']) ?>
+                <?= Html::resetButton('Reset', ['class' => 'btn btn-default']) ?>                
+            </div>
         </div>
 
         <?php ActiveForm::end(); ?>
