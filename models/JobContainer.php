@@ -29,7 +29,9 @@ class JobContainer extends BaseJobContainer
     const ALIAS_SHIPPING = 'shipping';
     const ALIAS_DESTINATION = 'destination';
     const DOMASK = '9999 aa a{2,5}';
+    const SIMASK = '9999 aa a{2,5}';
     const DOPATTERN = '/^[0-9]+ [a-zA-Z]+ [a-zA-Z]+$/';
+    const SIPATTERN = '/^[0-9]+ [a-zA-Z]+ [a-zA-Z]+$/';
     const CONTAINERNUMBERMASK = 'a{0,4} 9{0,3} 9{0,3} 9{0,2}';
     const SIZE_20 = '20';
     const SIZE_40 = '40';

@@ -39,8 +39,7 @@ class JobContainerForm extends JobContainer
     public function attributeLabels()
     {
         return ArrayHelper::merge(
-                parent::attributeLabels(),
-                [
+                parent::attributeLabels(), [
                 'shipperAddress' => 'Shipper Address',
                 'shipperPhone' => 'Shipper Phone',
                 'shipperEmail' => 'Shipper Email',
@@ -56,8 +55,7 @@ class JobContainerForm extends JobContainer
     public function behaviors()
     {
         return ArrayHelper::merge(
-                parent::behaviors(),
-                [
+                parent::behaviors(), [
                 # custom behaviors
                 [
                     'class' => BelongingModelBehavior::className(),
@@ -136,7 +134,7 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // SI
-                    'deliveryOrder',
+                    'siNumber', 'deliveryOrder',
                     'shipper_id', 'shipperAddress', 'shipperPhone', 'shipperEmail', 'shipperNpwp',
                     'shipping_id', 'destination_id',
                     // container
@@ -154,7 +152,7 @@ class JobContainerForm extends JobContainer
             [
                 [
                     // new SI
-                    'deliveryOrder', 'shipper_id',
+                    'siNumber', 'deliveryOrder', 'shipper_id',
                     'shipping_id', 'destination_id',
                     // container
                     'containerNumber', 'sealNumber',
@@ -168,7 +166,7 @@ class JobContainerForm extends JobContainer
             /* default value */
             ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
             /* required */
-            [['deliveryOrder','shipper_id'], 'required'],
+            [['siNumber', 'shipper_id'], 'required'],
             [
                 ['shipperAddress', 'shipperPhone'],
                 'required',
@@ -201,10 +199,11 @@ class JobContainerForm extends JobContainer
             /* field type */
             [['type_id'], 'integer'],
             [['size', 'recordStatus', 'notes'], 'string'],
-            [['deliveryOrder', 'containerNumber'], 'string', 'max' => 12],
+            [['siNumber', 'containerNumber'], 'string', 'max' => 12],
             [['policenumber'], 'string', 'max' => 16],
             [
                 [
+                    'deliveryOrder',
                     // container
                     'sealNumber',
                     'cellphone',
@@ -235,9 +234,9 @@ class JobContainerForm extends JobContainer
             [['shipperNpwp'], 'string', 'max' => 32],
             /* value limitation */
             [
-                ['deliveryOrder'],
+                ['siNumber'],
                 'match',
-                'pattern' => static::DOPATTERN,
+                'pattern' => static::SIPATTERN,
                 'message' => 'Format Delivery Order tidak sesuai.'
             ],
             [['stuffingDate'], 'date', 'format' => 'php:Y-m-d'],
@@ -392,4 +391,5 @@ class JobContainerForm extends JobContainer
         }
         //Yii::$app->getSession()->addFlash('info', "old: {$oldShipper}; new: {$newShipper};");
     }
+
 }

@@ -58,6 +58,7 @@ $this->params['breadcrumbs'][] = $actionControl->breadcrumbLabel('view');
     DetailView::widget([
         'model' => $model,
         'attributes' => [
+            'siNumber',
             [
                 'attribute' => 'deliveryOrder',
                 'format' => 'html',

@@ -57,15 +57,14 @@ use app\models\TruckSupervisor;
         <br/>
         <div id="input-si">
 
-            <!-- attribute deliveryOrder -->
+            <!-- attribute siNumber -->
             <?=
                 $form
-                ->field($model, 'deliveryOrder')
+                ->field($model, 'siNumber')
                 ->textInput()
                 ->widget(
-                    MaskedInput::className(),
-                    [
-                    'mask' => JobContainer::DOMASK,
+                    MaskedInput::className(), [
+                    'mask' => JobContainer::SIMASK,
                     'options' => [
                         'class' => 'form-control uppercase',
                         'maxlength' => 12,
@@ -113,6 +112,11 @@ use app\models\TruckSupervisor;
 
             <div id="input-sidetail">
 
+                <!-- attribute deliveryOrder -->
+                <?=
+                $form->field($model, 'deliveryOrder')->textInput(['maxlength' => true])
+                ?>
+
                 <!-- attribute shipper_id -->
                 <?php
                 $shipperLabel = $model->shipper_id;
@@ -126,8 +130,7 @@ use app\models\TruckSupervisor;
                 echo $form
                     ->field($model, 'shipper_id')
                     ->label('Shipper Name')
-                    ->widget(Select2::classname(),
-                        [
+                    ->widget(Select2::classname(), [
                         'initValueText' => $shipperLabel,
                         'options' => ['placeholder' => 'mencari perusahaan ...'],
                         'pluginOptions' => [
@@ -185,8 +188,7 @@ use app\models\TruckSupervisor;
                 echo $form
                     ->field($model, 'shipping_id')
                     ->label('Shipping Name')
-                    ->widget(Select2::classname(),
-                        [
+                    ->widget(Select2::classname(), [
                         'initValueText' => $shippingLabel,
                         'options' => ['placeholder' => 'mencari pelayaran ...'],
                         'pluginOptions' => [
@@ -221,8 +223,7 @@ use app\models\TruckSupervisor;
                 echo $form
                     ->field($model, 'destination_id')
                     ->label('Destination Name')
-                    ->widget(Select2::classname(),
-                        [
+                    ->widget(Select2::classname(), [
                         'initValueText' => $destinationLabel,
                         'options' => ['placeholder' => 'mencari pelabuhan ...'],
                         'pluginOptions' => [
@@ -261,8 +262,7 @@ use app\models\TruckSupervisor;
                 ->field($model, 'containerNumber')
                 ->textInput()
                 ->widget(
-                    MaskedInput::className(),
-                    [
+                    MaskedInput::className(), [
                     'mask' => JobContainer::CONTAINERNUMBERMASK,
                     'options' => [
                         'class' => 'form-control uppercase',
@@ -300,8 +300,7 @@ use app\models\TruckSupervisor;
             <?=
                 $form
                 ->field($model, 'stuffingDate')
-                ->widget(\yii\jui\DatePicker::classname(),
-                    [
+                ->widget(\yii\jui\DatePicker::classname(), [
                     'dateFormat' => 'yyyy-MM-dd',
                     'options' => ['class' => 'form-control'],
                     ]
@@ -320,8 +319,7 @@ use app\models\TruckSupervisor;
 
             echo $form
                 ->field($model, 'containerDepo_id')
-                ->widget(Select2::classname(),
-                    [
+                ->widget(Select2::classname(), [
                     'initValueText' => $containerDepoLabel,
                     'options' => ['placeholder' => 'mencari perusahaan ...'],
                     'pluginOptions' => [
@@ -355,8 +353,7 @@ use app\models\TruckSupervisor;
 
             echo $form
                 ->field($model, 'stuffingLocation_id')
-                ->widget(Select2::classname(),
-                    [
+                ->widget(Select2::classname(), [
                     'initValueText' => $locationLabel,
                     'options' => ['placeholder' => 'mencari lokasi stuffing ...'],
                     'pluginOptions' => [
@@ -390,8 +387,7 @@ use app\models\TruckSupervisor;
 
             echo $form
                 ->field($model, 'supervisor_id')
-                ->widget(Select2::classname(),
-                    [
+                ->widget(Select2::classname(), [
                     'initValueText' => $supervisorLabel,
                     'options' => ['placeholder' => 'mencari mandor ...'],
                     'pluginOptions' => [
@@ -434,8 +430,7 @@ use app\models\TruckSupervisor;
 
             echo $form
                 ->field($model, 'truckVendor_id')
-                ->widget(Select2::classname(),
-                    [
+                ->widget(Select2::classname(), [
                     'initValueText' => $truckVendorLabel,
                     'options' => ['placeholder' => 'mencari perusahaan ...'],
                     'pluginOptions' => [
@@ -517,8 +512,7 @@ use app\models\TruckSupervisor;
         <?php
         if ($model->isNewRecord) {
             echo Html::submitButton(
-                '<span class="glyphicon glyphicon-check"></span> Save',
-                [
+                '<span class="glyphicon glyphicon-check"></span> Save', [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-success',
                 'onClick' => "$('#nextAction').val('index');",
@@ -526,8 +520,7 @@ use app\models\TruckSupervisor;
             );
             echo ' &nbsp; ';
             echo Html::submitButton(
-                '<span class="glyphicon glyphicon-check"></span> Create more',
-                [
+                '<span class="glyphicon glyphicon-check"></span> Create more', [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-primary',
                 'onClick' => "$('#nextAction').val('more');",
@@ -535,8 +528,7 @@ use app\models\TruckSupervisor;
             );
         } else {
             echo Html::submitButton(
-                '<span class="glyphicon glyphicon-check"></span> Save',
-                [
+                '<span class="glyphicon glyphicon-check"></span> Save', [
                 'id' => 'save-'.$model->formName(),
                 'class' => 'btn btn-success',
                 ]
@@ -551,6 +543,6 @@ use app\models\TruckSupervisor;
 </div>
 
 <?php
-$js= $this->render('_form.js');
+$js = $this->render('_form.js');
 $this->registerJs($js, \yii\web\View::POS_READY);
 
