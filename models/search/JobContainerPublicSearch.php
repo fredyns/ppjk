@@ -230,7 +230,13 @@ class JobContainerPublicSearch extends JobContainer
             ],
         ]);
 
-        if (!$this->validate()) {
+        $emptySearch = (empty($this->deliveryOrder) & empty($this->shipperName) && empty($this->containerNumber));
+
+        if ($emptySearch) {
+            $this->addError('_exception', 'Type DO, Shipper or Container number to search.');
+        }
+
+        if (!$this->validate() OR $emptySearch) {
             // uncomment the following line if you do not want to any records when validation fails
             $query->where('0=1');
 
