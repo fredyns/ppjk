@@ -93,7 +93,11 @@ if (Yii::$app->controller->action->id === 'login') {
                                 Nav::widget([
                                     'options' => ['class' => 'navbar-nav navbar-right'],
                                     'items' => [
-                                        ['label' => 'Search Container', 'url' => ['/site/cari']],
+                                        [
+                                            'label' => '<span class="glyphicon glyphicon-search"></span> &nbsp;  <b>Search Container</b>',
+                                            'url' => ['/site/cari'],
+                                            'encode' => false,
+                                        ],
                                         [
                                             'label' => 'Login',
                                             'url' => ['/user/security/login'],
@@ -148,8 +152,8 @@ if (Yii::$app->controller->action->id === 'login') {
                             ?>
                         </div>
 
-    <?php
-    $js = <<<JS
+                        <?php
+                        $js = <<<JS
 
 	$(function () {
 
@@ -171,13 +175,13 @@ if (Yii::$app->controller->action->id === 'login') {
 
 JS;
 
-    $this->registerJs($js, \yii\web\View::POS_READY);
-    ?>
+                        $this->registerJs($js, \yii\web\View::POS_READY);
+                        ?>
                         <div class="row">
 
                             <div class="col-md-8">
 
-    <?= $content ?>
+                                <?= $content ?>
 
                             </div>
 
@@ -292,7 +296,7 @@ JS;
 
             </div>
 
-    <?php $this->endBody() ?>
+            <?php $this->endBody() ?>
         </body>
     </html>
     <?php $this->endPage() ?>
