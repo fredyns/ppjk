@@ -116,22 +116,6 @@ class JobContainerPublicSearch extends JobContainer
                     self::RECORDSTATUS_DELETED,
                 ]
             ],
-            [
-                ['deliveryOrder', 'shipperName', 'containerNumber'],
-                'required',
-                'when' => function ($model, $attribute) {
-                    /* @var $model static  */
-                    return (empty($this->deliveryOrder) && empty($this->shipperName) && empty($this->containerNumber));
-                },
-                'whenClient' => '
-                    function (attribute, value) {
-                        deliveryOrder = $(\'#deliveryorder\').val();
-                        shipperName = $(\'#shippername\').val();
-                        containerNumber = $(\'#containernumber\').val();
-
-                        return (!deliveryOrder && !shipperName && !containerNumber);
-                    }',
-            ],
         ];
     }
 
