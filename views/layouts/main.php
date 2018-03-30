@@ -85,32 +85,6 @@ if (Yii::$app->controller->action->id === 'login') {
                                     ],
                                 ]);
                                 ?>
-                                &nbsp;
-                                <form action="<?= Url::to(['/site/cari']); ?>" method="get" class="navbar-form navbar-left" role="search">
-                                    <div class="form-group">
-                                        <?=
-                                        MaskedInput::widget([
-                                            'id' => "navbar-search-input",
-                                            'name' => "deliveryOrder",
-                                            'value' => Yii::$app->request->get('deliveryOrder'),
-                                            'mask' => JobContainer::DOMASK,
-                                            'options' => [
-                                                'maxlength' => true,
-                                                'class' => "form-control mytooltip",
-                                                'style' => "text-transform: uppercase;",
-                                                'placeholder' => Yii::t('app', 'Search DO')."...",
-                                                'title' => "Type the delivery order number",
-                                                'data-toggle' => "tooltip",
-                                                'data-placement' => "bottom",
-                                            ],
-                                            'clientOptions' => [
-                                                'greedy' => false,
-                                                'removeMaskOnSubmit' => false,
-                                            ],
-                                        ]);
-                                        ?>
-                                    </div>
-                                </form>
                             </div>
                             <!-- /.navbar-collapse -->
                             <!-- Navbar Right Menu -->
