@@ -13,6 +13,7 @@ use yii\behaviors\TimestampBehavior;
  *
  * @property integer $id
  * @property integer $shippingInstruction_id
+ * @property string $siNumber
  * @property string $deliveryOrder
  * @property integer $shipper_id
  * @property integer $shipping_id
@@ -92,7 +93,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             [['shippingInstruction_id', 'shipper_id', 'shipping_id', 'destination_id', 'type_id', 'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['stuffingDate'], 'safe'],
             [['notes', 'recordStatus'], 'string'],
-            [['deliveryOrder', 'containerNumber', 'cellphone'], 'string', 'max' => 32],
+            [['siNumber', 'deliveryOrder', 'containerNumber', 'cellphone'], 'string', 'max' => 32],
             [['size'], 'string', 'max' => 8],
             [['sealNumber'], 'string', 'max' => 64],
             [['driverName'], 'string', 'max' => 255],
@@ -122,6 +123,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'shippingInstruction_id' => 'Shipping Instruction',
+            'siNumber' => 'Si Number',
             'deliveryOrder' => 'Delivery Order',
             'shipper_id' => 'Shipper',
             'shipping_id' => 'Shipping',

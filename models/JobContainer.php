@@ -68,6 +68,7 @@ class JobContainer extends BaseJobContainer
         return ArrayHelper::merge(
                 parent::attributeLabels(), [
                 'shippingInstruction_id' => 'No SI',
+                'siNumber' => 'SI Number',
                 'containerDepo_id' => 'Depo',
                 'supervisor_id' => 'Mandor',
                 'policenumber' => 'Police Number',
