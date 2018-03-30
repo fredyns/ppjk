@@ -40,7 +40,7 @@ class JobContainerSearch extends JobContainer
             [
                 [
                     // SI
-                    'deliveryOrder',
+                    'siNumber', 'deliveryOrder',
                     // container
                     'containerNumber', 'sealNumber',
                     'policenumber',
@@ -60,6 +60,7 @@ class JobContainerSearch extends JobContainer
             // shipping instruction
             [
                 [
+                    'siNumber',
                     'deliveryOrder',
                     'shipperName',
                     'shippingName',
@@ -190,6 +191,7 @@ class JobContainerSearch extends JobContainer
                     ],
                     // job container
                     'id',
+                    'siNumber',
                     'deliveryOrder',
                     'containerNumber',
                     'size',
@@ -249,6 +251,7 @@ class JobContainerSearch extends JobContainer
 
         // job container
         $query
+            ->andFilterWhere(['like', static::tableName().'.siNumber', $this->siNumber])
             ->andFilterWhere(['like', static::tableName().'.deliveryOrder', $this->deliveryOrder])
             ->andFilterWhere(['like', static::ALIAS_SHIPPER.'.name', $this->shipperName])
             ->andFilterWhere(['like', static::ALIAS_SHIPPING.'.name', $this->shippingName])

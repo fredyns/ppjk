@@ -67,11 +67,11 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
-                    'attribute' => 'deliveryOrder',
+                    'attribute' => 'siNumber',
                     'filter' => MaskedInput::widget([
-                        'name' => "JobContainerSearch[deliveryOrder]",
-                        'value' => $searchModel->deliveryOrder,
-                        'mask' => JobContainerSearch::DOMASK,
+                        'name' => "JobContainerSearch[siNumber]",
+                        'value' => $searchModel->siNumber,
+                        'mask' => JobContainerSearch::SIMASK,
                         'options' => [
                             'class' => "form-control",
                             'style' => "text-transform: uppercase;",
