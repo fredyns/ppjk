@@ -55,6 +55,7 @@ class ContainerTypeActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::messages(), [
+                'used' => "This Type used in container list.",
                 ]
         );
     }
@@ -230,6 +231,10 @@ class ContainerTypeActControl extends \fredyns\suite\libraries\ActionControl
         // blacklist
         if (ActiveUser::isAdmin() == FALSE) {
             $this->addErrorMsg($action, 'forbidden', [$action]);
+        }
+
+        if ($this->model->getJobContainers()->count() > 0) {
+            $this->addErrorMsg($action, 'used');
         }
 
         // conclusion
