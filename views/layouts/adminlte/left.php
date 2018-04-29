@@ -150,6 +150,13 @@ use app\models\JobContainer;
                         'url' => ['/user/admin'],
                     ],
                     [
+                        'label' => 'Container Type',
+                        'visible' => ActiveUser::isAdmin(),
+                        'encode' => FALSE,
+                        'icon' => 'fa fa-cube',
+                        'url' => ['/container-type'],
+                    ],
+                    [
                         'label' => Yii::t('app', 'Pages'),
                         'options' => ['class' => 'header'],
                     ],
