@@ -41,19 +41,13 @@ class ContainerTypeForm extends ContainerType
                 },
             ],
             /* default value */
-            ['recordStatus', 'default', 'value' => static::RECORDSTATUS_ACTIVE],
+
             /* required */
             [['name'], 'required'],
             /* safe */
             /* field type */
-            [['recordStatus'], 'string'],
-            [['name'], 'string', 'max' => 255],
+            [['name'], 'string', 'max' => 64],
             /* value limitation */
-            ['recordStatus', 'in', 'range' => [
-                    self::RECORDSTATUS_ACTIVE,
-                    self::RECORDSTATUS_DELETED,
-                ]
-            ],
             /* value references */
         ];
     }
