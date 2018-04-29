@@ -35,17 +35,12 @@ $this->title = Yii::$app->name;
             as well as quality insurance to protect your goods.
             &nbsp;
         </div>
+        
+        <br/>
+        <br/>
 
         <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/we-deliver-all-your-shipments-around-the-world.jpg'); ?>
-        </div>
-
-        <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/wo.png'); ?>
-        </div>
-
-        <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/save-delivery.jpg'); ?>
+            <?= Html::img('@web/jasco/images/front-image.jpeg'); ?>
         </div>
 
     </div>
