@@ -48,7 +48,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <?=
             $form
-            ->field($searchModel, 'deliveryOrder')
+            ->field($searchModel, 'siNumber')
             ->textInput()
             ->widget(
                 MaskedInput::className(), [
@@ -65,6 +65,8 @@ $this->params['breadcrumbs'][] = $this->title;
                 ]
         );
         ?>
+
+        <?= $form->field($searchModel, 'deliveryOrder') ?>
 
         <?= $form->field($searchModel, 'shipperName') ?>
 
@@ -128,8 +130,9 @@ $this->params['breadcrumbs'][] = $this->title;
             'columns' => [
                 ['class' => 'kartik\grid\SerialColumn'],
                 [
-                    'attribute' => 'deliveryOrder',
+                    'attribute' => 'siNumber',
                 ],
+                'deliveryOrder',
                 [
                     'label' => 'Date',
                     'attribute' => 'stuffingDate',

@@ -48,7 +48,7 @@ class JobContainerPublicSearch extends JobContainer
             [
                 [
                     // SI
-                    'deliveryOrder',
+                    'siNumber', 'deliveryOrder',
                     // container
                     'containerNumber', 'sealNumber',
                     'policenumber',
@@ -68,7 +68,7 @@ class JobContainerPublicSearch extends JobContainer
             // shipping instruction
             [
                 [
-                    'deliveryOrder',
+                    'siNumber', 'deliveryOrder',
                     'shipperName',
                     'shippingName',
                     'destinationName',
@@ -199,6 +199,7 @@ class JobContainerPublicSearch extends JobContainer
                     ],
                     // job container
                     'id',
+                    'siNumber',
                     'deliveryOrder',
                     'containerNumber',
                     'size',
@@ -230,10 +231,10 @@ class JobContainerPublicSearch extends JobContainer
             ],
         ]);
 
-        $emptySearch = (empty($this->deliveryOrder) & empty($this->shipperName) && empty($this->containerNumber));
+        $emptySearch = (empty($this->siNumber) && empty($this->deliveryOrder) && empty($this->shipperName) && empty($this->containerNumber));
 
         if ($emptySearch) {
-            $this->addError('_exception', 'Type DO, Shipper or Container number to search.');
+            $this->addError('_exception', 'Type SI, DO, Shipper or Container number to search.');
         }
 
         if (!$this->validate() OR $emptySearch) {
@@ -264,6 +265,7 @@ class JobContainerPublicSearch extends JobContainer
 
         // job container
         $query
+            ->andFilterWhere(['like', static::tableName().'.siNumber', $this->siNumber])
             ->andFilterWhere(['like', static::tableName().'.deliveryOrder', $this->deliveryOrder])
             ->andFilterWhere(['like', static::ALIAS_SHIPPER.'.name', $this->shipperName])
             ->andFilterWhere(['like', static::ALIAS_SHIPPING.'.name', $this->shippingName])
