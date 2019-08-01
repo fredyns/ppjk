@@ -37,15 +37,7 @@ $this->title = Yii::$app->name;
         </div>
 
         <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/we-deliver-all-your-shipments-around-the-world.jpg'); ?>
-        </div>
-
-        <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/wo.png'); ?>
-        </div>
-
-        <div style="text-align: center;">
-            <?= Html::img('@web/jasco/images/save-delivery.jpg'); ?>
+            <?= Html::img('@web/jasco/images/front-image.jpeg'); ?>
         </div>
 
     </div>
