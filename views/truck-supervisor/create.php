@@ -16,7 +16,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <div class="giiant-crud truck-supervisor-create">
 
     <h1>
-        <?= Yii::t('app', 'Mandor') ?>
+        <?= 'Mandor/Driver' ?>
         <small>
             new
         </small>

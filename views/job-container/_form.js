@@ -168,6 +168,35 @@ $(function ()
     });
 
     /*
+     * behavior when selecting driver
+     */
+    $('#jobcontainerform-driver_id').on('select2:close', function (event)
+    {
+        spv = $(this).val();
+
+        if (spv && isNaN(spv)) {
+            /*
+             * if new driver, show driver block
+             * start by focusing spv phone
+             */
+            $('#input-driverdetail').show({
+                effect: 'blind',
+                complete: function ()
+                {
+                    $('#jobcontainerform-cellphone').focus();
+                }
+            });
+        } else {
+            /*
+             * else, close spv block
+             */
+            $('#input-driverdetail').hide({
+                effect: 'blind'
+            });
+        }
+    });
+
+    /*
      * when pressing 'enter' inside drivername, jump to cellphone input
      */
     $('#jobcontainerform-drivername').keypress(function (event)
@@ -202,6 +231,7 @@ $(function ()
 
     // first trigger
 
+    $('#input-driverdetail').hide();
     $('#input-spvdetail').hide();
     $('#input-shipperdetail').hide();
     $('#jobcontainerform-deliveryorder').focus();

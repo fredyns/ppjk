@@ -50,7 +50,7 @@ use dmstr\bootstrap\Tabs;
             'encodeLabels' => false,
             'items' => [
                 [
-                    'label' => Yii::t('app', 'Mandor'),
+                    'label' => 'Mandor/Driver',
                     'content' => $this->blocks['main'],
                     'active' => true,
                 ],

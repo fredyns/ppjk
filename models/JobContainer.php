@@ -24,6 +24,7 @@ class JobContainer extends BaseJobContainer
     const ALIAS_TYPE = 'type';
     const ALIAS_CONTAINERDEPO = 'containerDepo';
     const ALIAS_SUPERVISOR = 'supervisor';
+    const ALIAS_DRIVER = 'driver';
     const ALIAS_TRUCKVENDOR = 'truckVendor';
     const ALIAS_SHIPPER = 'shipper';
     const ALIAS_SHIPPING = 'shipping';
@@ -151,6 +152,14 @@ class JobContainer extends BaseJobContainer
     public function getTruckVendor()
     {
         return parent::getTruckVendor()->alias(static::ALIAS_TRUCKVENDOR);
+    }
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDriver()
+    {
+        return parent::getDriver()->alias(static::ALIAS_DRIVER);
     }
 
     /**

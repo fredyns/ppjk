@@ -132,7 +132,7 @@ use app\models\JobContainer;
                         'url' => ['/company-profile/truck-vendor'],
                     ],
                     [
-                        'label' => Yii::t('app', 'Mandor'),
+                        'label' => 'Mandor/Driver',
                         'encode' => FALSE,
                         'icon' => 'fa fa-user-circle-o',
                         'url' => ['/truck-supervisor'],

@@ -120,6 +120,15 @@ class JobContainerForm extends JobContainer
                         'companyType_id' => CompanyProfile::TYPE_TRUCKVENDOR,
                     ],
                 ],
+                [
+                    'class' => BelongingModelBehavior::className(),
+                    'modelClass' => TruckSupervisorForm::className(),
+                    'relatedAttribute' => 'driver_id',
+                    'valueAttribute' => 'name',
+                    'copyAttributes' => [
+                        'phone' => 'cellphone',
+                    ],
+                ],
                 ]
         );
     }
@@ -141,8 +150,8 @@ class JobContainerForm extends JobContainer
                     'containerNumber', 'sealNumber',
                     'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id',
                     'driverName', 'cellphone', 'policenumber', 'notes',
-                    // supervisor
-                    'supervisorPhone',
+                    // personel
+                    'supervisorPhone', 'driver_id',
                 ],
                 'filter',
                 'filter' => function($value) {
@@ -297,6 +306,16 @@ class JobContainerForm extends JobContainer
                 'skipOnError' => true,
                 'targetClass' => CompanyProfile::className(),
                 'targetAttribute' => ['truckVendor_id' => 'id'],
+                'when' => function ($model, $attribute) {
+                    return (is_numeric($model->$attribute));
+                },
+            ],
+            [
+                ['driver_id'],
+                'exist',
+                'skipOnError' => true,
+                'targetClass' => TruckSupervisor::className(),
+                'targetAttribute' => ['driver_id' => 'id'],
                 'when' => function ($model, $attribute) {
                     return (is_numeric($model->$attribute));
                 },

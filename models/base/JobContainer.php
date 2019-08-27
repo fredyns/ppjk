@@ -27,6 +27,7 @@ use yii\behaviors\TimestampBehavior;
  * @property integer $stuffingLocation_id
  * @property integer $supervisor_id
  * @property integer $truckVendor_id
+ * @property string $driver_id
  * @property string $driverName
  * @property string $cellphone
  * @property string $policenumber
@@ -52,7 +53,7 @@ use yii\behaviors\TimestampBehavior;
  */
 abstract class JobContainer extends \yii\db\ActiveRecord
 {
-    
+
     /**
      * ENUM field values
      */
@@ -60,7 +61,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     const RECORDSTATUS_DELETED = 'deleted';
 
     var $enum_labels = false;
-    
+
     /**
      * @inheritdoc
      */
@@ -68,7 +69,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return 'jobContainer';
     }
-    
+
     /**
      * @inheritdoc
      */
@@ -90,7 +91,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['shippingInstruction_id', 'shipper_id', 'shipping_id', 'destination_id', 'type_id', 'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id', 'deleted_at', 'deleted_by'], 'integer'],
+            [['shippingInstruction_id', 'shipper_id', 'shipping_id', 'destination_id', 'type_id', 'containerDepo_id', 'stuffingLocation_id', 'supervisor_id', 'truckVendor_id','driver_id', 'deleted_at', 'deleted_by'], 'integer'],
             [['stuffingDate'], 'safe'],
             [['notes', 'recordStatus'], 'string'],
             [['siNumber', 'deliveryOrder', 'containerNumber', 'cellphone'], 'string', 'max' => 32],
@@ -107,6 +108,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             [['supervisor_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TruckSupervisor::className(), 'targetAttribute' => ['supervisor_id' => 'id']],
             [['type_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\ContainerType::className(), 'targetAttribute' => ['type_id' => 'id']],
             [['truckVendor_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\CompanyProfile::className(), 'targetAttribute' => ['truckVendor_id' => 'id']],
+            [['driver_id'], 'exist', 'skipOnError' => true, 'targetClass' => \app\models\TruckSupervisor::className(), 'targetAttribute' => ['driver_id' => 'id']],
             ['recordStatus', 'in', 'range' => [
                     self::RECORDSTATUS_ACTIVE,
                     self::RECORDSTATUS_DELETED,
@@ -137,6 +139,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             'stuffingLocation_id' => 'Stuffing Location',
             'supervisor_id' => 'Supervisor',
             'truckVendor_id' => 'Truck Vendor',
+            'driver_id' => 'Driver',
             'driverName' => 'Driver Name',
             'cellphone' => 'Cellphone',
             'policenumber' => 'Policenumber',
@@ -150,7 +153,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             'deleted_by' => 'Deleted By',
         ];
     }
-        
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -158,7 +161,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'containerDepo_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -166,7 +169,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\ContainerPort::className(), ['id' => 'destination_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -174,7 +177,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\StuffingLocation::className(), ['id' => 'stuffingLocation_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -182,7 +185,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'shipping_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -190,7 +193,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'shipper_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -198,7 +201,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\ShippingInstruction::className(), ['id' => 'shippingInstruction_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -206,7 +209,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\TruckSupervisor::className(), ['id' => 'supervisor_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -214,7 +217,7 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\ContainerType::className(), ['id' => 'type_id']);
     }
-    
+
     /**
      * @return \yii\db\ActiveQuery
      */
@@ -222,7 +225,15 @@ abstract class JobContainer extends \yii\db\ActiveRecord
     {
         return $this->hasOne(\app\models\CompanyProfile::className(), ['id' => 'truckVendor_id']);
     }
-                
+
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getDriver()
+    {
+        return $this->hasOne(\app\models\TruckSupervisor::className(), ['id' => 'driver_id']);
+    }
+
     /**
      * get column recordStatus enum value label
      * @param string $value
@@ -250,5 +261,5 @@ abstract class JobContainer extends \yii\db\ActiveRecord
             self::RECORDSTATUS_DELETED => self::RECORDSTATUS_DELETED,
         ];
     }
-    
+
 }

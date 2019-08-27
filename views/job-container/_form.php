@@ -452,15 +452,48 @@ use app\models\TruckSupervisor;
             ]);
             ?>
 
-            <!-- attribute driverName -->
-            <?=
-            $form->field($model, 'driverName')->textInput(['maxlength' => true])
+            <!-- attribute driver_id -->
+            <?php
+            $driverLabel = $model->driver_id;
+
+            if ($model->driver_id > 0) {
+                if (($driver = TruckSupervisor::findOne($model->driver_id)) !== null) {
+                    $driverLabel = $driver->name;
+                }
+            }
+
+            echo $form
+                ->field($model, 'driver_id')
+                ->widget(Select2::classname(), [
+                    'initValueText' => $driverLabel,
+                    'options' => ['placeholder' => 'mencari driver ...'],
+                    'pluginOptions' => [
+                        'allowClear' => true,
+                        'tags' => true,
+                        'minimumInputLength' => 1,
+                        'language' => [
+                            'errorLoading' => new JsExpression("function () { return 'menunggu hasil...'; }"),
+                        ],
+                        'ajax' => [
+                            'url' => Url::to(['/api/truck-supervisor/list']),
+                            'dataType' => 'json',
+                            'data' => new JsExpression('function(params) { return {q:params.term}; }')
+                        ],
+                        'escapeMarkup' => new JsExpression('function (markup) { return markup; }'),
+                        'templateResult' => new JsExpression('function(item) { return item.text; }'),
+                        'templateSelection' => new JsExpression('function (item) { return item.text; }'),
+                    ],
+            ]);
             ?>
 
-            <!-- attribute cellphone -->
-            <?=
-            $form->field($model, 'cellphone')->textInput(['maxlength' => true])
-            ?>
+            <div id="input-driverdetail">
+
+                <!-- attribute driverPhone -->
+                <?=
+                $form->field($model, 'cellphone')->textInput(['maxlength' => true])
+                ?>
+
+            </div>
 
             <!-- attribute policenumber -->
             <?=

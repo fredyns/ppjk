@@ -35,7 +35,7 @@ class TruckSupervisorActControl extends \fredyns\suite\libraries\ActionControl
     {
         return ArrayHelper::merge(
                 parent::breadcrumbLabels(), [
-                'index' => 'TruckSupervisor',
+                'index' => 'Mandor/Driver',
                 ]
         );
     }
